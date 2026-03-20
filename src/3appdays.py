@@ -27,7 +27,7 @@ DEFAULT_EXCLUDED = ["Thailand", "Indonesia", "India", "Kenya", "Morocco", "Rwand
 LEAGUE_BLACKLIST = ["u19", "u20", "youth", "women", "friendly", "carioca", "paulista", "mineiro"]
 ROLLING_SNAPSHOT_HORIZONS = [1, 2, 3, 4, 5]
 
-REMOTE_MAIN_FILE = "data.json"
+REMOTE_MAIN_FILE = "data/data.json"
 REMOTE_DAY_FILES = {
     1: "data_day1.json",
     2: "data_day2.json",
@@ -88,48 +88,37 @@ st.set_page_config(page_title="ARAB SNIPER V24.1 MULTI-DAY WEB", layout="wide")
 # ==========================================
 def github_write_json(filename, payload, commit_message):
     try:
-        token = os.getenv("GITHUB_TOKEN") or st.secrets.get("GITHUB_TOKEN")
+        token = os.getenv("GITHUB_TOKEN")
         if not token:
+            try:
+                token = st.secrets["GITHUB_TOKEN"]
+            except Exception:
+                token = None
+
+        if not token:
+            print("❌ GITHUB_TOKEN mancante", flush=True)
             return "MISSING_TOKEN"
 
         g = Github(token)
-        repo = g.get_repo("Arabsnipertech-bet/arabsniper")
+
+        # CAMBIA QUI con il repo giusto
+        repo = g.get_repo("dweezil78/arabsniper2")
+
         content_str = json.dumps(payload, indent=4, ensure_ascii=False)
 
         try:
             contents = repo.get_contents(filename)
             repo.update_file(contents.path, commit_message, content_str, contents.sha)
+            print(f"✅ GitHub update OK: {filename}", flush=True)
             return "SUCCESS"
         except Exception:
             repo.create_file(filename, commit_message, content_str)
+            print(f"✅ GitHub create OK: {filename}", flush=True)
             return "SUCCESS"
 
     except Exception as e:
+        print(f"❌ GitHub write error su {filename}: {e}", flush=True)
         return str(e)
-
-
-def upload_to_github_main(results):
-    return github_write_json(
-        REMOTE_MAIN_FILE,
-        results,
-        "Update Arab Sniper Data"
-    )
-
-
-def upload_day_to_github(day_num, results):
-    return github_write_json(
-        REMOTE_DAY_FILES[day_num],
-        results,
-        f"Update Arab Sniper Day {day_num} Data"
-    )
-
-
-def upload_details_to_github(day_num, payload):
-    return github_write_json(
-        REMOTE_DETAILS_FILES[day_num],
-        payload,
-        f"Update Arab Sniper Day {day_num} Details"
-    )
 
 # ==========================================
 # SESSION STATE
