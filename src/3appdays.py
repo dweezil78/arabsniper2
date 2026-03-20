@@ -28,19 +28,21 @@ LEAGUE_BLACKLIST = ["u19", "u20", "youth", "women", "friendly", "carioca", "paul
 ROLLING_SNAPSHOT_HORIZONS = [1, 2, 3, 4, 5]
 
 REMOTE_MAIN_FILE = "data/data.json"
+
 REMOTE_DAY_FILES = {
-    1: "data_day1.json",
-    2: "data_day2.json",
-    3: "data_day3.json",
-    4: "data_day4.json",
-    5: "data_day5.json",
+    1: "data/data_day1.json",
+    2: "data/data_day2.json",
+    3: "data/data_day3.json",
+    4: "data/data_day4.json",
+    5: "data/data_day5.json",
 }
+
 REMOTE_DETAILS_FILES = {
-    1: "details_day1.json",
-    2: "details_day2.json",
-    3: "details_day3.json",
-    4: "details_day4.json",
-    5: "details_day5.json",
+    1: "data/details_day1.json",
+    2: "data/details_day2.json",
+    3: "data/details_day3.json",
+    4: "data/details_day4.json",
+    5: "data/details_day5.json",
 }
 
 try:
