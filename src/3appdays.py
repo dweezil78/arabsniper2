@@ -90,6 +90,7 @@ st.set_page_config(page_title="ARAB SNIPER V24.1 MULTI-DAY WEB", layout="wide")
 # ==========================================
 def github_write_json(filename, payload, commit_message):
     try:
+        # Recupero token
         token = os.getenv("GITHUB_TOKEN")
         if not token:
             try:
@@ -101,9 +102,9 @@ def github_write_json(filename, payload, commit_message):
             print("❌ GITHUB_TOKEN mancante", flush=True)
             return "MISSING_TOKEN"
 
+        from github import Github
         g = Github(token)
 
-        # CAMBIA QUI con il repo giusto
         repo = g.get_repo("dweezil78/arabsniper2")
 
         content_str = json.dumps(payload, indent=4, ensure_ascii=False)
@@ -112,15 +113,43 @@ def github_write_json(filename, payload, commit_message):
             contents = repo.get_contents(filename)
             repo.update_file(contents.path, commit_message, content_str, contents.sha)
             print(f"✅ GitHub update OK: {filename}", flush=True)
-            return "SUCCESS"
+            return "UPDATED"
         except Exception:
             repo.create_file(filename, commit_message, content_str)
             print(f"✅ GitHub create OK: {filename}", flush=True)
-            return "SUCCESS"
+            return "CREATED"
 
     except Exception as e:
         print(f"❌ GitHub write error su {filename}: {e}", flush=True)
         return str(e)
+
+
+# ==========================================
+# WRAPPER FUNZIONI (FONDAMENTALI)
+# ==========================================
+
+def upload_to_github_main(results):
+    return github_write_json(
+        REMOTE_MAIN_FILE,
+        results,
+        "Update Arab Sniper Main Data"
+    )
+
+
+def upload_day_to_github(day_num, results):
+    return github_write_json(
+        REMOTE_DAY_FILES[day_num],
+        results,
+        f"Update Arab Sniper Day {day_num} Data"
+    )
+
+
+def upload_details_to_github(day_num, payload):
+    return github_write_json(
+        REMOTE_DETAILS_FILES[day_num],
+        payload,
+        f"Update Arab Sniper Day {day_num} Details"
+    )
 
 # ==========================================
 # SESSION STATE
