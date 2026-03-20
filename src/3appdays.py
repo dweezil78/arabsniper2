@@ -90,7 +90,6 @@ st.set_page_config(page_title="ARAB SNIPER V24.1 MULTI-DAY WEB", layout="wide")
 # ==========================================
 def github_write_json(filename, payload, commit_message):
     try:
-        # Recupero token
         token = os.getenv("GITHUB_TOKEN")
         if not token:
             try:
@@ -102,27 +101,35 @@ def github_write_json(filename, payload, commit_message):
             print("❌ GITHUB_TOKEN mancante", flush=True)
             return "MISSING_TOKEN"
 
-        from github import Github
         g = Github(token)
+        repo_name = "dweezil78/arabsniper2"   # <-- verifica che sia ESATTO
+        print(f"📦 Repo target: {repo_name}", flush=True)
+        print(f"📄 File target: {filename}", flush=True)
 
-        repo = g.get_repo("dweezil78/arabsniper2")
-
+        repo = g.get_repo(repo_name)
         content_str = json.dumps(payload, indent=4, ensure_ascii=False)
 
+        # 1) provo update se il file esiste
         try:
             contents = repo.get_contents(filename)
             repo.update_file(contents.path, commit_message, content_str, contents.sha)
             print(f"✅ GitHub update OK: {filename}", flush=True)
-            return "UPDATED"
-        except Exception:
+            return "SUCCESS"
+        except Exception as e_update:
+            print(f"⚠️ Update fallito su {filename}: {e_update}", flush=True)
+
+        # 2) se update fallisce, provo create
+        try:
             repo.create_file(filename, commit_message, content_str)
             print(f"✅ GitHub create OK: {filename}", flush=True)
-            return "CREATED"
+            return "SUCCESS"
+        except Exception as e_create:
+            print(f"❌ Create fallito su {filename}: {e_create}", flush=True)
+            return f"CREATE_FAILED: {e_create}"
 
     except Exception as e:
         print(f"❌ GitHub write error su {filename}: {e}", flush=True)
-        return str(e)
-
+        return f"GITHUB_ERROR: {e}"
 
 # ==========================================
 # WRAPPER FUNZIONI (FONDAMENTALI)
