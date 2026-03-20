@@ -464,37 +464,68 @@ def get_team_last_matches(session, tid):
 
 
 def get_team_performance(session, tid):
-    if str(tid) in st.session_state.team_stats_cache:
-        return st.session_state.team_stats_cache[str(tid)]
+    cache_key = str(tid)
+    if cache_key in st.session_state.team_stats_cache:
+        return st.session_state.team_stats_cache[cache_key]
 
-    res = api_get(session, "fixtures", {"team": tid, "last": 8, "status": "FT"})
-    fx = res.get("response", []) if res else []
-    if not fx:
+    last_matches = get_team_last_matches(session, tid)
+    if not last_matches:
         return None
 
-    act = len(fx)
-    tht, gf, gs = 0, 0, 0
+    ft_list = [safe_float(m.get("total_ft_goals"), 0.0) for m in last_matches]
+    ht_list = [safe_float(m.get("total_ht_goals"), 0.0) for m in last_matches]
 
-    for f in fx:
-        ht_data = f.get("score", {}).get("halftime", {})
-        tht += (ht_data.get("home") or 0) + (ht_data.get("away") or 0)
+    if not ft_list or not ht_list:
+        return None
 
-        is_home = f["teams"]["home"]["id"] == tid
-        gf += (f["goals"]["home"] or 0) if is_home else (f["goals"]["away"] or 0)
-        gs += (f["goals"]["away"] or 0) if is_home else (f["goals"]["home"] or 0)
+    act = len(ft_list)
 
-    last_f = fx[0]
-    ft_sum = (last_f.get("goals", {}).get("home") or 0) + (last_f.get("goals", {}).get("away") or 0)
-    ht_sum = (last_f.get("score", {}).get("halftime", {}).get("home") or 0) + (last_f.get("score", {}).get("halftime", {}).get("away") or 0)
-    last_2h_zero = ((ft_sum - ht_sum) == 0)
+    def trimmed_mean(values):
+        vals = sorted([safe_float(v, 0.0) for v in values])
+        if not vals:
+            return 0.0
+        if len(vals) >= 5:
+            core = vals[1:-1]
+        else:
+            core = vals
+        if not core:
+            return 0.0
+        return sum(core) / len(core)
+
+    avg_total = sum(ft_list) / act
+    avg_ht = sum(ht_list) / act
+
+    avg_total_clean = trimmed_mean(ft_list)
+    avg_ht_clean = trimmed_mean(ht_list)
+
+    ft_2plus_rate = sum(1 for x in ft_list if x >= 2) / act
+    ft_3plus_rate = sum(1 for x in ft_list if x >= 3) / act
+    ft_low_rate = sum(1 for x in ft_list if x <= 1) / act
+
+    ht_1plus_rate = sum(1 for x in ht_list if x >= 1) / act
+    ht_zero_rate = sum(1 for x in ht_list if x == 0) / act
+
+    ft_peak_count = sum(1 for x in ft_list if x >= 5)
+
+    last_ft = safe_float(ft_list[0], 0.0)
+    last_ht = safe_float(ht_list[0], 0.0)
+    last_2h_zero = ((last_ft - last_ht) == 0)
 
     stats = {
-        "avg_ht": tht / act,
-        "avg_total": (gf + gs) / act,
+        "avg_ht": round3(avg_ht),
+        "avg_total": round3(avg_total),
+        "avg_ht_clean": round3(avg_ht_clean),
+        "avg_total_clean": round3(avg_total_clean),
+        "ht_1plus_rate": round3(ht_1plus_rate),
+        "ht_zero_rate": round3(ht_zero_rate),
+        "ft_2plus_rate": round3(ft_2plus_rate),
+        "ft_3plus_rate": round3(ft_3plus_rate),
+        "ft_low_rate": round3(ft_low_rate),
+        "ft_peak_count": int(ft_peak_count),
         "last_2h_zero": last_2h_zero
     }
 
-    st.session_state.team_stats_cache[str(tid)] = stats
+    st.session_state.team_stats_cache[cache_key] = stats
     return stats
 
 # ==========================================
@@ -857,7 +888,53 @@ def show_match_modal(fixture_id: str):
         f"{detail['averages'].get('home_avg_ht', 0):.2f} | "
         f"{detail['averages'].get('away_avg_ht', 0):.2f}"
     )
+st.markdown("### 🧪 Metriche pulite e frequenze")
 
+b1, b2 = st.columns(2)
+
+with b1:
+    st.write(
+        f"**AVG FT CLEAN Home/Away:** "
+        f"{detail['averages'].get('home_avg_ft_clean', 0):.2f} | "
+        f"{detail['averages'].get('away_avg_ft_clean', 0):.2f}"
+    )
+    st.write(
+        f"**FT 2+ Rate Home/Away:** "
+        f"{detail['averages'].get('home_ft_2plus_rate', 0):.2f} | "
+        f"{detail['averages'].get('away_ft_2plus_rate', 0):.2f}"
+    )
+    st.write(
+        f"**FT 3+ Rate Home/Away:** "
+        f"{detail['averages'].get('home_ft_3plus_rate', 0):.2f} | "
+        f"{detail['averages'].get('away_ft_3plus_rate', 0):.2f}"
+    )
+    st.write(
+        f"**FT LOW Rate Home/Away:** "
+        f"{detail['averages'].get('home_ft_low_rate', 0):.2f} | "
+        f"{detail['averages'].get('away_ft_low_rate', 0):.2f}"
+    )
+    st.write(
+        f"**FT Peak Count Home/Away:** "
+        f"{detail['averages'].get('home_ft_peak_count', 0)} | "
+        f"{detail['averages'].get('away_ft_peak_count', 0)}"
+    )
+
+with b2:
+    st.write(
+        f"**AVG HT CLEAN Home/Away:** "
+        f"{detail['averages'].get('home_avg_ht_clean', 0):.2f} | "
+        f"{detail['averages'].get('away_avg_ht_clean', 0):.2f}"
+    )
+    st.write(
+        f"**HT 1+ Rate Home/Away:** "
+        f"{detail['averages'].get('home_ht_1plus_rate', 0):.2f} | "
+        f"{detail['averages'].get('away_ht_1plus_rate', 0):.2f}"
+    )
+    st.write(
+        f"**HT ZERO Rate Home/Away:** "
+        f"{detail['averages'].get('home_ht_zero_rate', 0):.2f} | "
+        f"{detail['averages'].get('away_ht_zero_rate', 0):.2f}"
+    )
     st.write(
         f"**Fav quota:** {detail['flags'].get('fav_quote', 0):.2f} | "
         f"**Gold zone:** {'✅' if detail['flags'].get('is_gold_zone') else '❌'} | "
@@ -1049,8 +1126,28 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                             "away_avg_ft": round(s_a["avg_total"], 3),
                             "home_avg_ht": round(s_h["avg_ht"], 3),
                             "away_avg_ht": round(s_a["avg_ht"], 3),
-                            "combined_ht_avg": round(combined_ht_avg, 3)
-                        },
+                            "combined_ht_avg": round(combined_ht_avg, 3),
+
+                            "home_avg_ft_clean": round(s_h["avg_total_clean"], 3),
+                            "away_avg_ft_clean": round(s_a["avg_total_clean"], 3),
+                            "home_avg_ht_clean": round(s_h["avg_ht_clean"], 3),
+                            "away_avg_ht_clean": round(s_a["avg_ht_clean"], 3),
+
+                            "home_ft_2plus_rate": round(s_h["ft_2plus_rate"], 3),
+                            "away_ft_2plus_rate": round(s_a["ft_2plus_rate"], 3),
+                            "home_ft_3plus_rate": round(s_h["ft_3plus_rate"], 3),
+                            "away_ft_3plus_rate": round(s_a["ft_3plus_rate"], 3),
+                            "home_ft_low_rate": round(s_h["ft_low_rate"], 3),
+                            "away_ft_low_rate": round(s_a["ft_low_rate"], 3),
+
+                            "home_ht_1plus_rate": round(s_h["ht_1plus_rate"], 3),
+                            "away_ht_1plus_rate": round(s_a["ht_1plus_rate"], 3),
+                            "home_ht_zero_rate": round(s_h["ht_zero_rate"], 3),
+                            "away_ht_zero_rate": round(s_a["ht_zero_rate"], 3),
+
+                            "home_ft_peak_count": int(s_h["ft_peak_count"]),
+                            "away_ft_peak_count": int(s_a["ft_peak_count"])
+                        },    
                         "flags": {
                             "fav_quote": round(fav, 3),
                             "is_gold_zone": is_gold_zone,
