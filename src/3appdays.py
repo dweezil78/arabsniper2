@@ -878,160 +878,274 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
     with st.spinner(f"🚀 Analisi mercati {target_dates[use_horizon - 1]}..."):
         with requests.Session() as s:
             target_date = target_dates[use_horizon - 1]
+
+            # ==========================================
+            # 1) CHIAMATA API PROTETTA
+            # ==========================================
             res = api_get(s, "fixtures", {"date": target_date, "timezone": "Europe/Rome"})
-            if not res:
-                st.error("❌ Nessuna risposta valida dall'API.")
+            if not res or not isinstance(res, dict):
+                print(f"❌ API non valida per day {use_horizon} ({target_date}) -> skip totale", flush=True)
+                if show_success:
+                    st.error(f"❌ API non valida per {target_date}. Nessun file aggiornato.")
+                return
+
+            api_response = res.get("response", [])
+            if not api_response or not isinstance(api_response, list):
+                print(f"❌ API vuota per day {use_horizon} ({target_date}) -> skip totale", flush=True)
+                if show_success:
+                    st.error(f"❌ API vuota per {target_date}. Nessun file aggiornato.")
                 return
 
             day_fx = [
-                f for f in res.get("response", [])
-                if f["fixture"]["status"]["short"] == "NS"
+                f for f in api_response
+                if f.get("fixture", {}).get("status", {}).get("short") == "NS"
                 and not is_blacklisted_league(f.get("league", {}).get("name", ""))
             ]
 
+            if not day_fx:
+                print(f"❌ Nessun fixture NS valido per day {use_horizon} ({target_date}) -> skip totale", flush=True)
+                if show_success:
+                    st.error(f"❌ Nessun match pre-match valido trovato per {target_date}. Nessun file aggiornato.")
+                return
+
             st.session_state.available_countries = sorted(
-                list(set(st.session_state.available_countries) | {fx["league"]["country"] for fx in day_fx})
+                list(set(st.session_state.available_countries) | {
+                    fx.get("league", {}).get("country", "N/D") for fx in day_fx
+                })
             )
 
+            # ==========================================
+            # 2) SNAP SOLO DAY 1, MA PROTETTO
+            # ==========================================
             if snap and use_horizon == 1:
-                snap_bar = st.progress(0, text="📌 SNAPSHOT ROLLING DAY1+DAY2+DAY3+DAY4+DAY5...")
-                build_rolling_multiday_snapshot(s)
-                snap_bar.progress(1.0)
-                time.sleep(0.3)
-                snap_bar.empty()
+                try:
+                    snap_bar = st.progress(0, text="📌 SNAPSHOT ROLLING DAY1+DAY2+DAY3+DAY4+DAY5...")
+                    build_rolling_multiday_snapshot(s)
+                    snap_bar.progress(1.0)
+                    time.sleep(0.3)
+                    snap_bar.empty()
+                except Exception as e:
+                    print(f"❌ Errore snapshot rolling: {e}", flush=True)
+                    if show_success:
+                        st.error(f"❌ Errore snapshot: {e}")
+                    return
 
             final_list = []
             details_map = dict(st.session_state.match_details)
 
             pb = st.progress(0, text="🚀 ANALISI SEGNALI E MEDIE...")
+
+            # ==========================================
+            # 3) ANALISI MATCH
+            # ==========================================
             for i, f in enumerate(day_fx):
                 pb.progress((i + 1) / len(day_fx) if day_fx else 1.0)
 
-                cnt = f["league"]["country"]
-                if cnt in st.session_state.config["excluded"]:
+                try:
+                    cnt = f.get("league", {}).get("country", "N/D")
+                    if cnt in st.session_state.config["excluded"]:
+                        continue
+
+                    fid = str(f.get("fixture", {}).get("id"))
+                    if not fid or fid == "None":
+                        continue
+
+                    mk = extract_elite_markets(s, fid)
+                    if not mk or mk == "SKIP" or safe_float(mk.get("q1"), 0.0) == 0:
+                        continue
+
+                    home_team = f.get("teams", {}).get("home", {})
+                    away_team = f.get("teams", {}).get("away", {})
+
+                    if not home_team.get("id") or not away_team.get("id"):
+                        continue
+
+                    fixture_local_dt = fixture_dt_rome(f.get("fixture", {}))
+                    ora_local = fixture_local_dt.strftime("%H:%M") if fixture_local_dt else str(
+                        f.get("fixture", {}).get("date", "")
+                    )[11:16]
+
+                    s_h = get_team_performance(s, home_team["id"])
+                    s_a = get_team_performance(s, away_team["id"])
+                    if not s_h or not s_a:
+                        continue
+
+                    combined_ht_avg = (s_h["avg_ht"] + s_a["avg_ht"]) / 2
+                    if combined_ht_avg < 1.03:
+                        continue
+
+                    signal_pack = build_signal_package(fid, mk, s_h, s_a, combined_ht_avg)
+                    tags = signal_pack["tags"]
+
+                    if not should_keep_match(signal_pack):
+                        continue
+
+                    fav = signal_pack["fav_quote"]
+                    is_gold_zone = signal_pack["is_gold_zone"]
+
+                    row = {
+                        "Ora": ora_local,
+                        "Lega": f"{f.get('league', {}).get('name', 'N/D')} ({cnt})",
+                        "Match": f"{home_team.get('name', 'N/D')} - {away_team.get('name', 'N/D')}",
+                        "FAV": "✅" if is_gold_zone else "❌",
+                        "1X2": f"{safe_float(mk.get('q1'), 0):.1f}|{safe_float(mk.get('qx'), 0):.1f}|{safe_float(mk.get('q2'), 0):.1f}",
+                        "O2.5": f"{safe_float(mk.get('o25'), 0):.2f}",
+                        "O0.5H": f"{safe_float(mk.get('o05ht'), 0):.2f}",
+                        "O1.5H": f"{safe_float(mk.get('o15ht'), 0):.2f}",
+                        "AVG FT": f"{s_h['avg_total']:.1f}|{s_a['avg_total']:.1f}",
+                        "AVG HT": f"{s_h['avg_ht']:.1f}|{s_a['avg_ht']:.1f}",
+                        "Info": " ".join(tags),
+                        "Data": target_date,
+                        "Fixture_ID": f.get("fixture", {}).get("id")
+                    }
+                    final_list.append(row)
+
+                    details_map[fid] = {
+                        "fixture_id": f.get("fixture", {}).get("id"),
+                        "date": target_date,
+                        "time": ora_local,
+                        "league": f.get("league", {}).get("name", "N/D"),
+                        "country": cnt,
+                        "match": f"{home_team.get('name', 'N/D')} - {away_team.get('name', 'N/D')}",
+                        "home_team": home_team.get("name", "N/D"),
+                        "away_team": away_team.get("name", "N/D"),
+                        "markets": {
+                            "q1": safe_float(mk.get("q1"), 0),
+                            "qx": safe_float(mk.get("qx"), 0),
+                            "q2": safe_float(mk.get("q2"), 0),
+                            "o25": safe_float(mk.get("o25"), 0),
+                            "o05ht": safe_float(mk.get("o05ht"), 0),
+                            "o15ht": safe_float(mk.get("o15ht"), 0)
+                        },
+                        "averages": {
+                            "home_avg_ft": round(s_h["avg_total"], 3),
+                            "away_avg_ft": round(s_a["avg_total"], 3),
+                            "home_avg_ht": round(s_h["avg_ht"], 3),
+                            "away_avg_ht": round(s_a["avg_ht"], 3),
+                            "combined_ht_avg": round(combined_ht_avg, 3)
+                        },
+                        "flags": {
+                            "fav_quote": round(fav, 3),
+                            "is_gold_zone": is_gold_zone,
+                            "home_last_2h_zero": s_h["last_2h_zero"],
+                            "away_last_2h_zero": s_a["last_2h_zero"],
+                            "drop_diff": signal_pack["drop_diff"]
+                        },
+                        "scores": signal_pack["scores"],
+                        "tags": tags,
+                        "home_last_8": get_team_last_matches(s, home_team["id"]),
+                        "away_last_8": get_team_last_matches(s, away_team["id"])
+                    }
+
+                    time.sleep(0.2)
+
+                except Exception as e:
+                    print(f"⚠️ Errore su fixture {f.get('fixture', {}).get('id', 'N/D')}: {e}", flush=True)
                     continue
 
-                fid = str(f["fixture"]["id"])
-                mk = extract_elite_markets(s, fid)
-                if not mk or mk == "SKIP" or mk["q1"] == 0:
-                    continue
+            pb.empty()
 
-                home_team = f["teams"]["home"]
-                away_team = f["teams"]["away"]
+            # ==========================================
+            # 4) PROTEZIONE FORTE CONTRO SALVATAGGI SPORCHI
+            # ==========================================
+            existing_day_results = [
+                r for r in st.session_state.scan_results
+                if r.get("Data") == target_date
+            ]
 
-                fixture_local_dt = fixture_dt_rome(f["fixture"])
-                ora_local = fixture_local_dt.strftime("%H:%M") if fixture_local_dt else f["fixture"]["date"][11:16]
-
-                s_h = get_team_performance(s, home_team["id"])
-                s_a = get_team_performance(s, away_team["id"])
-                if not s_h or not s_a:
-                    continue
-
-                combined_ht_avg = (s_h["avg_ht"] + s_a["avg_ht"]) / 2
-                if combined_ht_avg < 1.03:
-                    continue
-
-                signal_pack = build_signal_package(fid, mk, s_h, s_a, combined_ht_avg)
-                tags = signal_pack["tags"]
-
-                if not should_keep_match(signal_pack):
-                    continue
-
-                fav = signal_pack["fav_quote"]
-                is_gold_zone = signal_pack["is_gold_zone"]
-
-                row = {
-                    "Ora": ora_local,
-                    "Lega": f"{f['league']['name']} ({cnt})",
-                    "Match": f"{home_team['name']} - {away_team['name']}",
-                    "FAV": "✅" if is_gold_zone else "❌",
-                    "1X2": f"{mk['q1']:.1f}|{mk['qx']:.1f}|{mk['q2']:.1f}",
-                    "O2.5": f"{mk['o25']:.2f}",
-                    "O0.5H": f"{mk['o05ht']:.2f}",
-                    "O1.5H": f"{mk['o15ht']:.2f}",
-                    "AVG FT": f"{s_h['avg_total']:.1f}|{s_a['avg_total']:.1f}",
-                    "AVG HT": f"{s_h['avg_ht']:.1f}|{s_a['avg_ht']:.1f}",
-                    "Info": " ".join(tags),
-                    "Data": target_date,
-                    "Fixture_ID": f["fixture"]["id"]
-                }
-                final_list.append(row)
-
-                details_map[fid] = {
-                    "fixture_id": f["fixture"]["id"],
-                    "date": target_date,
-                    "time": ora_local,
-                    "league": f["league"]["name"],
-                    "country": cnt,
-                    "match": f"{home_team['name']} - {away_team['name']}",
-                    "home_team": home_team["name"],
-                    "away_team": away_team["name"],
-                    "markets": {
-                        "q1": mk["q1"],
-                        "qx": mk["qx"],
-                        "q2": mk["q2"],
-                        "o25": mk["o25"],
-                        "o05ht": mk["o05ht"],
-                        "o15ht": mk["o15ht"]
-                    },
-                    "averages": {
-                        "home_avg_ft": round(s_h["avg_total"], 3),
-                        "away_avg_ft": round(s_a["avg_total"], 3),
-                        "home_avg_ht": round(s_h["avg_ht"], 3),
-                        "away_avg_ht": round(s_a["avg_ht"], 3),
-                        "combined_ht_avg": round(combined_ht_avg, 3)
-                    },
-                    "flags": {
-                        "fav_quote": round(fav, 3),
-                        "is_gold_zone": is_gold_zone,
-                        "home_last_2h_zero": s_h["last_2h_zero"],
-                        "away_last_2h_zero": s_a["last_2h_zero"],
-                        "drop_diff": signal_pack["drop_diff"]
-                    },
-                    "scores": signal_pack["scores"],
-                    "tags": tags,
-                    "home_last_8": get_team_last_matches(s, home_team["id"]),
-                    "away_last_8": get_team_last_matches(s, away_team["id"])
-                }
-
-                time.sleep(0.2)
-
-            current_db = {str(r["Fixture_ID"]): r for r in st.session_state.scan_results}
-
-            if final_list:
-                target_date_ids = {str(r["Fixture_ID"]) for r in final_list}
-
-                for existing in list(current_db.keys()):
-                    existing_row = current_db[existing]
-                    if existing_row.get("Data") == target_date and existing not in target_date_ids:
-                        del current_db[existing]
-
-                for r in final_list:
-                    current_db[str(r["Fixture_ID"])] = r
-
-                st.session_state.scan_results = list(current_db.values())
-                st.session_state.scan_results.sort(key=lambda x: (x.get("Data", ""), x.get("Ora", "99:99")))
-
-                with open(DB_FILE, "w", encoding="utf-8") as f:
-                    json.dump({"results": st.session_state.scan_results}, f, indent=4, ensure_ascii=False)
-
-                st.session_state.match_details = details_map
-                save_match_details_file()
-
-                status_main, status_day, status_details = sync_day_outputs_to_github(
-                    day_num=use_horizon,
-                    update_main=update_main_site
-                )
-            else:
+            # Se non trova nulla, non distruggere file esistenti
+            if not final_list:
                 print(
                     f"⚠️ Nessun match valido trovato per day {use_horizon} ({target_date}) "
                     f"-> mantengo i file esistenti, nessuna sovrascrittura.",
                     flush=True
                 )
-                status_main = "SKIPPED_EMPTY"
-                status_day = "SKIPPED_EMPTY"
-                status_details = "SKIPPED_EMPTY"
+                if show_success:
+                    st.warning(f"⚠️ Nessun match valido per {target_date}. File esistenti mantenuti.")
+                return
 
+            # Se ci sono già dati per quel giorno e il nuovo scan è troppo povero, non salvare
+            if existing_day_results and len(final_list) < 3:
+                print(
+                    f"⚠️ Troppi pochi match trovati ({len(final_list)}) per day {use_horizon} ({target_date}) "
+                    f"con dati già esistenti -> skip salvataggio prudenziale.",
+                    flush=True
+                )
+                if show_success:
+                    st.warning(
+                        f"⚠️ Trovati solo {len(final_list)} match validi per {target_date}. "
+                        f"Per sicurezza non aggiorno i file esistenti."
+                    )
+                return
+
+            # Se esistono dati per quel giorno e il nuovo scan è molto più piccolo del vecchio, skip
+            if existing_day_results and len(final_list) < max(3, int(len(existing_day_results) * 0.35)):
+                print(
+                    f"⚠️ Nuovo scan troppo ridotto: {len(final_list)} vs vecchio {len(existing_day_results)} "
+                    f"per day {use_horizon} ({target_date}) -> skip salvataggio prudenziale.",
+                    flush=True
+                )
+                if show_success:
+                    st.warning(
+                        f"⚠️ Nuovo scan anomalo per {target_date}: {len(final_list)} match contro "
+                        f"{len(existing_day_results)} esistenti. Nessun aggiornamento eseguito."
+                    )
+                return
+
+            # ==========================================
+            # 5) SALVATAGGIO LOCALE SICURO
+            # ==========================================
+            current_db = {str(r["Fixture_ID"]): r for r in st.session_state.scan_results}
+            target_date_ids = {str(r["Fixture_ID"]) for r in final_list}
+
+            for existing in list(current_db.keys()):
+                existing_row = current_db[existing]
+                if existing_row.get("Data") == target_date and existing not in target_date_ids:
+                    del current_db[existing]
+
+            for r in final_list:
+                current_db[str(r["Fixture_ID"])] = r
+
+            new_scan_results = list(current_db.values())
+            new_scan_results.sort(key=lambda x: (x.get("Data", ""), x.get("Ora", "99:99")))
+
+            try:
+                with open(DB_FILE, "w", encoding="utf-8") as f:
+                    json.dump({"results": new_scan_results}, f, indent=4, ensure_ascii=False)
+            except Exception as e:
+                print(f"❌ Errore salvataggio DB locale: {e}", flush=True)
+                if show_success:
+                    st.error(f"❌ Errore salvataggio DB locale: {e}")
+                return
+
+            st.session_state.scan_results = new_scan_results
+            st.session_state.match_details = details_map
+
+            try:
+                save_match_details_file()
+            except Exception as e:
+                print(f"❌ Errore salvataggio details locale: {e}", flush=True)
+                if show_success:
+                    st.error(f"❌ Errore salvataggio details locale: {e}")
+                return
+
+            # ==========================================
+            # 6) SYNC GITHUB
+            # ==========================================
+            try:
+                status_main, status_day, status_details = sync_day_outputs_to_github(
+                    day_num=use_horizon,
+                    update_main=update_main_site
+                )
+            except Exception as e:
+                print(f"❌ Errore sync GitHub: {e}", flush=True)
+                if show_success:
+                    st.error(f"❌ Errore sync GitHub: {e}")
+                return
+
+            # ==========================================
+            # 7) FEEDBACK UI
+            # ==========================================
             if show_success:
                 if update_main_site:
                     if status_main == "SUCCESS":
@@ -1048,8 +1162,6 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                     st.success(f"✅ {REMOTE_DETAILS_FILES[use_horizon]} aggiornato!")
                 else:
                     st.error(f"❌ Errore {REMOTE_DETAILS_FILES[use_horizon]}: {status_details}")
-
-            pb.empty()
 
             if "--auto" not in sys.argv and "--fast" not in sys.argv and "--day2-refresh" not in sys.argv:
                 time.sleep(2)
