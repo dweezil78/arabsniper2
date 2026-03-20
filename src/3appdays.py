@@ -860,6 +860,10 @@ def show_match_modal(fixture_id: str):
         st.warning("Dettagli non disponibili per questa partita.")
         return
 
+    avg = detail.get("averages", {})
+    flags = detail.get("flags", {})
+    scores = detail.get("scores", {})
+
     st.markdown(f"## {detail['match']}")
     st.write(f"**Data:** {detail['date']}  |  **Ora:** {detail['time']}")
     st.write(f"**Lega:** {detail['league']} ({detail['country']})")
@@ -879,71 +883,72 @@ def show_match_modal(fixture_id: str):
     st.subheader("📊 Medie e flag")
 
     a1, a2, a3 = st.columns(3)
-    a1.metric("AVG FT Home", f"{detail['averages'].get('home_avg_ft', 0):.2f}")
-    a2.metric("AVG FT Away", f"{detail['averages'].get('away_avg_ft', 0):.2f}")
-    a3.metric("AVG HT Combo", f"{detail['averages'].get('combined_ht_avg', 0):.2f}")
+    a1.metric("AVG FT Home", f"{avg.get('home_avg_ft', 0):.2f}")
+    a2.metric("AVG FT Away", f"{avg.get('away_avg_ft', 0):.2f}")
+    a3.metric("AVG HT Combo", f"{avg.get('combined_ht_avg', 0):.2f}")
 
     st.write(
         f"**AVG HT Home/Away:** "
-        f"{detail['averages'].get('home_avg_ht', 0):.2f} | "
-        f"{detail['averages'].get('away_avg_ht', 0):.2f}"
-    )
-st.markdown("### 🧪 Metriche pulite e frequenze")
-
-b1, b2 = st.columns(2)
-
-with b1:
-    st.write(
-        f"**AVG FT CLEAN Home/Away:** "
-        f"{detail['averages'].get('home_avg_ft_clean', 0):.2f} | "
-        f"{detail['averages'].get('away_avg_ft_clean', 0):.2f}"
-    )
-    st.write(
-        f"**FT 2+ Rate Home/Away:** "
-        f"{detail['averages'].get('home_ft_2plus_rate', 0):.2f} | "
-        f"{detail['averages'].get('away_ft_2plus_rate', 0):.2f}"
-    )
-    st.write(
-        f"**FT 3+ Rate Home/Away:** "
-        f"{detail['averages'].get('home_ft_3plus_rate', 0):.2f} | "
-        f"{detail['averages'].get('away_ft_3plus_rate', 0):.2f}"
-    )
-    st.write(
-        f"**FT LOW Rate Home/Away:** "
-        f"{detail['averages'].get('home_ft_low_rate', 0):.2f} | "
-        f"{detail['averages'].get('away_ft_low_rate', 0):.2f}"
-    )
-    st.write(
-        f"**FT Peak Count Home/Away:** "
-        f"{detail['averages'].get('home_ft_peak_count', 0)} | "
-        f"{detail['averages'].get('away_ft_peak_count', 0)}"
+        f"{avg.get('home_avg_ht', 0):.2f} | "
+        f"{avg.get('away_avg_ht', 0):.2f}"
     )
 
-with b2:
+    st.markdown("### 🧪 Metriche pulite e frequenze")
+
+    b1, b2 = st.columns(2)
+
+    with b1:
+        st.write(
+            f"**AVG FT CLEAN Home/Away:** "
+            f"{avg.get('home_avg_ft_clean', 0):.2f} | "
+            f"{avg.get('away_avg_ft_clean', 0):.2f}"
+        )
+        st.write(
+            f"**FT 2+ Rate Home/Away:** "
+            f"{avg.get('home_ft_2plus_rate', 0):.2f} | "
+            f"{avg.get('away_ft_2plus_rate', 0):.2f}"
+        )
+        st.write(
+            f"**FT 3+ Rate Home/Away:** "
+            f"{avg.get('home_ft_3plus_rate', 0):.2f} | "
+            f"{avg.get('away_ft_3plus_rate', 0):.2f}"
+        )
+        st.write(
+            f"**FT LOW Rate Home/Away:** "
+            f"{avg.get('home_ft_low_rate', 0):.2f} | "
+            f"{avg.get('away_ft_low_rate', 0):.2f}"
+        )
+        st.write(
+            f"**FT Peak Count Home/Away:** "
+            f"{avg.get('home_ft_peak_count', 0)} | "
+            f"{avg.get('away_ft_peak_count', 0)}"
+        )
+
+    with b2:
+        st.write(
+            f"**AVG HT CLEAN Home/Away:** "
+            f"{avg.get('home_avg_ht_clean', 0):.2f} | "
+            f"{avg.get('away_avg_ht_clean', 0):.2f}"
+        )
+        st.write(
+            f"**HT 1+ Rate Home/Away:** "
+            f"{avg.get('home_ht_1plus_rate', 0):.2f} | "
+            f"{avg.get('away_ht_1plus_rate', 0):.2f}"
+        )
+        st.write(
+            f"**HT ZERO Rate Home/Away:** "
+            f"{avg.get('home_ht_zero_rate', 0):.2f} | "
+            f"{avg.get('away_ht_zero_rate', 0):.2f}"
+        )
+
     st.write(
-        f"**AVG HT CLEAN Home/Away:** "
-        f"{detail['averages'].get('home_avg_ht_clean', 0):.2f} | "
-        f"{detail['averages'].get('away_avg_ht_clean', 0):.2f}"
-    )
-    st.write(
-        f"**HT 1+ Rate Home/Away:** "
-        f"{detail['averages'].get('home_ht_1plus_rate', 0):.2f} | "
-        f"{detail['averages'].get('away_ht_1plus_rate', 0):.2f}"
-    )
-    st.write(
-        f"**HT ZERO Rate Home/Away:** "
-        f"{detail['averages'].get('home_ht_zero_rate', 0):.2f} | "
-        f"{detail['averages'].get('away_ht_zero_rate', 0):.2f}"
-    )
-    st.write(
-        f"**Fav quota:** {detail['flags'].get('fav_quote', 0):.2f} | "
-        f"**Gold zone:** {'✅' if detail['flags'].get('is_gold_zone') else '❌'} | "
-        f"**Home last 2H zero:** {'✅' if detail['flags'].get('home_last_2h_zero') else '❌'} | "
-        f"**Away last 2H zero:** {'✅' if detail['flags'].get('away_last_2h_zero') else '❌'} | "
-        f"**Drop:** {detail['flags'].get('drop_diff', 0):.2f}"
+        f"**Fav quota:** {flags.get('fav_quote', 0):.2f} | "
+        f"**Gold zone:** {'✅' if flags.get('is_gold_zone') else '❌'} | "
+        f"**Home last 2H zero:** {'✅' if flags.get('home_last_2h_zero') else '❌'} | "
+        f"**Away last 2H zero:** {'✅' if flags.get('away_last_2h_zero') else '❌'} | "
+        f"**Drop:** {flags.get('drop_diff', 0):.2f}"
     )
 
-    scores = detail.get("scores", {})
     if scores:
         st.markdown("---")
         st.subheader("🧠 Score interni V24.1")
