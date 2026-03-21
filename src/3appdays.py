@@ -583,25 +583,89 @@ def score_drop(drop_diff):
 def score_pt_signal(mk, s_h, s_a, combined_ht_avg):
     score = 0.0
 
-    score += band_score(combined_ht_avg, 1.12, 1.70, 1.05, 1.90, core_pts=1.5, soft_pts=0.8)
+    # =========================
+    # BASE: COMBINED HT CLEAN
+    # =========================
+    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
 
-    if s_h["avg_ht"] >= 1.10 and s_a["avg_ht"] >= 1.10:
-        score += 1.6
-    elif (s_h["avg_ht"] >= 1.25 and s_a["avg_ht"] >= 0.95) or (s_a["avg_ht"] >= 1.25 and s_h["avg_ht"] >= 0.95):
+    score += band_score(
+        combined_ht_clean,
+        1.02, 1.65,
+        0.95, 1.80,
+        core_pts=1.7,
+        soft_pts=0.8
+    )
+
+    # =========================
+    # FORZA HT PULITA DELLE DUE SQUADRE
+    # =========================
+    if s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00:
+        score += 1.7
+    elif (s_h["avg_ht_clean"] >= 1.15 and s_a["avg_ht_clean"] >= 0.90) or \
+         (s_a["avg_ht_clean"] >= 1.15 and s_h["avg_ht_clean"] >= 0.90):
         score += 1.0
 
-    score += symmetry_bonus(s_h["avg_ht"], s_a["avg_ht"], tight=0.20, medium=0.40)
+    score += symmetry_bonus(
+        s_h["avg_ht_clean"],
+        s_a["avg_ht_clean"],
+        tight=0.18,
+        medium=0.35
+    )
 
-    score += band_score(mk["o05ht"], 1.20, 1.40, 1.15, 1.48, core_pts=1.6, soft_pts=0.7)
-    score += band_score(mk["o15ht"], 2.00, 3.60, 1.80, 4.20, core_pts=0.8, soft_pts=0.3)
-
-    if s_h["last_2h_zero"] or s_a["last_2h_zero"]:
+    # =========================
+    # CONTINUITÀ HT
+    # =========================
+    if s_h["ht_1plus_rate"] >= 0.75 and s_a["ht_1plus_rate"] >= 0.75:
+        score += 1.2
+    elif s_h["ht_1plus_rate"] >= 0.62 and s_a["ht_1plus_rate"] >= 0.62:
         score += 0.8
+    elif (s_h["ht_1plus_rate"] >= 0.75 and s_a["ht_1plus_rate"] >= 0.50) or \
+         (s_a["ht_1plus_rate"] >= 0.75 and s_h["ht_1plus_rate"] >= 0.50):
+        score += 0.45
 
-    if s_h["avg_total"] >= 1.20 and s_a["avg_total"] >= 1.20:
-        score += 0.5
+    # =========================
+    # MERCATO HT
+    # =========================
+    score += band_score(mk["o05ht"], 1.20, 1.38, 1.15, 1.46, core_pts=1.5, soft_pts=0.6)
+    score += band_score(mk["o15ht"], 2.00, 3.40, 1.85, 4.00, core_pts=0.7, soft_pts=0.25)
 
-    return round3(score)
+    # =========================
+    # SUPPORTO FT LEGGERO
+    # =========================
+    if s_h["avg_total_clean"] >= 1.45 and s_a["avg_total_clean"] >= 1.45:
+        score += 0.45
+
+    if s_h["ft_low_rate"] <= 0.25 and s_a["ft_low_rate"] <= 0.25:
+        score += 0.25
+
+    # =========================
+    # BONUS ULTIMO MATCH SENZA GOAL 2T
+    # =========================
+    if s_h["last_2h_zero"] or s_a["last_2h_zero"]:
+        score += 0.55
+
+    # =========================
+    # PENALITÀ RUMORE HT
+    # =========================
+    if s_h["ht_zero_rate"] >= 0.38:
+        score -= 0.75
+    if s_a["ht_zero_rate"] >= 0.38:
+        score -= 0.75
+
+    if s_h["avg_ht_clean"] < 0.85:
+        score -= 0.75
+    if s_a["avg_ht_clean"] < 0.85:
+        score -= 0.75
+
+    if s_h["ht_1plus_rate"] < 0.62:
+        score -= 0.45
+    if s_a["ht_1plus_rate"] < 0.62:
+        score -= 0.45
+
+    if combined_ht_clean < 0.95:
+        score -= 0.60
+
+    return round3(max(score, 0.0))
 
 
 def score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff):
@@ -700,7 +764,7 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     if (2.0 <= mk["q1"] <= 3.5) and (2.0 <= mk["q2"] <= 3.5) and (s_h["avg_total"] >= 1.0 and s_a["avg_total"] >= 1.0):
         probe_tags.append("🐟G")
 
-    if pt_score >= 4.1:
+    if pt_score >= 4.35:
         tags.append("🎯PT")
 
     if over_score >= 4.0:
