@@ -1865,36 +1865,45 @@ if st.session_state.scan_results:
                 .mobile-table td { padding: 8px 5px; border-bottom: 1px solid #333; border-right: 1px solid #333; text-align: center; white-space: nowrap; vertical-align: middle; }
                 .mobile-table td div { white-space: pre-line; }
                 .row-gold {
-                background: linear-gradient(90deg, #FFD700, #FFC300);
-                color: #000000;
-                font-weight: 700;
-                border-left: 5px solid #ff9900;
+                    background: linear-gradient(90deg, #FFD700, #FFC300) !important;
+                    color: #000000 !important;
+                    font-weight: 700;
+                    border-left: 5px solid #ff9900;
                 }
+
+                .row-gold td {
+                    box-shadow: inset 0 0 6px rgba(255, 200, 0, 0.6);
+                }
+
                 .row-boost {
-                background: linear-gradient(90deg, #0f5132, #198754);
-                color: #ffffff;
-                font-weight: 600;
-                border-left: 5px solid #00ff88;
+                    background: linear-gradient(90deg, #0f5132, #198754) !important;
+                    color: #ffffff !important;
+                    font-weight: 600;
+                    border-left: 5px solid #00ff88;
                 }
+
                 .row-over {
-                background-color: #d1f7e3;
-                color: #003d2e;
-                font-weight: 500;
+                    background-color: #d1f7e3 !important;
+                    color: #003d2e !important;
+                    font-weight: 500;
                 }
+
                 .row-pt {
-                background-color: #d6e4ff;
-                color: #002b5c;
-                font-weight: 500;
+                    background-color: #d6e4ff !important;
+                    color: #002b5c !important;
+                    font-weight: 500;
                 }
+
                 .row-probe {
-                background-color: #f3e8ff;
-                color: #4b0082;
-                font-style: italic;
-                opacity: 0.85;
+                    background-color: #f3e8ff !important;
+                    color: #4b0082 !important;
+                    font-style: italic;
+                    opacity: 0.92;
                 }
+
                 .row-std {
-                background-color: #ffffff;
-                color: #000000;
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
                 }
             </style>
         """, unsafe_allow_html=True)
@@ -1910,7 +1919,7 @@ if st.session_state.scan_results:
                 return "row-pt"
             if "🐟" in info:
                 return "row-probe"
-             return "row-std"
+            return "row-std"
 
         html = '<div class="main-container"><table class="mobile-table"><thead><tr>'
         html += ''.join(f'<th>{c}</th>' for c in view.columns)
