@@ -856,25 +856,104 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_h
 
 def score_gold_signal(mk, s_h, s_a, pt_score, over_score, boost_score, fav, drop_diff, is_gold_zone, combined_ht_avg):
     score = 0.0
-    score += pt_score * 0.22
-    score += over_score * 0.30
-    score += boost_score * 0.34
 
+    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
+    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+
+    # =========================
+    # BASE: eredita da PT + OVER + BOOST
+    # =========================
+    score += pt_score * 0.18
+    score += over_score * 0.26
+    score += boost_score * 0.38
+
+    # =========================
+    # QUOTE / ZONA GOLD
+    # =========================
     if is_gold_zone:
         score += 0.85
 
-    if combined_ht_avg >= 1.18 and s_h["avg_total"] >= 1.55 and s_a["avg_total"] >= 1.50:
-        score += 0.45
+    if 1.45 <= fav <= 1.80:
+        score += 0.35
+    elif 1.40 <= fav <= 1.86:
+        score += 0.15
 
-    if 1.42 <= fav <= 1.82:
+    # =========================
+    # CONVERGENZA HT PULITA
+    # =========================
+    if s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00:
+        score += 0.70
+    elif (s_h["avg_ht_clean"] >= 1.18 and s_a["avg_ht_clean"] >= 0.92) or \
+         (s_a["avg_ht_clean"] >= 1.18 and s_h["avg_ht_clean"] >= 0.92):
         score += 0.35
 
+    if s_h["ht_1plus_rate"] >= 0.75 and s_a["ht_1plus_rate"] >= 0.75:
+        score += 0.50
+    elif s_h["ht_1plus_rate"] >= 0.62 and s_a["ht_1plus_rate"] >= 0.62:
+        score += 0.20
+
+    # =========================
+    # CONVERGENZA FT PULITA
+    # =========================
+    if s_h["avg_total_clean"] >= 1.70 and s_a["avg_total_clean"] >= 1.65:
+        score += 0.80
+    elif (s_h["avg_total_clean"] >= 1.95 and s_a["avg_total_clean"] >= 1.45) or \
+         (s_a["avg_total_clean"] >= 1.95 and s_h["avg_total_clean"] >= 1.45):
+        score += 0.35
+
+    if s_h["ft_2plus_rate"] >= 0.75 and s_a["ft_2plus_rate"] >= 0.75:
+        score += 0.55
+    elif s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
+        score += 0.20
+
+    if s_h["ft_3plus_rate"] >= 0.50 and s_a["ft_3plus_rate"] >= 0.50:
+        score += 0.35
+
+    # =========================
+    # MERCATO TOP
+    # =========================
+    if 1.60 <= mk["o25"] <= 2.05 and 1.22 <= mk["o05ht"] <= 1.34:
+        score += 0.55
+    elif 1.54 <= mk["o25"] <= 2.15 and 1.20 <= mk["o05ht"] <= 1.37:
+        score += 0.20
+
+    if combined_ht_clean >= 1.08:
+        score += 0.25
+    if combined_ft_clean >= 1.85:
+        score += 0.25
+
+    # =========================
+    # DROP
+    # =========================
     if drop_diff >= 0.10:
         score += 0.55
     elif drop_diff >= 0.05:
         score += 0.25
 
-    return round3(score)
+    # =========================
+    # PENALITÀ RUMORE
+    # =========================
+    if s_h["ft_low_rate"] >= 0.38:
+        score -= 0.90
+    if s_a["ft_low_rate"] >= 0.38:
+        score -= 0.90
+
+    if s_h["ht_zero_rate"] >= 0.38:
+        score -= 0.80
+    if s_a["ht_zero_rate"] >= 0.38:
+        score -= 0.80
+
+    if s_h["avg_ht_clean"] < 0.85:
+        score -= 0.75
+    if s_a["avg_ht_clean"] < 0.85:
+        score -= 0.75
+
+    if s_h["avg_total_clean"] < 1.40:
+        score -= 0.75
+    if s_a["avg_total_clean"] < 1.40:
+        score -= 0.75
+
+    return round3(max(score, 0.0))
 
 
 def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
@@ -946,29 +1025,59 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     ):
         tags.append("🚀 BOOST")
 
-    gold_gate_core = (
-        (s_h["avg_total"] >= 1.55 and s_a["avg_total"] >= 1.50)
-        and (s_h["avg_ht"] >= 1.05 and s_a["avg_ht"] >= 1.05)
-        and combined_ht_avg >= 1.16
+        gold_gate_ht = (
+        (s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00) or
+        ((s_h["avg_ht_clean"] >= 1.18 and s_a["avg_ht_clean"] >= 0.92) or
+         (s_a["avg_ht_clean"] >= 1.18 and s_h["avg_ht_clean"] >= 0.92))
     )
-    gold_gate_quote = (1.42 <= fav <= 1.85)
+
+    gold_gate_ht_rates = (
+        s_h["ht_1plus_rate"] >= 0.62 and
+        s_a["ht_1plus_rate"] >= 0.62 and
+        s_h["ht_zero_rate"] <= 0.25 and
+        s_a["ht_zero_rate"] <= 0.25
+    )
+
+    gold_gate_ft = (
+        (s_h["avg_total_clean"] >= 1.65 and s_a["avg_total_clean"] >= 1.60) or
+        (s_a["avg_total_clean"] >= 1.65 and s_h["avg_total_clean"] >= 1.60)
+    )
+
+    gold_gate_ft_rates = (
+        s_h["ft_2plus_rate"] >= 0.75 and
+        s_a["ft_2plus_rate"] >= 0.75 and
+        s_h["ft_low_rate"] <= 0.25 and
+        s_a["ft_low_rate"] <= 0.25
+    )
+
+    gold_gate_quote = (1.45 <= fav <= 1.82)
+
+    gold_gate_market = (
+        1.58 <= mk["o25"] <= 2.08 and
+        1.21 <= mk["o05ht"] <= 1.35
+    )
+
     gold_gate_extra = (
         drop_diff >= 0.05 or
         (
-            s_h["avg_total"] >= 1.75 and
-            s_a["avg_total"] >= 1.65 and
-            combined_ht_avg >= 1.20
+            combined_ht_clean >= 1.12 and
+            combined_ft_clean >= 1.95 and
+            boost_score >= 6.15
         )
     )
 
     if (
-        gold_score >= 6.75
-        and boost_score >= 5.95
-        and pt_score >= 4.00
-        and over_score >= 4.20
+        gold_score >= 6.95
+        and boost_score >= 6.00
+        and pt_score >= 4.25
+        and over_score >= 4.30
         and is_gold_zone
-        and gold_gate_core
+        and gold_gate_ht
+        and gold_gate_ht_rates
+        and gold_gate_ft
+        and gold_gate_ft_rates
         and gold_gate_quote
+        and gold_gate_market
         and gold_gate_extra
     ):
         tags.insert(0, "⚽⭐ GOLD")
