@@ -671,28 +671,104 @@ def score_pt_signal(mk, s_h, s_a, combined_ht_avg):
 def score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff):
     score = 0.0
 
-    if s_h["avg_total"] >= 1.55 and s_a["avg_total"] >= 1.55:
-        score += 2.2
-    elif s_h["avg_total"] >= 1.45 and s_a["avg_total"] >= 1.45:
-        score += 1.4
-    elif (s_h["avg_total"] >= 1.80 and s_a["avg_total"] >= 1.20) or (s_a["avg_total"] >= 1.80 and s_h["avg_total"] >= 1.20):
+    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
+
+    # =========================
+    # BASE FT CLEAN
+    # =========================
+    score += band_score(
+        combined_ft_clean,
+        1.70, 3.80,
+        1.52, 4.20,
+        core_pts=1.9,
+        soft_pts=0.9
+    )
+
+    if s_h["avg_total_clean"] >= 1.60 and s_a["avg_total_clean"] >= 1.60:
+        score += 1.6
+    elif s_h["avg_total_clean"] >= 1.48 and s_a["avg_total_clean"] >= 1.48:
         score += 1.0
+    elif (s_h["avg_total_clean"] >= 1.85 and s_a["avg_total_clean"] >= 1.30) or \
+         (s_a["avg_total_clean"] >= 1.85 and s_h["avg_total_clean"] >= 1.30):
+        score += 0.65
 
-    score += symmetry_bonus(s_h["avg_total"], s_a["avg_total"], tight=0.28, medium=0.50)
+    score += symmetry_bonus(
+        s_h["avg_total_clean"],
+        s_a["avg_total_clean"],
+        tight=0.28,
+        medium=0.52
+    )
 
-    score += band_score(mk["o25"], 1.51, 2.37, 1.40, 2.55, core_pts=1.8, soft_pts=0.8)
+    # =========================
+    # CONTINUITÀ FT
+    # =========================
+    if s_h["ft_2plus_rate"] >= 0.75 and s_a["ft_2plus_rate"] >= 0.75:
+        score += 1.15
+    elif s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
+        score += 0.75
+    elif (s_h["ft_2plus_rate"] >= 0.88 and s_a["ft_2plus_rate"] >= 0.50) or \
+         (s_a["ft_2plus_rate"] >= 0.88 and s_h["ft_2plus_rate"] >= 0.50):
+        score += 0.40
 
-    if combined_ht_avg >= 1.10:
-        score += 0.7
-    if combined_ht_avg >= 1.20:
-        score += 0.3
+    if s_h["ft_3plus_rate"] >= 0.50 and s_a["ft_3plus_rate"] >= 0.50:
+        score += 0.70
+    elif (s_h["ft_3plus_rate"] >= 0.62 and s_a["ft_3plus_rate"] >= 0.38) or \
+         (s_a["ft_3plus_rate"] >= 0.62 and s_h["ft_3plus_rate"] >= 0.38):
+        score += 0.35
+
+    # =========================
+    # MERCATO O2.5
+    # =========================
+    score += band_score(
+        mk["o25"],
+        1.52, 2.20,
+        1.42, 2.45,
+        core_pts=1.65,
+        soft_pts=0.70
+    )
 
     if 1.35 <= fav <= 2.20:
-        score += 0.4
+        score += 0.35
 
-    score += score_drop(drop_diff) * 0.7
+    # =========================
+    # SUPPORTO HT PULITO
+    # =========================
+    if combined_ht_clean >= 1.05:
+        score += 0.45
+    if combined_ht_clean >= 1.18:
+        score += 0.25
 
-    return round3(score)
+    if s_h["ht_1plus_rate"] >= 0.62 and s_a["ht_1plus_rate"] >= 0.62:
+        score += 0.30
+
+    # =========================
+    # DROP
+    # =========================
+    score += score_drop(drop_diff) * 0.60
+
+    # =========================
+    # PENALITÀ RUMORE FT
+    # =========================
+    if s_h["ft_low_rate"] >= 0.38:
+        score -= 0.80
+    if s_a["ft_low_rate"] >= 0.38:
+        score -= 0.80
+
+    if s_h["avg_total_clean"] < 1.35:
+        score -= 0.65
+    if s_a["avg_total_clean"] < 1.35:
+        score -= 0.65
+
+    if s_h["ft_2plus_rate"] < 0.62:
+        score -= 0.40
+    if s_a["ft_2plus_rate"] < 0.62:
+        score -= 0.40
+
+    if combined_ft_clean < 1.50:
+        score -= 0.50
+
+    return round3(max(score, 0.0))
 
 
 def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg):
