@@ -843,7 +843,7 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     if pt_score >= 4.35:
         tags.append("🎯PT")
 
-    if over_score >= 4.0:
+    if over_score >= 4.3:
         tags.append("⚽ OVER")
 
     boost_gate_ht = (
