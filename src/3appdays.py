@@ -773,30 +773,86 @@ def score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff):
 
 def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg):
     score = 0.0
-    score += pt_score * 0.38
-    score += over_score * 0.48
 
-    if (s_h["avg_ht"] >= 1.30 and s_a["avg_ht"] >= 1.00) or (s_a["avg_ht"] >= 1.30 and s_h["avg_ht"] >= 1.00):
+    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
+    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+
+    # =========================
+    # BASE: eredita da PT + OVER
+    # =========================
+    score += pt_score * 0.34
+    score += over_score * 0.42
+
+    # =========================
+    # CONVERGENZA HT PULITA
+    # =========================
+    if s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00:
+        score += 0.95
+    elif (s_h["avg_ht_clean"] >= 1.15 and s_a["avg_ht_clean"] >= 0.90) or \
+         (s_a["avg_ht_clean"] >= 1.15 and s_h["avg_ht_clean"] >= 0.90):
         score += 0.55
-    elif s_h["avg_ht"] >= 1.15 and s_a["avg_ht"] >= 1.15:
+
+    if s_h["ht_1plus_rate"] >= 0.75 and s_a["ht_1plus_rate"] >= 0.75:
+        score += 0.70
+    elif s_h["ht_1plus_rate"] >= 0.62 and s_a["ht_1plus_rate"] >= 0.62:
+        score += 0.40
+
+    # =========================
+    # CONVERGENZA FT PULITA
+    # =========================
+    if s_h["avg_total_clean"] >= 1.60 and s_a["avg_total_clean"] >= 1.60:
+        score += 0.95
+    elif (s_h["avg_total_clean"] >= 1.85 and s_a["avg_total_clean"] >= 1.35) or \
+         (s_a["avg_total_clean"] >= 1.85 and s_h["avg_total_clean"] >= 1.35):
+        score += 0.50
+
+    if s_h["ft_2plus_rate"] >= 0.75 and s_a["ft_2plus_rate"] >= 0.75:
+        score += 0.65
+    elif s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
         score += 0.35
 
-    if s_h["avg_total"] >= 1.65 and s_a["avg_total"] >= 1.65:
-        score += 0.55
-    elif (s_h["avg_total"] >= 1.95 and s_a["avg_total"] >= 1.35) or (s_a["avg_total"] >= 1.95 and s_h["avg_total"] >= 1.35):
+    # =========================
+    # MERCATO CONVERGENTE
+    # =========================
+    if 1.60 <= mk["o25"] <= 2.12 and 1.22 <= mk["o05ht"] <= 1.36:
+        score += 0.65
+    elif 1.54 <= mk["o25"] <= 2.22 and 1.20 <= mk["o05ht"] <= 1.39:
         score += 0.25
 
-    if 1.60 <= mk["o25"] <= 2.12 and 1.22 <= mk["o05ht"] <= 1.36:
-        score += 0.55
-    elif 1.55 <= mk["o25"] <= 2.20 and 1.20 <= mk["o05ht"] <= 1.38:
-        score += 0.20
+    if combined_ht_clean >= 1.05:
+        score += 0.30
+    if combined_ft_clean >= 1.75:
+        score += 0.30
 
-    if combined_ht_avg >= 1.16:
-        score += 0.35
+    # =========================
+    # DROP
+    # =========================
+    score += score_drop(drop_diff) * 0.40
 
-    score += score_drop(drop_diff) * 0.45
-    return round3(score)
+    # =========================
+    # PENALITÀ RUMORE
+    # =========================
+    if s_h["ft_low_rate"] >= 0.38:
+        score -= 0.75
+    if s_a["ft_low_rate"] >= 0.38:
+        score -= 0.75
 
+    if s_h["ht_zero_rate"] >= 0.38:
+        score -= 0.70
+    if s_a["ht_zero_rate"] >= 0.38:
+        score -= 0.70
+
+    if s_h["avg_ht_clean"] < 0.85:
+        score -= 0.60
+    if s_a["avg_ht_clean"] < 0.85:
+        score -= 0.60
+
+    if s_h["avg_total_clean"] < 1.35:
+        score -= 0.60
+    if s_a["avg_total_clean"] < 1.35:
+        score -= 0.60
+
+    return round3(max(score, 0.0))
 
 def score_gold_signal(mk, s_h, s_a, pt_score, over_score, boost_score, fav, drop_diff, is_gold_zone, combined_ht_avg):
     score = 0.0
@@ -846,33 +902,47 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     if over_score >= 4.3:
         tags.append("⚽ OVER")
 
+    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
+    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+
     boost_gate_ht = (
-        (s_h["avg_ht"] >= 1.28 and s_a["avg_ht"] >= 1.00) or
-        (s_a["avg_ht"] >= 1.28 and s_h["avg_ht"] >= 1.00) or
-        (s_h["avg_ht"] >= 1.12 and s_a["avg_ht"] >= 1.12)
-    )
-    boost_gate_ft = (
-        (s_h["avg_total"] >= 1.60 and s_a["avg_total"] >= 1.55) or
-        (s_a["avg_total"] >= 1.60 and s_h["avg_total"] >= 1.55)
-    )
-    boost_gate_market = (1.58 <= mk["o25"] <= 2.18 and 1.21 <= mk["o05ht"] <= 1.37)
-    ft_convergence = (
-        (s_h["avg_total"] >= 1.45 and s_a["avg_total"] >= 1.45)
-        or
-        (s_h["avg_total"] >= 1.80 and s_a["avg_total"] >= 1.20)
-        or
-        (s_a["avg_total"] >= 1.80 and s_h["avg_total"] >= 1.20)
+        (s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00) or
+        ((s_h["avg_ht_clean"] >= 1.15 and s_a["avg_ht_clean"] >= 0.90) or
+         (s_a["avg_ht_clean"] >= 1.15 and s_h["avg_ht_clean"] >= 0.90))
     )
 
+    boost_gate_ht_rates = (
+        s_h["ht_1plus_rate"] >= 0.62 and
+        s_a["ht_1plus_rate"] >= 0.62 and
+        s_h["ht_zero_rate"] <= 0.38 and
+        s_a["ht_zero_rate"] <= 0.38
+    )
+
+    boost_gate_ft = (
+        (s_h["avg_total_clean"] >= 1.55 and s_a["avg_total_clean"] >= 1.50) or
+        (s_a["avg_total_clean"] >= 1.55 and s_h["avg_total_clean"] >= 1.50)
+    )
+
+    boost_gate_ft_rates = (
+        s_h["ft_2plus_rate"] >= 0.62 and
+        s_a["ft_2plus_rate"] >= 0.62 and
+        s_h["ft_low_rate"] <= 0.25 and
+        s_a["ft_low_rate"] <= 0.25
+    )
+
+    boost_gate_market = (1.58 <= mk["o25"] <= 2.18 and 1.21 <= mk["o05ht"] <= 1.37)
+
     if (
-        boost_score >= 5.85
-        and pt_score >= 4.00
-        and over_score >= 4.15
-        and combined_ht_avg >= 1.14
+        boost_score >= 5.95
+        and pt_score >= 4.20
+        and over_score >= 4.25
+        and combined_ht_clean >= 1.02
+        and combined_ft_clean >= 1.65
         and boost_gate_ht
+        and boost_gate_ht_rates
         and boost_gate_ft
+        and boost_gate_ft_rates
         and boost_gate_market
-        and ft_convergence
     ):
         tags.append("🚀 BOOST")
 
