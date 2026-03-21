@@ -971,7 +971,7 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     if pt_score >= 4.35:
         tags.append("🎯PT")
 
-    if over_score >= 4.3:
+    if over_score >= 4.3 and combined_ht_clean >= 0.85:
         tags.append("⚽ OVER")
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
