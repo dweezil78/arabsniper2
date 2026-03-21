@@ -1107,11 +1107,47 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
 
 
 def should_keep_match(signal_pack):
-    if signal_pack["primary_signal_count"] >= 1:
+    tags = signal_pack.get("tags", [])
+    scores = signal_pack.get("scores", {})
+
+    pt_score = safe_float(scores.get("pt"), 0.0)
+    over_score = safe_float(scores.get("over"), 0.0)
+    boost_score = safe_float(scores.get("boost"), 0.0)
+    gold_score = safe_float(scores.get("gold"), 0.0)
+    max_score = safe_float(scores.get("max"), 0.0)
+
+    has_gold = any("GOLD" in t for t in tags)
+    has_boost = any("BOOST" in t for t in tags)
+    has_pt = any("PT" in t for t in tags)
+    has_over = any("OVER" in t for t in tags)
+    has_probe_o = "🐟O" in tags
+    has_probe_g = "🐟G" in tags
+
+    # GOLD: sempre dentro
+    if has_gold and gold_score >= 6.90:
         return True
 
-    has_probe = any(t in signal_pack["tags"] for t in ["🐟O", "🐟G"])
-    if has_probe and signal_pack["scores"]["max"] >= 3.4:
+    # BOOST: deve essere reale, non solo decorativo
+    if has_boost and boost_score >= 5.95 and (pt_score >= 4.20 or over_score >= 4.25):
+        return True
+
+    # Doppio segnale primario buono
+    if has_pt and has_over and pt_score >= 4.20 and over_score >= 4.25:
+        return True
+
+    # PT singolo: più severo
+    if has_pt and not has_over and pt_score >= 4.55:
+        return True
+
+    # OVER singolo: più severo
+    if has_over and not has_pt and over_score >= 4.55:
+        return True
+
+    # Probe: solo se davvero forti
+    if has_probe_o and max_score >= 4.60:
+        return True
+
+    if has_probe_g and max_score >= 4.75:
         return True
 
     return False
