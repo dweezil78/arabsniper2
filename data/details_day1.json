@@ -1,70 +1,359 @@
 {
-    "updated_at": "2026-03-22 10:09:23",
+    "updated_at": "2026-03-23 00:52:37",
     "day": 1,
-    "date": "2026-03-22",
+    "date": "2026-03-23",
     "details": {
-        "1531694": {
-            "fixture_id": 1531694,
-            "date": "2026-03-22",
-            "time": "14:30",
-            "league": "First League",
-            "country": "Macedonia",
-            "match": "Pelister - Struga",
-            "home_team": "Pelister",
-            "away_team": "Struga",
+        "1528439": {
+            "fixture_id": 1528439,
+            "date": "2026-03-23",
+            "time": "13:30",
+            "league": "Cup",
+            "country": "Tunisia",
+            "match": "BS Bouhajla - Ksour Essef",
+            "home_team": "BS Bouhajla",
+            "away_team": "Ksour Essef",
             "markets": {
-                "q1": 4.2,
-                "qx": 3.25,
-                "q2": 1.75,
-                "o25": 2.35,
-                "o05ht": 1.58,
-                "o15ht": 3.28
+                "q1": 2.3,
+                "qx": 2.9,
+                "q2": 3.0,
+                "o25": 2.5,
+                "o05ht": 1.53,
+                "o15ht": 3.58
             },
             "averages": {
                 "home_avg_ft": 1.625,
-                "away_avg_ft": 2.625,
-                "home_avg_ht": 1.125,
-                "away_avg_ht": 1.125,
-                "combined_ht_avg": 1.125,
-                "home_avg_ft_clean": 1.333,
-                "away_avg_ft_clean": 2.667,
+                "away_avg_ft": 2.0,
+                "home_avg_ht": 1.0,
+                "away_avg_ht": 1.0,
+                "combined_ht_avg": 1.0,
+                "home_avg_ft_clean": 1.5,
+                "away_avg_ft_clean": 1.833,
                 "home_avg_ht_clean": 1.0,
                 "away_avg_ht_clean": 1.0,
                 "home_ft_2plus_rate": 0.375,
-                "away_ft_2plus_rate": 0.875,
-                "home_ft_3plus_rate": 0.25,
+                "away_ft_2plus_rate": 0.625,
+                "home_ft_3plus_rate": 0.375,
                 "away_ft_3plus_rate": 0.375,
                 "home_ft_low_rate": 0.625,
-                "away_ft_low_rate": 0.125,
-                "home_ht_1plus_rate": 0.75,
-                "away_ht_1plus_rate": 0.75,
-                "home_ht_zero_rate": 0.25,
-                "away_ht_zero_rate": 0.25,
-                "home_ft_peak_count": 1,
-                "away_ft_peak_count": 2
+                "away_ft_low_rate": 0.375,
+                "home_ht_1plus_rate": 0.625,
+                "away_ht_1plus_rate": 0.625,
+                "home_ht_zero_rate": 0.375,
+                "away_ht_zero_rate": 0.375,
+                "home_ft_peak_count": 0,
+                "away_ft_peak_count": 1
             },
             "flags": {
-                "fav_quote": 1.75,
-                "is_gold_zone": true,
+                "fav_quote": 2.3,
+                "is_gold_zone": false,
                 "home_last_2h_zero": true,
-                "away_last_2h_zero": true,
+                "away_last_2h_zero": false,
                 "drop_diff": 0.0
             },
             "scores": {
-                "pt": 5.75,
-                "over": 2.05,
-                "boost": 3.416,
-                "gold": 3.866,
-                "max": 5.75
+                "pt": 5.35,
+                "over": 1.4,
+                "boost": 3.007,
+                "gold": 2.47,
+                "max": 5.35
             },
             "tags": [
                 "🎯PT"
             ],
             "home_last_8": [
                 {
-                    "date": "2026-03-16",
-                    "league": "First League",
-                    "match": "Sileks - Pelister",
+                    "date": "2026-02-28",
+                    "league": "Ligue 2",
+                    "match": "BS Bouhajla - ES Hammam-Sousse",
+                    "ht": "0-1",
+                    "ft": "0-1",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 1
+                },
+                {
+                    "date": "2026-02-22",
+                    "league": "Ligue 2",
+                    "match": "Sporting Ben Arous - BS Bouhajla",
+                    "ht": "1-0",
+                    "ft": "1-0",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 1
+                },
+                {
+                    "date": "2026-02-16",
+                    "league": "Ligue 2",
+                    "match": "BS Bouhajla - EM Mahdia",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 0
+                },
+                {
+                    "date": "2026-02-08",
+                    "league": "Cup",
+                    "match": "BS Bouhajla - Radès",
+                    "ht": "2-0",
+                    "ft": "3-0",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 3
+                },
+                {
+                    "date": "2026-02-01",
+                    "league": "Ligue 2",
+                    "match": "CS Hammam-Lif - BS Bouhajla",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 0
+                },
+                {
+                    "date": "2026-01-25",
+                    "league": "Ligue 2",
+                    "match": "BS Bouhajla - Kerkennah",
+                    "ht": "0-0",
+                    "ft": "1-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 1
+                },
+                {
+                    "date": "2026-01-18",
+                    "league": "Ligue 2",
+                    "match": "Menzel Bourguiba - BS Bouhajla",
+                    "ht": "2-0",
+                    "ft": "2-1",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 3
+                },
+                {
+                    "date": "2025-12-13",
+                    "league": "Ligue 2",
+                    "match": "US Tataouine - BS Bouhajla",
+                    "ht": "0-2",
+                    "ft": "2-2",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 4
+                }
+            ],
+            "away_last_8": [
+                {
+                    "date": "2026-02-27",
+                    "league": "Ligue 2",
+                    "match": "Ksour Essef - Jendouba Sport",
+                    "ht": "1-1",
+                    "ft": "2-1",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 3
+                },
+                {
+                    "date": "2026-02-22",
+                    "league": "Ligue 2",
+                    "match": "Korba - Ksour Essef",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 0
+                },
+                {
+                    "date": "2026-02-15",
+                    "league": "Ligue 2",
+                    "match": "Redeyef - Ksour Essef",
+                    "ht": "1-0",
+                    "ft": "2-1",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 3
+                },
+                {
+                    "date": "2026-02-08",
+                    "league": "Cup",
+                    "match": "Ksour Essef - EGS Gafsa",
+                    "ht": "2-0",
+                    "ft": "2-0",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 2
+                },
+                {
+                    "date": "2026-01-31",
+                    "league": "Ligue 2",
+                    "match": "Ksour Essef - Stade Gabesien",
+                    "ht": "1-1",
+                    "ft": "2-3",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 5
+                },
+                {
+                    "date": "2026-01-24",
+                    "league": "Ligue 2",
+                    "match": "Djelma - Ksour Essef",
+                    "ht": "0-0",
+                    "ft": "2-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 2
+                },
+                {
+                    "date": "2026-01-18",
+                    "league": "Ligue 2",
+                    "match": "Ksour Essef - Progrès Sakiet Eddaïer",
+                    "ht": "0-1",
+                    "ft": "0-1",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 1
+                },
+                {
+                    "date": "2025-12-14",
+                    "league": "Ligue 2",
+                    "match": "Ksour Essef - AS Kasserine",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 0
+                }
+            ]
+        },
+        "1506152": {
+            "fixture_id": 1506152,
+            "date": "2026-03-23",
+            "time": "23:00",
+            "league": "Primera División",
+            "country": "Venezuela",
+            "match": "Carabobo FC - Puerto Cabello",
+            "home_team": "Carabobo FC",
+            "away_team": "Puerto Cabello",
+            "markets": {
+                "q1": 2.25,
+                "qx": 2.95,
+                "q2": 3.2,
+                "o25": 2.6,
+                "o05ht": 1.6,
+                "o15ht": 3.7
+            },
+            "averages": {
+                "home_avg_ft": 2.125,
+                "away_avg_ft": 2.0,
+                "home_avg_ht": 1.375,
+                "away_avg_ht": 1.125,
+                "combined_ht_avg": 1.25,
+                "home_avg_ft_clean": 2.0,
+                "away_avg_ft_clean": 2.167,
+                "home_avg_ht_clean": 1.333,
+                "away_avg_ht_clean": 1.167,
+                "home_ft_2plus_rate": 0.5,
+                "away_ft_2plus_rate": 0.75,
+                "home_ft_3plus_rate": 0.375,
+                "away_ft_3plus_rate": 0.375,
+                "home_ft_low_rate": 0.5,
+                "away_ft_low_rate": 0.25,
+                "home_ht_1plus_rate": 0.75,
+                "away_ht_1plus_rate": 0.75,
+                "home_ht_zero_rate": 0.25,
+                "away_ht_zero_rate": 0.25,
+                "home_ft_peak_count": 2,
+                "away_ft_peak_count": 0
+            },
+            "flags": {
+                "fav_quote": 2.25,
+                "is_gold_zone": false,
+                "home_last_2h_zero": false,
+                "away_last_2h_zero": false,
+                "drop_diff": 0.0
+            },
+            "scores": {
+                "pt": 6.1,
+                "over": 4.1,
+                "boost": 6.246,
+                "gold": 6.137,
+                "max": 6.246
+            },
+            "tags": [
+                "🎯PT"
+            ],
+            "home_last_8": [
+                {
+                    "date": "2026-03-18",
+                    "league": "Primera División",
+                    "match": "Estudiantes de Merida FC - Carabobo FC",
+                    "ht": "1-1",
+                    "ft": "3-2",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 5
+                },
+                {
+                    "date": "2026-03-15",
+                    "league": "Primera División",
+                    "match": "Carabobo FC - Rayo Zuliano",
+                    "ht": "3-0",
+                    "ft": "5-0",
+                    "total_ht_goals": 3,
+                    "total_ft_goals": 5
+                },
+                {
+                    "date": "2026-03-07",
+                    "league": "Primera División",
+                    "match": "Zamora FC - Carabobo FC",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 0
+                },
+                {
+                    "date": "2026-03-04",
+                    "league": "CONMEBOL Libertadores",
+                    "match": "Carabobo FC - Sporting Cristal",
+                    "ht": "0-1",
+                    "ft": "0-1",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 1
+                },
+                {
+                    "date": "2026-02-28",
+                    "league": "Primera División",
+                    "match": "Carabobo FC - Caracas FC",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0,
+                    "total_ft_goals": 0
+                },
+                {
+                    "date": "2026-02-24",
+                    "league": "CONMEBOL Libertadores",
+                    "match": "Huachipato - Carabobo FC",
+                    "ht": "0-2",
+                    "ft": "1-2",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 3
+                },
+                {
+                    "date": "2026-02-20",
+                    "league": "Primera División",
+                    "match": "Metropolitanos FC - Carabobo FC",
+                    "ht": "1-1",
+                    "ft": "1-1",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 2
+                },
+                {
+                    "date": "2026-02-17",
+                    "league": "CONMEBOL Libertadores",
+                    "match": "Carabobo FC - Huachipato",
+                    "ht": "1-0",
+                    "ft": "1-0",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 1
+                }
+            ],
+            "away_last_8": [
+                {
+                    "date": "2026-03-17",
+                    "league": "Primera División",
+                    "match": "Puerto Cabello - UCV",
+                    "ht": "1-0",
+                    "ft": "3-0",
+                    "total_ht_goals": 1,
+                    "total_ft_goals": 3
+                },
+                {
+                    "date": "2026-03-13",
+                    "league": "Primera División",
+                    "match": "Deportivo La Guaira - Puerto Cabello",
                     "ht": "0-0",
                     "ft": "0-0",
                     "total_ht_goals": 0,
@@ -72,136 +361,53 @@
                 },
                 {
                     "date": "2026-03-08",
-                    "league": "First League",
-                    "match": "Tikveš - Pelister",
-                    "ht": "1-0",
-                    "ft": "1-0",
+                    "league": "Primera División",
+                    "match": "Academia Anzoátegui - Puerto Cabello",
+                    "ht": "0-1",
+                    "ft": "0-1",
                     "total_ht_goals": 1,
                     "total_ft_goals": 1
                 },
                 {
-                    "date": "2026-03-05",
-                    "league": "First League",
-                    "match": "Pelister - Sileks",
-                    "ht": "0-0",
-                    "ft": "0-0",
-                    "total_ht_goals": 0,
-                    "total_ft_goals": 0
+                    "date": "2026-02-27",
+                    "league": "Primera División",
+                    "match": "Puerto Cabello - Estudiantes de Merida FC",
+                    "ht": "1-1",
+                    "ft": "1-2",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 3
                 },
                 {
-                    "date": "2026-03-02",
-                    "league": "First League",
-                    "match": "Shkendija - Pelister",
-                    "ht": "1-1",
+                    "date": "2026-02-21",
+                    "league": "Primera División",
+                    "match": "Rayo Zuliano - Puerto Cabello",
+                    "ht": "2-0",
                     "ft": "2-1",
                     "total_ht_goals": 2,
                     "total_ft_goals": 3
                 },
                 {
-                    "date": "2026-02-21",
-                    "league": "First League",
-                    "match": "Pelister - Struga",
-                    "ht": "0-1",
-                    "ft": "1-1",
-                    "total_ht_goals": 1,
-                    "total_ft_goals": 2
-                },
-                {
-                    "date": "2026-02-17",
-                    "league": "First League",
-                    "match": "Bashkimi Kumanovo - Pelister",
-                    "ht": "1-0",
-                    "ft": "1-0",
-                    "total_ht_goals": 1,
-                    "total_ft_goals": 1
-                },
-                {
-                    "date": "2026-02-12",
-                    "league": "First League",
-                    "match": "Pelister - FK Rabotnicki",
-                    "ht": "2-1",
-                    "ft": "4-1",
-                    "total_ht_goals": 3,
-                    "total_ft_goals": 5
-                },
-                {
-                    "date": "2026-01-30",
-                    "league": "Friendlies Clubs",
-                    "match": "Pelister - Pakhtakor",
-                    "ht": "0-1",
-                    "ft": "0-1",
-                    "total_ht_goals": 1,
-                    "total_ft_goals": 1
-                }
-            ],
-            "away_last_8": [
-                {
-                    "date": "2026-03-14",
-                    "league": "First League",
-                    "match": "Struga - Makedonija GjP",
-                    "ht": "3-0",
-                    "ft": "3-0",
-                    "total_ht_goals": 3,
-                    "total_ft_goals": 3
-                },
-                {
-                    "date": "2026-03-07",
-                    "league": "First League",
-                    "match": "Struga - Shkupi 1927",
-                    "ht": "2-0",
-                    "ft": "5-0",
-                    "total_ht_goals": 2,
-                    "total_ft_goals": 5
-                },
-                {
-                    "date": "2026-03-03",
-                    "league": "First League",
-                    "match": "Akademija Pandev - Struga",
-                    "ht": "0-0",
-                    "ft": "0-0",
-                    "total_ht_goals": 0,
-                    "total_ft_goals": 0
-                },
-                {
-                    "date": "2026-02-28",
-                    "league": "First League",
-                    "match": "Struga - Vardar Skopje",
-                    "ht": "0-1",
-                    "ft": "1-1",
-                    "total_ht_goals": 1,
-                    "total_ft_goals": 2
-                },
-                {
-                    "date": "2026-02-21",
-                    "league": "First League",
-                    "match": "Pelister - Struga",
-                    "ht": "0-1",
-                    "ft": "1-1",
-                    "total_ht_goals": 1,
-                    "total_ft_goals": 2
-                },
-                {
-                    "date": "2026-02-15",
-                    "league": "First League",
-                    "match": "Struga - Sileks",
-                    "ht": "1-0",
-                    "ft": "2-3",
-                    "total_ht_goals": 1,
-                    "total_ft_goals": 5
-                },
-                {
-                    "date": "2026-02-10",
-                    "league": "First League",
-                    "match": "Shkendija - Struga",
+                    "date": "2026-02-14",
+                    "league": "Primera División",
+                    "match": "Puerto Cabello - Zamora FC",
                     "ht": "0-0",
                     "ft": "2-0",
                     "total_ht_goals": 0,
                     "total_ft_goals": 2
                 },
                 {
-                    "date": "2026-02-06",
-                    "league": "Friendlies Clubs",
-                    "match": "Struga - Ohrid",
+                    "date": "2026-02-07",
+                    "league": "Primera División",
+                    "match": "Caracas FC - Puerto Cabello",
+                    "ht": "1-1",
+                    "ft": "1-1",
+                    "total_ht_goals": 2,
+                    "total_ft_goals": 2
+                },
+                {
+                    "date": "2026-01-30",
+                    "league": "Primera División",
+                    "match": "Puerto Cabello - Metropolitanos FC",
                     "ht": "1-0",
                     "ft": "1-1",
                     "total_ht_goals": 1,
