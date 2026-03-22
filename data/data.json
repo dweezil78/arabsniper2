@@ -1,17 +1,32 @@
 [
     {
-        "Ora": "14:30",
-        "Lega": "First League (Macedonia)",
-        "Match": "Pelister - Struga",
-        "FAV": "✅",
-        "1X2": "4.2|3.2|1.8",
-        "O2.5": "2.35",
-        "O0.5H": "1.58",
-        "O1.5H": "3.28",
-        "AVG FT": "1.6|2.6",
-        "AVG HT": "1.1|1.1",
+        "Ora": "13:30",
+        "Lega": "Cup (Tunisia)",
+        "Match": "BS Bouhajla - Ksour Essef",
+        "FAV": "❌",
+        "1X2": "2.3|2.9|3.0",
+        "O2.5": "2.50",
+        "O0.5H": "1.53",
+        "O1.5H": "3.58",
+        "AVG FT": "1.6|2.0",
+        "AVG HT": "1.0|1.0",
         "Info": "🎯PT",
-        "Data": "2026-03-22",
-        "Fixture_ID": 1531694
+        "Data": "2026-03-23",
+        "Fixture_ID": 1528439
+    },
+    {
+        "Ora": "23:00",
+        "Lega": "Primera División (Venezuela)",
+        "Match": "Carabobo FC - Puerto Cabello",
+        "FAV": "❌",
+        "1X2": "2.2|3.0|3.2",
+        "O2.5": "2.60",
+        "O0.5H": "1.60",
+        "O1.5H": "3.70",
+        "AVG FT": "2.1|2.0",
+        "AVG HT": "1.4|1.1",
+        "Info": "🎯PT",
+        "Data": "2026-03-23",
+        "Fixture_ID": 1506152
     }
 ]
