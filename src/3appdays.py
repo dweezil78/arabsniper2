@@ -442,26 +442,67 @@ def get_team_last_matches(session, tid):
 
     last_matches = []
     for f in fx:
-        home_name = f.get("teams", {}).get("home", {}).get("name", "N/D")
-        away_name = f.get("teams", {}).get("away", {}).get("name", "N/D")
-        gh = f.get("goals", {}).get("home", 0)
-        ga = f.get("goals", {}).get("away", 0)
-        hth = f.get("score", {}).get("halftime", {}).get("home", 0)
-        hta = f.get("score", {}).get("halftime", {}).get("away", 0)
+        home = f.get("teams", {}).get("home", {})
+        away = f.get("teams", {}).get("away", {})
+
+        home_id = home.get("id")
+        away_id = away.get("id")
+
+        home_name = home.get("name", "N/D")
+        away_name = away.get("name", "N/D")
+
+        gh = safe_float(f.get("goals", {}).get("home", 0), 0.0)
+        ga = safe_float(f.get("goals", {}).get("away", 0), 0.0)
+
+        hth = safe_float(f.get("score", {}).get("halftime", {}).get("home", 0), 0.0)
+        hta = safe_float(f.get("score", {}).get("halftime", {}).get("away", 0), 0.0)
+
+        # Identifica se la squadra analizzata giocava in casa o fuori
+        is_home_team = str(home_id) == str(tid)
+        is_away_team = str(away_id) == str(tid)
+
+        team_ht_scored = 0.0
+        team_ht_conceded = 0.0
+        team_ft_scored = 0.0
+        team_ft_conceded = 0.0
+
+        if is_home_team:
+            team_ht_scored = hth
+            team_ht_conceded = hta
+            team_ft_scored = gh
+            team_ft_conceded = ga
+        elif is_away_team:
+            team_ht_scored = hta
+            team_ht_conceded = hth
+            team_ft_scored = ga
+            team_ft_conceded = gh
+
+        total_ht_goals = hth + hta
+        total_ft_goals = gh + ga
+
+        second_half_scored = max(team_ft_scored - team_ht_scored, 0.0)
+        second_half_conceded = max(team_ft_conceded - team_ht_conceded, 0.0)
 
         last_matches.append({
             "date": str(f.get("fixture", {}).get("date", ""))[:10],
             "league": f.get("league", {}).get("name", "N/D"),
             "match": f"{home_name} - {away_name}",
-            "ht": f"{hth}-{hta}",
-            "ft": f"{gh}-{ga}",
-            "total_ht_goals": (hth or 0) + (hta or 0),
-            "total_ft_goals": (gh or 0) + (ga or 0)
+            "ht": f"{int(hth)}-{int(hta)}",
+            "ft": f"{int(gh)}-{int(ga)}",
+            "total_ht_goals": total_ht_goals,
+            "total_ft_goals": total_ft_goals,
+
+            # nuove metriche squadra-specifiche
+            "team_ht_scored": team_ht_scored,
+            "team_ht_conceded": team_ht_conceded,
+            "team_ft_scored": team_ft_scored,
+            "team_ft_conceded": team_ft_conceded,
+            "team_2h_scored": second_half_scored,
+            "team_2h_conceded": second_half_conceded
         })
 
     st.session_state.team_last_matches_cache[cache_key] = last_matches
     return last_matches
-
 
 def get_team_performance(session, tid):
     cache_key = str(tid)
@@ -474,6 +515,11 @@ def get_team_performance(session, tid):
 
     ft_list = [safe_float(m.get("total_ft_goals"), 0.0) for m in last_matches]
     ht_list = [safe_float(m.get("total_ht_goals"), 0.0) for m in last_matches]
+
+    ht_scored_list = [safe_float(m.get("team_ht_scored"), 0.0) for m in last_matches]
+    ht_conceded_list = [safe_float(m.get("team_ht_conceded"), 0.0) for m in last_matches]
+    ft_scored_list = [safe_float(m.get("team_ft_scored"), 0.0) for m in last_matches]
+    ft_conceded_list = [safe_float(m.get("team_ft_conceded"), 0.0) for m in last_matches]
 
     if not ft_list or not ht_list:
         return None
@@ -498,6 +544,16 @@ def get_team_performance(session, tid):
     avg_total_clean = trimmed_mean(ft_list)
     avg_ht_clean = trimmed_mean(ht_list)
 
+    avg_ht_scored = sum(ht_scored_list) / act
+    avg_ht_conceded = sum(ht_conceded_list) / act
+    avg_ft_scored = sum(ft_scored_list) / act
+    avg_ft_conceded = sum(ft_conceded_list) / act
+
+    avg_ht_scored_clean = trimmed_mean(ht_scored_list)
+    avg_ht_conceded_clean = trimmed_mean(ht_conceded_list)
+    avg_ft_scored_clean = trimmed_mean(ft_scored_list)
+    avg_ft_conceded_clean = trimmed_mean(ft_conceded_list)
+
     ft_2plus_rate = sum(1 for x in ft_list if x >= 2) / act
     ft_3plus_rate = sum(1 for x in ft_list if x >= 3) / act
     ft_low_rate = sum(1 for x in ft_list if x <= 1) / act
@@ -505,24 +561,49 @@ def get_team_performance(session, tid):
     ht_1plus_rate = sum(1 for x in ht_list if x >= 1) / act
     ht_zero_rate = sum(1 for x in ht_list if x == 0) / act
 
+    # nuove frequenze utili per PT
+    ht_scored_1plus_rate = sum(1 for x in ht_scored_list if x >= 1) / act
+    ht_scored_2plus_rate = sum(1 for x in ht_scored_list if x >= 2) / act
+    ht_conceded_1plus_rate = sum(1 for x in ht_conceded_list if x >= 1) / act
+
     ft_peak_count = sum(1 for x in ft_list if x >= 5)
 
-    last_ft = safe_float(ft_list[0], 0.0)
-    last_ht = safe_float(ht_list[0], 0.0)
-    last_2h_zero = ((last_ft - last_ht) == 0)
+    last_match = last_matches[0] if last_matches else {}
+    last_2h_scored = safe_float(last_match.get("team_2h_scored"), 0.0)
+    last_2h_conceded = safe_float(last_match.get("team_2h_conceded"), 0.0)
+
+    last_2h_zero = (last_2h_scored == 0)
+    last_2h_conceded_zero = (last_2h_conceded == 0)
 
     stats = {
         "avg_ht": round3(avg_ht),
         "avg_total": round3(avg_total),
         "avg_ht_clean": round3(avg_ht_clean),
         "avg_total_clean": round3(avg_total_clean),
+
+        "avg_ht_scored": round3(avg_ht_scored),
+        "avg_ht_conceded": round3(avg_ht_conceded),
+        "avg_ft_scored": round3(avg_ft_scored),
+        "avg_ft_conceded": round3(avg_ft_conceded),
+
+        "avg_ht_scored_clean": round3(avg_ht_scored_clean),
+        "avg_ht_conceded_clean": round3(avg_ht_conceded_clean),
+        "avg_ft_scored_clean": round3(avg_ft_scored_clean),
+        "avg_ft_conceded_clean": round3(avg_ft_conceded_clean),
+
         "ht_1plus_rate": round3(ht_1plus_rate),
         "ht_zero_rate": round3(ht_zero_rate),
         "ft_2plus_rate": round3(ft_2plus_rate),
         "ft_3plus_rate": round3(ft_3plus_rate),
         "ft_low_rate": round3(ft_low_rate),
+
+        "ht_scored_1plus_rate": round3(ht_scored_1plus_rate),
+        "ht_scored_2plus_rate": round3(ht_scored_2plus_rate),
+        "ht_conceded_1plus_rate": round3(ht_conceded_1plus_rate),
+
         "ft_peak_count": int(ft_peak_count),
-        "last_2h_zero": last_2h_zero
+        "last_2h_zero": last_2h_zero,
+        "last_2h_conceded_zero": last_2h_conceded_zero
     }
 
     st.session_state.team_stats_cache[cache_key] = stats
@@ -578,6 +659,198 @@ def score_drop(drop_diff):
     if drop_diff >= 0.05:
         return 0.5
     return 0.0
+
+def score_ptgg_signal(mk, s_h, s_a, fav, drop_diff):
+    """
+    PTGG = candidata da almeno 1 goal nel primo tempo.
+    Logica:
+    - entrambe devono avere una vera capacità di segnare PT
+    - conta anche la tendenza avversaria a concedere PT
+    - piccolo bonus da recupero 2T e da drop/inversion
+    """
+    score = 0.0
+
+    home_ht_scored = s_h["avg_ht_scored_clean"]
+    away_ht_scored = s_a["avg_ht_scored_clean"]
+
+    home_ft_scored = s_h["avg_ft_scored_clean"]
+    away_ft_scored = s_a["avg_ft_scored_clean"]
+
+    home_concede_ht = s_h["ht_conceded_1plus_rate"]
+    away_concede_ht = s_a["ht_conceded_1plus_rate"]
+
+    # base scoring capacità di segnare PT
+    score += band_score(home_ht_scored, 0.80, 1.35, 0.65, 1.50, core_pts=1.50, soft_pts=0.60)
+    score += band_score(away_ht_scored, 0.80, 1.35, 0.65, 1.50, core_pts=1.50, soft_pts=0.60)
+
+    # se entrambe hanno buona media PT segnati
+    if home_ht_scored >= 0.80 and away_ht_scored >= 0.80:
+        score += 1.20
+    elif (home_ht_scored >= 1.00 and away_ht_scored >= 0.65) or (away_ht_scored >= 1.00 and home_ht_scored >= 0.65):
+        score += 0.70
+
+    # supporto FT goal fatti
+    if home_ft_scored >= 1.50:
+        score += 0.55
+    elif home_ft_scored >= 1.30:
+        score += 0.25
+
+    if away_ft_scored >= 1.50:
+        score += 0.55
+    elif away_ft_scored >= 1.30:
+        score += 0.25
+
+    # avversari che concedono nel PT
+    if home_concede_ht >= 0.50:
+        score += 0.45
+    elif home_concede_ht >= 0.38:
+        score += 0.20
+
+    if away_concede_ht >= 0.50:
+        score += 0.45
+    elif away_concede_ht >= 0.38:
+        score += 0.20
+
+    # continuità generale HT
+    if s_h["ht_scored_1plus_rate"] >= 0.50:
+        score += 0.40
+    if s_a["ht_scored_1plus_rate"] >= 0.50:
+        score += 0.40
+
+    # mercato HT
+    score += band_score(mk["o05ht"], 1.20, 1.40, 1.15, 1.48, core_pts=1.15, soft_pts=0.45)
+
+    # bonus recupero media dal 2T
+    if s_h["last_2h_zero"]:
+        score += 0.20
+    if s_a["last_2h_zero"]:
+        score += 0.20
+
+    # se nell'ultima non ha concesso nel 2T può "scaricare" prima
+    if s_h["last_2h_conceded_zero"]:
+        score += 0.10
+    if s_a["last_2h_conceded_zero"]:
+        score += 0.10
+
+    # drop
+    if drop_diff >= 0.20:
+        score += 0.40
+    elif drop_diff >= 0.10:
+        score += 0.20
+
+    # malus favorite troppo bassa
+    if fav < 1.30:
+        score -= 0.35
+
+    # penalità rumore
+    if home_ht_scored < 0.60:
+        score -= 0.75
+    if away_ht_scored < 0.60:
+        score -= 0.75
+
+    if s_h["ht_scored_1plus_rate"] < 0.38:
+        score -= 0.55
+    if s_a["ht_scored_1plus_rate"] < 0.38:
+        score -= 0.55
+
+    if s_h["ht_zero_rate"] >= 0.50:
+        score -= 0.40
+    if s_a["ht_zero_rate"] >= 0.50:
+        score -= 0.40
+
+    return round3(max(score, 0.0))
+
+
+def score_pto15_signal(mk, s_h, s_a, fav, drop_diff):
+    """
+    PTO1.5 = candidata da 2+ goal nel primo tempo.
+    Logica:
+    - qui basta anche una squadra molto forte + una di supporto
+    - oppure entrambe spinte
+    """
+    score = 0.0
+
+    home_ht_scored = s_h["avg_ht_scored_clean"]
+    away_ht_scored = s_a["avg_ht_scored_clean"]
+
+    home_ft_scored = s_h["avg_ft_scored_clean"]
+    away_ft_scored = s_a["avg_ft_scored_clean"]
+
+    combined_ht_scored = (home_ht_scored + away_ht_scored) / 2
+
+    # base intensità PT
+    score += band_score(combined_ht_scored, 0.90, 1.45, 0.78, 1.60, core_pts=1.60, soft_pts=0.70)
+
+    # doppia via:
+    # 1) entrambe forti
+    if home_ht_scored >= 0.90 and away_ht_scored >= 0.90:
+        score += 1.35
+    # 2) una dominante + una discreta
+    elif (home_ht_scored >= 1.10 and away_ht_scored >= 0.60) or (away_ht_scored >= 1.10 and home_ht_scored >= 0.60):
+        score += 1.15
+
+    # frequenze gol fatti PT
+    if s_h["ht_scored_1plus_rate"] >= 0.62:
+        score += 0.45
+    elif s_h["ht_scored_1plus_rate"] >= 0.50:
+        score += 0.20
+
+    if s_a["ht_scored_1plus_rate"] >= 0.62:
+        score += 0.45
+    elif s_a["ht_scored_1plus_rate"] >= 0.50:
+        score += 0.20
+
+    if s_h["ht_scored_2plus_rate"] >= 0.25:
+        score += 0.25
+    if s_a["ht_scored_2plus_rate"] >= 0.25:
+        score += 0.25
+
+    # supporto FT segnati
+    if home_ft_scored >= 1.50 and away_ft_scored >= 1.50:
+        score += 0.70
+    elif (home_ft_scored >= 1.80 and away_ft_scored >= 1.20) or (away_ft_scored >= 1.80 and home_ft_scored >= 1.20):
+        score += 0.45
+
+    # avversari concedenti nel PT
+    if s_h["ht_conceded_1plus_rate"] >= 0.50:
+        score += 0.30
+    if s_a["ht_conceded_1plus_rate"] >= 0.50:
+        score += 0.30
+
+    # mercato O1.5 HT
+    score += band_score(mk["o15ht"], 2.00, 3.35, 1.85, 3.80, core_pts=1.10, soft_pts=0.40)
+
+    # bonus recupero
+    if s_h["last_2h_zero"]:
+        score += 0.15
+    if s_a["last_2h_zero"]:
+        score += 0.15
+
+    # drop forte
+    if drop_diff >= 0.20:
+        score += 0.45
+    elif drop_diff >= 0.10:
+        score += 0.20
+
+    # malus favorita estrema
+    if fav < 1.30:
+        score -= 0.25
+
+    # penalità
+    if home_ht_scored < 0.55:
+        score -= 0.85
+    if away_ht_scored < 0.55:
+        score -= 0.85
+
+    if s_h["ht_scored_1plus_rate"] < 0.38:
+        score -= 0.50
+    if s_a["ht_scored_1plus_rate"] < 0.38:
+        score -= 0.50
+
+    if mk["o15ht"] > 4.10 and mk["o15ht"] != 0:
+        score -= 0.30
+
+    return round3(max(score, 0.0))
 
 
 def score_pt_signal(mk, s_h, s_a):
@@ -960,17 +1233,25 @@ def build_signal_package(fid, mk, s_h, s_a):
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
-    pt_score = score_pt_signal(mk, s_h, s_a)
+    ptgg_score = score_ptgg_signal(mk, s_h, s_a, fav, drop_diff)
+    pto15_score = score_pto15_signal(mk, s_h, s_a, fav, drop_diff)
+
+    # pt_score legacy: per non rompere boost/gold subito
+    pt_score = max(ptgg_score, pto15_score)
+
     over_score = score_over_signal(mk, s_h, s_a, fav, drop_diff)
     boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff)
     gold_score = score_gold_signal(
-    mk, s_h, s_a, pt_score, over_score,
-    fav, drop_diff, is_gold_zone
+        mk, s_h, s_a, pt_score, over_score,
+        fav, drop_diff, is_gold_zone
     )
     tags = []
 
-    if pt_score >= 4.00:
-        tags.append("🎯PT")
+    if ptgg_score >= 4.00:
+        tags.append("🎯PTGG")
+
+    if pto15_score >= 4.00:
+        tags.append("🔥PT1.5")
 
     if over_score >= 4.00 and combined_ht_clean >= 0.82:
         tags.append("⚽ OVER")
@@ -1109,13 +1390,22 @@ def build_signal_package(fid, mk, s_h, s_a):
     if drop_diff >= 0.05:
         tags.append(f"📉-{drop_diff:.2f}")
 
-    strong_tag_count = int("🎯PT" in tags) + int("⚽ OVER" in tags) + int("🚀 BOOST" in tags) + int("⚽⭐ GOLD" in tags)
-    max_score = max(pt_score, over_score, boost_score, gold_score)
+    strong_tag_count = (
+        int("🎯PTGG" in tags) +
+        int("🔥PT1.5" in tags) +
+        int("⚽ OVER" in tags) +
+        int("🚀 BOOST" in tags) +
+        int("⚽⭐ GOLD" in tags)
+    )
+
+    max_score = max(ptgg_score, pto15_score, over_score, boost_score, gold_score)
 
     return {
         "tags": tags,
         "scores": {
-            "pt": pt_score,
+            "ptgg": ptgg_score,
+            "pto15": pto15_score,
+            "pt": pt_score,   # legacy temporaneo
             "over": over_score,
             "boost": boost_score,
             "gold": gold_score,
@@ -1132,6 +1422,8 @@ def should_keep_match(signal_pack):
     tags = signal_pack.get("tags", [])
     scores = signal_pack.get("scores", {})
 
+    ptgg_score = safe_float(scores.get("ptgg"), 0.0)
+    pto15_score = safe_float(scores.get("pto15"), 0.0)
     pt_score = safe_float(scores.get("pt"), 0.0)
     over_score = safe_float(scores.get("over"), 0.0)
     boost_score = safe_float(scores.get("boost"), 0.0)
@@ -1140,7 +1432,8 @@ def should_keep_match(signal_pack):
 
     has_gold = any("GOLD" in t for t in tags)
     has_boost = any("BOOST" in t for t in tags)
-    has_pt = any("PT" in t for t in tags)
+    has_ptgg = "🎯PTGG" in tags
+    has_pt15 = "🔥PT1.5" in tags
     has_over = any("OVER" in t for t in tags)
     has_probe_o = "🐟O" in tags
     has_probe_g = "🐟G" in tags
@@ -1151,13 +1444,19 @@ def should_keep_match(signal_pack):
     if has_boost and boost_score >= 5.95 and (pt_score >= 4.00 or over_score >= 4.00):
         return True
 
-    if has_pt and has_over and pt_score >= 4.00 and over_score >= 4.00:
+    if has_ptgg and has_over and ptgg_score >= 4.00 and over_score >= 4.00:
         return True
 
-    if has_pt and not has_over and pt_score >= 4.00:
+    if has_pt15 and has_over and pto15_score >= 4.00 and over_score >= 4.00:
         return True
 
-    if has_over and not has_pt and over_score >= 4.00:
+    if has_ptgg and not has_over and ptgg_score >= 4.00:
+        return True
+
+    if has_pt15 and not has_over and pto15_score >= 4.00:
+        return True
+
+    if has_over and not (has_ptgg or has_pt15) and over_score >= 4.00:
         return True
 
     if has_probe_o and max_score >= 3.90:
@@ -1322,11 +1621,12 @@ def show_match_modal(fixture_id: str):
     if scores:
         st.markdown("---")
         st.subheader("🧠 Score interni V24.1")
-        s1, s2, s3, s4 = st.columns(4)
-        s1.metric("PT", f"{scores.get('pt', 0):.2f}")
-        s2.metric("OVER", f"{scores.get('over', 0):.2f}")
-        s3.metric("BOOST", f"{scores.get('boost', 0):.2f}")
-        s4.metric("GOLD", f"{scores.get('gold', 0):.2f}")
+        s1, s2, s3, s4, s5 = st.columns(5)
+        s1.metric("PTGG", f"{scores.get('ptgg', 0):.2f}")
+        s2.metric("PT1.5", f"{scores.get('pto15', 0):.2f}")
+        s3.metric("OVER", f"{scores.get('over', 0):.2f}")
+        s4.metric("BOOST", f"{scores.get('boost', 0):.2f}")
+        s5.metric("GOLD", f"{scores.get('gold', 0):.2f}")
 
     st.markdown("---")
     c_home, c_away = st.columns(2)
@@ -1530,6 +1830,28 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
 
                             "home_ft_peak_count": int(s_h["ft_peak_count"]),
                             "away_ft_peak_count": int(s_a["ft_peak_count"])
+
+                            "home_avg_ht_scored": round(s_h["avg_ht_scored"], 3),
+                            "away_avg_ht_scored": round(s_a["avg_ht_scored"], 3),
+                            "home_avg_ht_scored_clean": round(s_h["avg_ht_scored_clean"], 3),
+                            "away_avg_ht_scored_clean": round(s_a["avg_ht_scored_clean"], 3),
+
+                            "home_avg_ht_conceded": round(s_h["avg_ht_conceded"], 3),
+                            "away_avg_ht_conceded": round(s_a["avg_ht_conceded"], 3),
+                            "home_avg_ht_conceded_clean": round(s_h["avg_ht_conceded_clean"], 3),
+                            "away_avg_ht_conceded_clean": round(s_a["avg_ht_conceded_clean"], 3),
+
+                            "home_avg_ft_scored": round(s_h["avg_ft_scored"], 3),
+                            "away_avg_ft_scored": round(s_a["avg_ft_scored"], 3),
+                            "home_avg_ft_scored_clean": round(s_h["avg_ft_scored_clean"], 3),
+                            "away_avg_ft_scored_clean": round(s_a["avg_ft_scored_clean"], 3),
+
+                            "home_ht_scored_1plus_rate": round(s_h["ht_scored_1plus_rate"], 3),
+                            "away_ht_scored_1plus_rate": round(s_a["ht_scored_1plus_rate"], 3),
+                            "home_ht_scored_2plus_rate": round(s_h["ht_scored_2plus_rate"], 3),
+                            "away_ht_scored_2plus_rate": round(s_a["ht_scored_2plus_rate"], 3),
+                            "home_ht_conceded_1plus_rate": round(s_h["ht_conceded_1plus_rate"], 3),
+                            "away_ht_conceded_1plus_rate": round(s_a["ht_conceded_1plus_rate"], 3),
                         },    
                         "flags": {
                             "fav_quote": round(fav, 3),
