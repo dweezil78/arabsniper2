@@ -2740,23 +2740,29 @@ if st.session_state.scan_results:
             )
             
         def build_1x2_visual(row):
-            q1 = str(row.get("Q1_MOVE", "")).strip()
-            qx = str(row.get("QX_MOVE", "")).strip()
-            q2 = str(row.get("Q2_MOVE", "")).strip()
+            q1_open = safe_float(row.get("Q1_OPEN"), 0.0)
+            qx_open = safe_float(row.get("QX_OPEN"), 0.0)
+            q2_open = safe_float(row.get("Q2_OPEN"), 0.0)
 
-            base_1x2 = str(row.get("1X2", "")).split("|")
-            while len(base_1x2) < 3:
-                base_1x2.append("")
+            q1_curr = safe_float(row.get("Q1_CURR"), 0.0)
+            qx_curr = safe_float(row.get("QX_CURR"), 0.0)
+            q2_curr = safe_float(row.get("Q2_CURR"), 0.0)
 
-            left = q1 if q1 else base_1x2[0]
-            mid = qx if qx else base_1x2[1]
-            right = q2 if q2 else base_1x2[2]
+            q1_move = str(row.get("Q1_MOVE", "")).strip()
+            qx_move = str(row.get("QX_MOVE", "")).strip()
+            q2_move = str(row.get("Q2_MOVE", "")).strip()
+
+            def fmt_line(label, open_q, move_txt, curr_q):
+                open_s = f"{open_q:.2f}" if open_q > 0 else "-"
+                curr_s = f"{curr_q:.2f}" if curr_q > 0 else "-"
+                mid = move_txt if move_txt else "→0.00"
+                return f"<div><b>{label}</b> {open_s} {mid} {curr_s}</div>"
 
             return f"""
-            <div style="line-height:1.15; white-space:pre-line;">
-                <div><b>1</b> {left}</div>
-                <div><b>X</b> {mid}</div>
-                <div><b>2</b> {right}</div>
+            <div style="line-height:1.25; white-space:pre-line; text-align:left;">
+                {fmt_line("1", q1_open, q1_move, q1_curr)}
+                {fmt_line("X", qx_open, qx_move, qx_curr)}
+                {fmt_line("2", q2_open, q2_move, q2_curr)}
             </div>
             """
 
