@@ -942,104 +942,197 @@ def score_pt_signal(mk, s_h, s_a):
 
 
 def score_over_signal(mk, s_h, s_a, fav, drop_diff):
+    """
+    OVER = segnale FT puro.
+    Logica:
+    - incrocio attacco/difesa tra goal fatti e goal subiti
+    - doppio controllo su media sporca + media pulita
+    - NON dipende dal PT, al massimo riceve un supporto leggero
+    """
+
     score = 0.0
 
-    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
-    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
+    # =========================
+    # MEDIE FATTI / SUBITI
+    # =========================
+    home_scored = s_h["avg_ft_scored"]
+    away_scored = s_a["avg_ft_scored"]
+    home_conceded = s_h["avg_ft_conceded"]
+    away_conceded = s_a["avg_ft_conceded"]
+
+    home_scored_clean = s_h["avg_ft_scored_clean"]
+    away_scored_clean = s_a["avg_ft_scored_clean"]
+    home_conceded_clean = s_h["avg_ft_conceded_clean"]
+    away_conceded_clean = s_a["avg_ft_conceded_clean"]
+
+    # incroci principali
+    cross_home_dirty = home_scored + away_conceded
+    cross_away_dirty = away_scored + home_conceded
+
+    cross_home_clean = home_scored_clean + away_conceded_clean
+    cross_away_clean = away_scored_clean + home_conceded_clean
+
+    combined_cross_dirty = (cross_home_dirty + cross_away_dirty) / 2
+    combined_cross_clean = (cross_home_clean + cross_away_clean) / 2
 
     # =========================
-    # BASE FT CLEAN
+    # GATE BASE PULITO
     # =========================
-    score += band_score(
-        combined_ft_clean,
-        1.70, 3.80,
-        1.52, 4.20,
-        core_pts=1.9,
-        soft_pts=0.9
-    )
+    if cross_home_clean >= 2.20:
+        score += 1.10
+    elif cross_home_clean >= 2.05:
+        score += 0.45
 
-    if s_h["avg_total_clean"] >= 1.60 and s_a["avg_total_clean"] >= 1.60:
-        score += 1.6
-    elif s_h["avg_total_clean"] >= 1.48 and s_a["avg_total_clean"] >= 1.48:
-        score += 1.0
-    elif (s_h["avg_total_clean"] >= 1.85 and s_a["avg_total_clean"] >= 1.30) or \
-         (s_a["avg_total_clean"] >= 1.85 and s_h["avg_total_clean"] >= 1.30):
+    if cross_away_clean >= 2.20:
+        score += 1.10
+    elif cross_away_clean >= 2.05:
+        score += 0.45
+
+    if cross_home_clean >= 2.20 and cross_away_clean >= 2.20:
+        score += 1.30
+    elif (cross_home_clean >= 2.20 and cross_away_clean >= 2.00) or \
+         (cross_away_clean >= 2.20 and cross_home_clean >= 2.00):
         score += 0.65
 
-    score += symmetry_bonus(
-        s_h["avg_total_clean"],
-        s_a["avg_total_clean"],
-        tight=0.28,
-        medium=0.52
-    )
+    # =========================
+    # GATE BASE SPORCO
+    # =========================
+    if cross_home_dirty >= 2.35:
+        score += 0.90
+    elif cross_home_dirty >= 2.20:
+        score += 0.35
+
+    if cross_away_dirty >= 2.35:
+        score += 0.90
+    elif cross_away_dirty >= 2.20:
+        score += 0.35
+
+    if cross_home_dirty >= 2.35 and cross_away_dirty >= 2.35:
+        score += 1.00
+    elif (cross_home_dirty >= 2.35 and cross_away_dirty >= 2.15) or \
+         (cross_away_dirty >= 2.35 and cross_home_dirty >= 2.15):
+        score += 0.45
+
+    # =========================
+    # ATTACCHI VERI
+    # =========================
+    if home_scored_clean >= 1.25:
+        score += 0.50
+    elif home_scored_clean >= 1.05:
+        score += 0.20
+
+    if away_scored_clean >= 1.25:
+        score += 0.50
+    elif away_scored_clean >= 1.05:
+        score += 0.20
+
+    if home_scored_clean >= 1.15 and away_scored_clean >= 1.15:
+        score += 0.55
+
+    # =========================
+    # DIFESE CHE CONCEDONO
+    # =========================
+    if away_conceded_clean >= 1.10:
+        score += 0.40
+    elif away_conceded_clean >= 0.95:
+        score += 0.15
+
+    if home_conceded_clean >= 1.10:
+        score += 0.40
+    elif home_conceded_clean >= 0.95:
+        score += 0.15
+
+    if away_conceded_clean >= 1.05 and home_conceded_clean >= 1.05:
+        score += 0.40
 
     # =========================
     # CONTINUITÀ FT
     # =========================
-    if s_h["ft_2plus_rate"] >= 0.75 and s_a["ft_2plus_rate"] >= 0.75:
-        score += 1.15
-    elif s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
-        score += 0.75
-    elif (s_h["ft_2plus_rate"] >= 0.88 and s_a["ft_2plus_rate"] >= 0.50) or \
-         (s_a["ft_2plus_rate"] >= 0.88 and s_h["ft_2plus_rate"] >= 0.50):
-        score += 0.40
+    if s_h["ft_2plus_rate"] >= 0.75:
+        score += 0.45
+    elif s_h["ft_2plus_rate"] >= 0.62:
+        score += 0.20
 
-    if s_h["ft_3plus_rate"] >= 0.50 and s_a["ft_3plus_rate"] >= 0.50:
-        score += 0.70
-    elif (s_h["ft_3plus_rate"] >= 0.62 and s_a["ft_3plus_rate"] >= 0.38) or \
-         (s_a["ft_3plus_rate"] >= 0.62 and s_h["ft_3plus_rate"] >= 0.38):
-        score += 0.35
+    if s_a["ft_2plus_rate"] >= 0.75:
+        score += 0.45
+    elif s_a["ft_2plus_rate"] >= 0.62:
+        score += 0.20
+
+    if s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
+        score += 0.45
+
+    if s_h["ft_3plus_rate"] >= 0.50:
+        score += 0.22
+    if s_a["ft_3plus_rate"] >= 0.50:
+        score += 0.22
 
     # =========================
     # MERCATO O2.5
     # =========================
     score += band_score(
         mk["o25"],
-        1.52, 2.20,
-        1.42, 2.45,
-        core_pts=1.65,
-        soft_pts=0.70
+        1.52, 2.18,
+        1.42, 2.40,
+        core_pts=1.35,
+        soft_pts=0.55
     )
 
+    # piccola rifinitura quota favorita
     if 1.35 <= fav <= 2.20:
-        score += 0.35
+        score += 0.20
 
     # =========================
-    # SUPPORTO HT PULITO
+    # SUPPORTO HT LEGGERO
     # =========================
-    if combined_ht_clean >= 1.05:
-        score += 0.45
-    if combined_ht_clean >= 1.18:
-        score += 0.25
-
-    if s_h["ht_1plus_rate"] >= 0.62 and s_a["ht_1plus_rate"] >= 0.62:
-        score += 0.30
+    combined_ht_scored_clean = (s_h["avg_ht_scored_clean"] + s_a["avg_ht_scored_clean"]) / 2
+    if combined_ht_scored_clean >= 0.78:
+        score += 0.15
+    if combined_ht_scored_clean >= 0.92:
+        score += 0.10
 
     # =========================
     # DROP
     # =========================
-    score += score_drop(drop_diff) * 0.60
+    if drop_diff >= 0.20:
+        score += 0.40
+    elif drop_diff >= 0.10:
+        score += 0.18
+    elif drop_diff >= 0.05:
+        score += 0.08
 
     # =========================
-    # PENALITÀ RUMORE FT
+    # MALUS FAVORITA ESTREMA
     # =========================
+    if fav < 1.30:
+        score -= 0.30
+
+    # =========================
+    # PENALITÀ STRUTTURALI
+    # =========================
+    if home_scored_clean < 1.00:
+        score -= 0.65
+    if away_scored_clean < 1.00:
+        score -= 0.65
+
+    if away_conceded_clean < 0.90:
+        score -= 0.45
+    if home_conceded_clean < 0.90:
+        score -= 0.45
+
     if s_h["ft_low_rate"] >= 0.38:
-        score -= 0.80
+        score -= 0.65
     if s_a["ft_low_rate"] >= 0.38:
-        score -= 0.80
-
-    if s_h["avg_total_clean"] < 1.35:
-        score -= 0.65
-    if s_a["avg_total_clean"] < 1.35:
         score -= 0.65
 
-    if s_h["ft_2plus_rate"] < 0.62:
-        score -= 0.40
-    if s_a["ft_2plus_rate"] < 0.62:
-        score -= 0.40
+    if cross_home_clean < 2.00:
+        score -= 0.60
+    if cross_away_clean < 2.00:
+        score -= 0.60
 
-    if combined_ft_clean < 1.50:
-        score -= 0.50
+    if cross_home_dirty < 2.10:
+        score -= 0.30
+    if cross_away_dirty < 2.10:
+        score -= 0.30
 
     return round3(max(score, 0.0))
 
@@ -1562,6 +1655,20 @@ def show_match_modal(fixture_id: str):
         f"{avg.get('away_avg_ht', 0):.2f}"
     )
 
+    cross_home_dirty = avg.get("home_avg_ft_scored", 0) + avg.get("away_avg_ft_conceded", 0)
+    cross_away_dirty = avg.get("away_avg_ft_scored", 0) + avg.get("home_avg_ft_conceded", 0)
+
+    cross_home_clean = avg.get("home_avg_ft_scored_clean", 0) + avg.get("away_avg_ft_conceded_clean", 0)
+    cross_away_clean = avg.get("away_avg_ft_scored_clean", 0) + avg.get("home_avg_ft_conceded_clean", 0)
+
+    st.write(
+        f"**CROSS FT DIRTY H/A:** "
+        f"{cross_home_dirty:.2f} | {cross_away_dirty:.2f}"
+    )
+    st.write(
+        f"**CROSS FT CLEAN H/A:** "
+        f"{cross_home_clean:.2f} | {cross_away_clean:.2f}"
+    )
     st.markdown("### 🧪 Metriche pulite e frequenze")
 
     b1, b2 = st.columns(2)
