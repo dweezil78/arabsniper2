@@ -211,14 +211,38 @@ def load_db():
         except Exception:
             pass
 
-    if os.path.exists(SNAP_FILE):
-        try:
-            with open(SNAP_FILE, "r", encoding="utf-8") as f:
-                snap_data = json.load(f)
-                st.session_state.odds_memory = snap_data.get("odds", {})
+        snap_data = None
+
+        # 1) Prova prima il file locale
+        if os.path.exists(SNAP_FILE):
+            try:
+                with open(SNAP_FILE, "r", encoding="utf-8") as f:
+                    snap_data = json.load(f)
+            except Exception:
+                snap_data = None
+
+        # 2) Se locale assente o vuoto, fallback da GitHub
+        local_odds = {}
+        if isinstance(snap_data, dict):
+            local_odds = snap_data.get("odds", {}) or {}
+
+        if not local_odds:
+            snap_data = load_snapshot_from_github()
+
+            # se da GitHub arriva qualcosa di valido, lo salvo anche in locale
+            if isinstance(snap_data, dict) and snap_data.get("odds"):
+                try:
+                    save_snapshot_file(snap_data)
+                except Exception as e:
+                    print(f"⚠️ Impossibile salvare snapshot locale dal fallback GitHub: {e}", flush=True)
+
+        # 3) Se ora snap_data è valido, popola la sessione
+        if isinstance(snap_data, dict):
+            try:
+                st.session_state.odds_memory = snap_data.get("odds", {}) or {}
                 ts = snap_data.get("timestamp", "N/D")
-        except Exception:
-            pass
+            except Exception:
+                pass
 
     if os.path.exists(DETAILS_FILE):
         try:
@@ -1955,6 +1979,43 @@ def upload_snapshot_to_github(payload):
         )
     except Exception as e:
         print(f"Snapshot upload error: {e}")
+
+def load_snapshot_from_github():
+    """
+    Fallback: carica lo snapshot da GitHub se il file locale
+    non esiste o non contiene odds valide.
+    """
+    try:
+        token = os.getenv("GITHUB_TOKEN")
+        if not token:
+            try:
+                token = st.secrets["GITHUB_TOKEN"]
+            except Exception:
+                token = None
+
+        if not token:
+            print("⚠️ GITHUB_TOKEN mancante: impossibile caricare snapshot da GitHub", flush=True)
+            return None
+
+        g = Github(token)
+        repo = g.get_repo("dweezil78/arabsniper2")
+        contents = repo.get_contents(REMOTE_SNAPSHOT_FILE)
+        raw = contents.decoded_content.decode("utf-8")
+        payload = json.loads(raw)
+
+        if not isinstance(payload, dict):
+            return None
+
+        odds = payload.get("odds", {}) or {}
+        if not isinstance(odds, dict):
+            return None
+
+        print(f"✅ Snapshot caricato da GitHub: {len(odds)} fixture", flush=True)
+        return payload
+
+    except Exception as e:
+        print(f"⚠️ Errore load_snapshot_from_github: {e}", flush=True)
+        return None
 
 # ==========================================
 # MODAL DETTAGLI MATCH
