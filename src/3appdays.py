@@ -2784,10 +2784,23 @@ if st.session_state.scan_results:
         # Rimuoviamo colonne tecniche che non vogliamo mostrare in tabella
         cols_to_drop = [
             "Data", "Fixture_ID",
-            "Q1_OPEN", "QX_OPEN", "Q2_OPEN", "O25_OPEN",
-            "Q1_CURR", "QX_CURR", "Q2_CURR", "O25_CURR",
-            "Q1_MOVE", "QX_MOVE", "Q2_MOVE", "O25_MOVE",
-            "INVERSION", "INV_FROM", "INV_TO"
+
+            "Q1_OPEN", "QX_OPEN", "Q2_OPEN",
+            "O25_OPEN", "O05HT_OPEN", "O15HT_OPEN",
+
+            "Q1_CURR", "QX_CURR", "Q2_CURR",
+            "O25_CURR", "O05HT_CURR", "O15HT_CURR",
+
+            "Q1_MOVE_DATA", "QX_MOVE_DATA", "Q2_MOVE_DATA",
+            "O25_MOVE_DATA", "O05HT_MOVE_DATA", "O15HT_MOVE_DATA",
+
+            "Q1_MOVE", "QX_MOVE", "Q2_MOVE",
+            "O25_MOVE", "O05HT_MOVE", "O15HT_MOVE",
+
+            "INVERSION", "INV_FROM", "INV_TO",
+            "FAV_OPEN", "FAV_CURRENT",
+
+            "MOVE_SUMMARY"
         ]
         view = view.drop(columns=[c for c in cols_to_drop if c in view.columns], errors="ignore")
 
