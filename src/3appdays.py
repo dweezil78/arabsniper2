@@ -963,7 +963,7 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     pt_score = score_pt_signal(mk, s_h, s_a, combined_ht_avg)
     over_score = score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff)
     boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg)
-    gold_score = score_gold_signal(mk, s_h, s_a, pt_score, over_score, boost_score, fav, drop_diff, is_gold_zone, combined_ht_avg)
+    gold_score = score_gold_signal(mk, s_h, s_a, pt_score, over_score,fav, drop_diff, is_gold_zone, combined_ht_avg)
 
     tags = []
 
