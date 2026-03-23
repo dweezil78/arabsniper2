@@ -1573,10 +1573,10 @@ def should_keep_match(signal_pack):
     if has_over and not (has_ptgg or has_pt15) and over_score >= 4.00:
         return True
 
-    if has_probe_o and max_score >= 3.70:
+    if has_probe_o and max_score >= 3.00:
         return True
 
-    if has_probe_g and max_score >= 3.75:
+    if has_probe_g and max_score >= 3.25:
         return True
 
     return False
