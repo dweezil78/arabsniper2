@@ -754,6 +754,199 @@ def band_score(value, core_low, core_high, soft_low=None, soft_high=None, core_p
         return soft_pts
     return 0.0
 
+def get_open_quote_pack(fid):
+    """
+    Legge dal snapshot le quote open salvate per il fixture.
+    """
+    odds_memory = st.session_state.get("odds_memory", {}) or {}
+    rec = odds_memory.get(str(fid), {}) or {}
+
+    return {
+        "q1": safe_float(rec.get("q1_open", rec.get("q1", 0.0)), 0.0),
+        "qx": safe_float(rec.get("qx_open", 0.0), 0.0),
+        "q2": safe_float(rec.get("q2_open", rec.get("q2", 0.0)), 0.0),
+        "o25": safe_float(rec.get("o25_open", 0.0), 0.0),
+        "o05ht": safe_float(rec.get("o05ht_open", 0.0), 0.0),
+        "o15ht": safe_float(rec.get("o15ht_open", 0.0), 0.0),
+    }
+
+
+def get_current_quote_pack(mk):
+    """
+    Legge le quote correnti dal pacchetto mercati estratto ora.
+    """
+    mk = mk or {}
+    return {
+        "q1": safe_float(mk.get("q1"), 0.0),
+        "qx": safe_float(mk.get("qx"), 0.0),
+        "q2": safe_float(mk.get("q2"), 0.0),
+        "o25": safe_float(mk.get("o25"), 0.0),
+        "o05ht": safe_float(mk.get("o05ht"), 0.0),
+        "o15ht": safe_float(mk.get("o15ht"), 0.0),
+    }
+
+
+def classify_single_quote_move(open_q, current_q):
+    """
+    Classifica il movimento di una singola quota.
+
+    Regole:
+    - 0.00 -> none
+    - 0.01 - 0.05 -> green
+    - 0.06 - 0.14 -> yellow
+    - >= 0.15 -> red
+
+    Direzione:
+    - current < open => down
+    - current > open => up
+    """
+    open_q = safe_float(open_q, 0.0)
+    current_q = safe_float(current_q, 0.0)
+
+    if open_q <= 0 or current_q <= 0:
+        return {
+            "open": open_q,
+            "current": current_q,
+            "diff": 0.0,
+            "abs_diff": 0.0,
+            "dir": "flat",
+            "color": "none",
+            "arrow": "",
+            "label": ""
+        }
+
+    diff = round(current_q - open_q, 3)
+    abs_diff = round(abs(diff), 3)
+
+    if abs_diff == 0:
+        color = "none"
+    elif abs_diff <= 0.05:
+        color = "green"
+    elif abs_diff <= 0.14:
+        color = "yellow"
+    else:
+        color = "red"
+
+    if diff < 0:
+        direction = "down"
+        arrow = "↓"
+    elif diff > 0:
+        direction = "up"
+        arrow = "↑"
+    else:
+        direction = "flat"
+        arrow = ""
+
+    label = ""
+    if arrow:
+        label = f"{arrow}{abs_diff:.2f}"
+
+    return {
+        "open": open_q,
+        "current": current_q,
+        "diff": diff,
+        "abs_diff": abs_diff,
+        "dir": direction,
+        "color": color,
+        "arrow": arrow,
+        "label": label
+    }
+
+
+def get_favorite_side_from_1x2(pack, min_gap=0.03):
+    """
+    Determina la favorita tra 1 e 2.
+    Restituisce:
+    - "1"
+    - "2"
+    - ""  se gap troppo piccolo o dati non validi
+    """
+    q1 = safe_float(pack.get("q1"), 0.0)
+    q2 = safe_float(pack.get("q2"), 0.0)
+
+    if q1 <= 0 or q2 <= 0:
+        return ""
+
+    if abs(q1 - q2) < min_gap:
+        return ""
+
+    return "1" if q1 < q2 else "2"
+
+
+def detect_1x2_inversion(open_pack, current_pack, min_gap=0.03):
+    """
+    C'è inversione se la favorita open tra 1 e 2
+    diventa il lato opposto nelle quote correnti.
+    """
+    fav_open = get_favorite_side_from_1x2(open_pack, min_gap=min_gap)
+    fav_current = get_favorite_side_from_1x2(current_pack, min_gap=min_gap)
+
+    inversion = bool(fav_open and fav_current and fav_open != fav_current)
+
+    return {
+        "INVERSION": inversion,
+        "INV_FROM": fav_open if inversion else "",
+        "INV_TO": fav_current if inversion else "",
+        "FAV_OPEN": fav_open,
+        "FAV_CURRENT": fav_current
+    }
+
+
+def build_quote_movement_package(fid, mk):
+    """
+    Costruisce il pacchetto completo quote:
+    - open
+    - current
+    - movimenti
+    - inversione 1X2
+    """
+    open_pack = get_open_quote_pack(fid)
+    current_pack = get_current_quote_pack(mk)
+
+    q1_move = classify_single_quote_move(open_pack["q1"], current_pack["q1"])
+    qx_move = classify_single_quote_move(open_pack["qx"], current_pack["qx"])
+    q2_move = classify_single_quote_move(open_pack["q2"], current_pack["q2"])
+    o25_move = classify_single_quote_move(open_pack["o25"], current_pack["o25"])
+    o05ht_move = classify_single_quote_move(open_pack["o05ht"], current_pack["o05ht"])
+    o15ht_move = classify_single_quote_move(open_pack["o15ht"], current_pack["o15ht"])
+
+    inversion_pack = detect_1x2_inversion(open_pack, current_pack, min_gap=0.03)
+
+    return {
+        "Q1_OPEN": open_pack["q1"],
+        "QX_OPEN": open_pack["qx"],
+        "Q2_OPEN": open_pack["q2"],
+        "O25_OPEN": open_pack["o25"],
+        "O05HT_OPEN": open_pack["o05ht"],
+        "O15HT_OPEN": open_pack["o15ht"],
+
+        "Q1_CURR": current_pack["q1"],
+        "QX_CURR": current_pack["qx"],
+        "Q2_CURR": current_pack["q2"],
+        "O25_CURR": current_pack["o25"],
+        "O05HT_CURR": current_pack["o05ht"],
+        "O15HT_CURR": current_pack["o15ht"],
+
+        "Q1_MOVE_DATA": q1_move,
+        "QX_MOVE_DATA": qx_move,
+        "Q2_MOVE_DATA": q2_move,
+        "O25_MOVE_DATA": o25_move,
+        "O05HT_MOVE_DATA": o05ht_move,
+        "O15HT_MOVE_DATA": o15ht_move,
+
+        "Q1_MOVE": q1_move["label"],
+        "QX_MOVE": qx_move["label"],
+        "Q2_MOVE": q2_move["label"],
+        "O25_MOVE": o25_move["label"],
+        "O05HT_MOVE": o05ht_move["label"],
+        "O15HT_MOVE": o15ht_move["label"],
+
+        "INVERSION": inversion_pack["INVERSION"],
+        "INV_FROM": inversion_pack["INV_FROM"],
+        "INV_TO": inversion_pack["INV_TO"],
+        "FAV_OPEN": inversion_pack["FAV_OPEN"],
+        "FAV_CURRENT": inversion_pack["FAV_CURRENT"],
+    }
 
 def compute_drop_diff(fid, mk):
     if fid not in st.session_state.odds_memory:
@@ -2031,6 +2224,8 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                     fav = signal_pack["fav_quote"]
                     is_gold_zone = signal_pack["is_gold_zone"]
 
+                    quote_pack = build_quote_movement_package(fid, mk)
+
                     row = {
                         "Ora": ora_local,
                         "Lega": f"{f.get('league', {}).get('name', 'N/D')} ({cnt})",
@@ -2044,7 +2239,34 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                         "AVG HT": f"{s_h['avg_ht']:.1f}|{s_a['avg_ht']:.1f}",
                         "Info": " ".join(tags),
                         "Data": target_date,
-                        "Fixture_ID": f.get("fixture", {}).get("id")
+                        "Fixture_ID": f.get("fixture", {}).get("id"),
+                        
+                        "Q1_OPEN": quote_pack["Q1_OPEN"],
+                        "QX_OPEN": quote_pack["QX_OPEN"],
+                        "Q2_OPEN": quote_pack["Q2_OPEN"],
+                        "O25_OPEN": quote_pack["O25_OPEN"],
+                        "O05HT_OPEN": quote_pack["O05HT_OPEN"],
+                        "O15HT_OPEN": quote_pack["O15HT_OPEN"],
+
+                        "Q1_CURR": quote_pack["Q1_CURR"],
+                        "QX_CURR": quote_pack["QX_CURR"],
+                        "Q2_CURR": quote_pack["Q2_CURR"],
+                        "O25_CURR": quote_pack["O25_CURR"],
+                        "O05HT_CURR": quote_pack["O05HT_CURR"],
+                        "O15HT_CURR": quote_pack["O15HT_CURR"],
+
+                        "Q1_MOVE": quote_pack["Q1_MOVE"],
+                        "QX_MOVE": quote_pack["QX_MOVE"],
+                        "Q2_MOVE": quote_pack["Q2_MOVE"],
+                        "O25_MOVE": quote_pack["O25_MOVE"],
+                        "O05HT_MOVE": quote_pack["O05HT_MOVE"],
+                        "O15HT_MOVE": quote_pack["O15HT_MOVE"],
+
+                        "INVERSION": quote_pack["INVERSION"],
+                        "INV_FROM": quote_pack["INV_FROM"],
+                        "INV_TO": quote_pack["INV_TO"],
+                        "FAV_OPEN": quote_pack["FAV_OPEN"],
+                        "FAV_CURRENT": quote_pack["FAV_CURRENT"]
                     }
                     final_list.append(row)
 
