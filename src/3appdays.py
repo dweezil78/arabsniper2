@@ -580,7 +580,7 @@ def score_drop(drop_diff):
     return 0.0
 
 
-def score_pt_signal(mk, s_h, s_a, combined_ht_avg):
+def score_pt_signal(mk, s_h, s_a):
     score = 0.0
 
     # =========================
@@ -642,7 +642,7 @@ def score_pt_signal(mk, s_h, s_a, combined_ht_avg):
     # BONUS ULTIMO MATCH SENZA GOAL 2T
     # =========================
     if s_h["last_2h_zero"] or s_a["last_2h_zero"]:
-        score += 0.55
+        score += 0.30
 
     # =========================
     # PENALITÀ RUMORE HT
@@ -668,7 +668,7 @@ def score_pt_signal(mk, s_h, s_a, combined_ht_avg):
     return round3(max(score, 0.0))
 
 
-def score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff):
+def score_over_signal(mk, s_h, s_a, fav, drop_diff):
     score = 0.0
 
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
@@ -771,7 +771,7 @@ def score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff):
     return round3(max(score, 0.0))
 
 
-def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg):
+def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff):
     score = 0.0
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
@@ -854,7 +854,7 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_h
 
     return round3(max(score, 0.0))
 
-def score_gold_signal(mk, s_h, s_a, pt_score, over_score, fav, drop_diff, is_gold_zone, combined_ht_avg):
+def score_gold_signal(mk, s_h, s_a, pt_score, over_score, fav, drop_diff, is_gold_zone):
     score = 0.0
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
@@ -952,7 +952,7 @@ def score_gold_signal(mk, s_h, s_a, pt_score, over_score, fav, drop_diff, is_gol
     return round3(max(score, 0.0))
 
 
-def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
+def build_signal_package(fid, mk, s_h, s_a):
     fav = min(mk["q1"], mk["q2"])
     is_gold_zone = (1.40 <= fav <= 1.90)
     drop_diff = compute_drop_diff(fid, mk)
@@ -960,14 +960,13 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
-    pt_score = score_pt_signal(mk, s_h, s_a, combined_ht_avg)
-    over_score = score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff)
-    boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg)
+    pt_score = score_pt_signal(mk, s_h, s_a)
+    over_score = score_over_signal(mk, s_h, s_a, fav, drop_diff)
+    boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff)
     gold_score = score_gold_signal(
-        mk, s_h, s_a, pt_score, over_score,
-        fav, drop_diff, is_gold_zone, combined_ht_avg
+    mk, s_h, s_a, pt_score, over_score,
+    fav, drop_diff, is_gold_zone
     )
-
     tags = []
 
     if pt_score >= 4.00:
@@ -1077,34 +1076,37 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     # =========================
     # PROBE
     # =========================
-    if (
-        "⚽ OVER" not in tags
-        and "⚽⭐ GOLD" not in tags
-        and combined_ft_clean >= 1.48
-        and s_h["ft_2plus_rate"] >= 0.50
-        and s_a["ft_2plus_rate"] >= 0.50
-        and 1.55 <= mk["o25"] <= 2.30
-        and combined_ht_clean >= 0.78
-        and over_score >= 3.60
-    ):
-        tags.append("🐟O")
+   if (
+    "⚽ OVER" not in tags
+    and "🚀 BOOST" not in tags
+    and "⚽⭐ GOLD" not in tags
+    and combined_ft_clean >= 1.48
+    and s_h["ft_2plus_rate"] >= 0.50
+    and s_a["ft_2plus_rate"] >= 0.50
+    and 1.55 <= mk["o25"] <= 2.30
+    and mk["o05ht"] <= 1.42
+    and combined_ht_clean >= 0.78
+    and over_score >= 3.60
+):
+    tags.append("🐟O")
 
     if (
-        "🚀 BOOST" not in tags
-        and "⚽⭐ GOLD" not in tags
-        and 1.38 <= fav <= 2.05
-        and combined_ht_clean >= 0.88
-        and combined_ft_clean >= 1.52
-        and 1.52 <= mk["o25"] <= 2.35
-        and pt_score >= 3.70
-        and over_score >= 3.70
-    ):
-        tags.append("🐟G")
+    "🚀 BOOST" not in tags
+    and "⚽⭐ GOLD" not in tags
+    and not ("🎯PT" in tags and "⚽ OVER" in tags)
+    and 1.38 <= fav <= 2.05
+    and combined_ht_clean >= 0.88
+    and combined_ft_clean >= 1.52
+    and 1.52 <= mk["o25"] <= 2.35
+    and pt_score >= 3.70
+    and over_score >= 3.70
+):
+    tags.append("🐟G")
 
     if drop_diff >= 0.05:
         tags.append(f"📉-{drop_diff:.2f}")
 
-    primary_signal_count = int("🎯PT" in tags) + int("⚽ OVER" in tags) + int("🚀 BOOST" in tags) + int("⚽⭐ GOLD" in tags)
+    strong_tag_count = int("🎯PT" in tags) + int("⚽ OVER" in tags) + int("🚀 BOOST" in tags) + int("⚽⭐ GOLD" in tags)
     max_score = max(pt_score, over_score, boost_score, gold_score)
 
     return {
@@ -1119,7 +1121,7 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
         "drop_diff": round3(drop_diff),
         "fav_quote": round3(fav),
         "is_gold_zone": is_gold_zone,
-        "primary_signal_count": primary_signal_count
+        "strong_tag_count": strong_tag_count
     }
 
 
@@ -1140,27 +1142,21 @@ def should_keep_match(signal_pack):
     has_probe_o = "🐟O" in tags
     has_probe_g = "🐟G" in tags
 
-    # GOLD
     if has_gold and gold_score >= 6.55:
         return True
 
-    # BOOST
-    if has_boost and boost_score >= 5.75 and (pt_score >= 4.00 or over_score >= 4.00):
+    if has_boost and boost_score >= 5.95 and (pt_score >= 4.00 or over_score >= 4.00):
         return True
 
-    # Doppio segnale vero
     if has_pt and has_over and pt_score >= 4.00 and over_score >= 4.00:
         return True
 
-    # PT singolo
     if has_pt and not has_over and pt_score >= 4.00:
         return True
 
-    # OVER singolo
     if has_over and not has_pt and over_score >= 4.00:
         return True
 
-    # Probe
     if has_probe_o and max_score >= 3.90:
         return True
 
