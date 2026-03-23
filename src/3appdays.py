@@ -1439,8 +1439,8 @@ def build_signal_package(fid, mk, s_h, s_a):
     gold_gate_ft_rates = (
         s_h["ft_2plus_rate"] >= 0.62 and
         s_a["ft_2plus_rate"] >= 0.62 and
-        s_h["ft_low_rate"] <= 0.38 and
-        s_a["ft_low_rate"] <= 0.38
+        s_h["ft_low_rate"] <= 0.30 and
+        s_a["ft_low_rate"] <= 0.30
     )
 
     gold_gate_market = (
