@@ -1008,8 +1008,8 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
 
     if (
         boost_score >= 5.95
-        and pt_score >= 4.20
-        and over_score >= 4.25
+        and pt_score >= 4.00
+        and over_score >= 4.00
         and combined_ht_clean >= 1.02
         and combined_ft_clean >= 1.65
         and boost_gate_ht
@@ -1141,7 +1141,7 @@ def should_keep_match(signal_pack):
     has_probe_g = "🐟G" in tags
 
     # GOLD
-    if has_gold and gold_score >= 6.80:
+    if has_gold and gold_score >= 6.55:
         return True
 
     # BOOST
@@ -1153,11 +1153,11 @@ def should_keep_match(signal_pack):
         return True
 
     # PT singolo
-    if has_pt and not has_over and pt_score >= 4.25:
+    if has_pt and not has_over and pt_score >= 4.00:
         return True
 
     # OVER singolo
-    if has_over and not has_pt and over_score >= 4.25:
+    if has_over and not has_pt and over_score >= 4.00:
         return True
 
     # Probe
