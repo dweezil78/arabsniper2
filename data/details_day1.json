@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-23 18:35:54",
+    "updated_at": "2026-03-23 18:43:52",
     "day": 1,
     "date": "2026-03-23",
     "details": {
@@ -1323,11 +1323,11 @@
             "home_team": "Castellón",
             "away_team": "Cultural Leonesa",
             "markets": {
-                "q1": 1.37,
-                "qx": 4.8,
-                "q2": 6.5,
-                "o25": 1.52,
-                "o05ht": 1.25,
+                "q1": 1.39,
+                "qx": 4.75,
+                "q2": 6.25,
+                "o25": 1.51,
+                "o05ht": 1.26,
                 "o15ht": 2.2
             },
             "averages": {
@@ -1376,7 +1376,7 @@
                 "away_ht_conceded_1plus_rate": 0.375
             },
             "flags": {
-                "fav_quote": 1.37,
+                "fav_quote": 1.39,
                 "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
@@ -1386,10 +1386,10 @@
                 "ptgg": 2.95,
                 "pto15": 0.9,
                 "pt": 3.112,
-                "over": 5.49,
-                "boost": 6.109,
-                "gold": 4.504,
-                "max": 6.109
+                "over": 4.69,
+                "boost": 5.741,
+                "gold": 4.248,
+                "max": 5.741
             },
             "tags": [
                 "⚽ OVER"
