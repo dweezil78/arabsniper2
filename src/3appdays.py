@@ -1377,7 +1377,7 @@ def build_signal_package(fid, mk, s_h, s_a):
     if (
         "🚀 BOOST" not in tags
         and "⚽⭐ GOLD" not in tags
-        and not ("🎯PT" in tags and "⚽ OVER" in tags)
+        and not (("🎯PTGG" in tags or "🔥PT1.5" in tags) and "⚽ OVER" in tags)
         and 1.38 <= fav <= 2.05
         and combined_ht_clean >= 0.88
         and combined_ft_clean >= 1.52
@@ -1829,7 +1829,7 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                             "away_ht_zero_rate": round(s_a["ht_zero_rate"], 3),
 
                             "home_ft_peak_count": int(s_h["ft_peak_count"]),
-                            "away_ft_peak_count": int(s_a["ft_peak_count"])
+                            "away_ft_peak_count": int(s_a["ft_peak_count"]),
 
                             "home_avg_ht_scored": round(s_h["avg_ht_scored"], 3),
                             "away_avg_ht_scored": round(s_a["avg_ht_scored"], 3),
