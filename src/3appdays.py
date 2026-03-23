@@ -1339,7 +1339,7 @@ def build_signal_package(fid, mk, s_h, s_a):
     ptgg_score = score_ptgg_signal(mk, s_h, s_a, fav, drop_diff)
     pto15_score = score_pto15_signal(mk, s_h, s_a, fav, drop_diff)
 
-    # pt_score legacy: per non rompere boost/gold subito
+    # PT composito: il migliore guida, il secondo aggiunge supporto
     pt_score = max(ptgg_score, pto15_score) + (min(ptgg_score, pto15_score) * 0.18)
 
     over_score = score_over_signal(mk, s_h, s_a, fav, drop_diff)
@@ -1356,7 +1356,7 @@ def build_signal_package(fid, mk, s_h, s_a):
     if pto15_score >= 4.00:
         tags.append("🔥PT1.5")
 
-    if over_score >= 4.00 and combined_ht_clean >= 0.72:
+    if over_score >= 4.00 and combined_ht_scored_clean >= 0.72:
         tags.append("⚽ OVER")
 
     # =========================
