@@ -28,6 +28,7 @@ LEAGUE_BLACKLIST = ["u19", "u20", "youth", "women", "friendly", "carioca", "paul
 ROLLING_SNAPSHOT_HORIZONS = [1, 2, 3, 4, 5]
 
 REMOTE_MAIN_FILE = "data/data.json"
+REMOTE_SNAPSHOT_FILE = "data/arab_snapshot_database.json"
 
 REMOTE_DAY_FILES = {
     1: "data/data_day1.json",
@@ -543,9 +544,14 @@ def build_rolling_multiday_snapshot(session):
     }
 
     st.session_state.odds_memory = cleaned_odds
-    save_snapshot_file(payload)
-    return payload
 
+    # Salva locale
+    save_snapshot_file(payload)
+
+    # 🔥 Salva su GitHub
+    upload_snapshot_to_github(payload)
+
+    return payload
 
 def get_team_last_matches(session, tid):
     cache_key = str(tid)
@@ -1746,6 +1752,16 @@ def sync_day_outputs_to_github(day_num, update_main=False):
         status_main = None
 
     return status_main, status_day, status_details
+    
+def upload_snapshot_to_github(payload):
+    try:
+        github_write_json(
+            REMOTE_SNAPSHOT_FILE,
+            payload,
+            "Update snapshot database"
+        )
+    except Exception as e:
+        print(f"Snapshot upload error: {e}")
 
 # ==========================================
 # MODAL DETTAGLI MATCH
