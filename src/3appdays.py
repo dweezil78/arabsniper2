@@ -963,7 +963,10 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     pt_score = score_pt_signal(mk, s_h, s_a, combined_ht_avg)
     over_score = score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff)
     boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg)
-    gold_score = score_gold_signal(mk, s_h, s_a, pt_score, over_score,fav, drop_diff, is_gold_zone, combined_ht_avg)
+    gold_score = score_gold_signal(
+        mk, s_h, s_a, pt_score, over_score,
+        fav, drop_diff, is_gold_zone, combined_ht_avg
+    )
 
     tags = []
 
@@ -972,10 +975,10 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
 
     if over_score >= 4.00 and combined_ht_clean >= 0.82:
         tags.append("⚽ OVER")
-        
-    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
-    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
+    # =========================
+    # BOOST GATES
+    # =========================
     boost_gate_ht = (
         (s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00) or
         ((s_h["avg_ht_clean"] >= 1.15 and s_a["avg_ht_clean"] >= 0.90) or
@@ -1017,7 +1020,10 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     ):
         tags.append("🚀 BOOST")
 
-        gold_gate_ht = (
+    # =========================
+    # GOLD GATES - INDIPENDENTE
+    # =========================
+    gold_gate_ht = (
         (s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00) or
         ((s_h["avg_ht_clean"] >= 1.18 and s_a["avg_ht_clean"] >= 0.92) or
          (s_a["avg_ht_clean"] >= 1.18 and s_h["avg_ht_clean"] >= 0.92))
@@ -1026,8 +1032,8 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     gold_gate_ht_rates = (
         s_h["ht_1plus_rate"] >= 0.62 and
         s_a["ht_1plus_rate"] >= 0.62 and
-        s_h["ht_zero_rate"] <= 0.25 and
-        s_a["ht_zero_rate"] <= 0.25
+        s_h["ht_zero_rate"] <= 0.38 and
+        s_a["ht_zero_rate"] <= 0.38
     )
 
     gold_gate_ft = (
@@ -1036,121 +1042,60 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     )
 
     gold_gate_ft_rates = (
-        s_h["ft_2plus_rate"] >= 0.75 and
-        s_a["ft_2plus_rate"] >= 0.75 and
-        s_h["ft_low_rate"] <= 0.25 and
-        s_a["ft_low_rate"] <= 0.25
+        s_h["ft_2plus_rate"] >= 0.62 and
+        s_a["ft_2plus_rate"] >= 0.62 and
+        s_h["ft_low_rate"] <= 0.38 and
+        s_a["ft_low_rate"] <= 0.38
     )
-
-    gold_gate_quote = (1.45 <= fav <= 1.82)
 
     gold_gate_market = (
-        1.58 <= mk["o25"] <= 2.08 and
-        1.21 <= mk["o05ht"] <= 1.35
+        1.56 <= mk["o25"] <= 2.15 and
+        1.21 <= mk["o05ht"] <= 1.38
     )
 
-    gold_gate_extra = (
+    gold_extra_ok = (
         drop_diff >= 0.05 or
-        (
-            combined_ht_clean >= 1.12 and
-            combined_ft_clean >= 1.95 and
-            boost_score >= 6.15
-        )
+        (combined_ht_clean >= 1.02 and combined_ft_clean >= 1.72)
     )
 
     if (
-        gold_score >= 6.95
-        and boost_score >= 6.00
-        and pt_score >= 4.25
-        and over_score >= 4.30
+        gold_score >= 6.55
+        and pt_score >= 4.05
+        and over_score >= 4.10
         and is_gold_zone
+        and combined_ht_clean >= 1.00
+        and combined_ft_clean >= 1.68
         and gold_gate_ht
         and gold_gate_ht_rates
         and gold_gate_ft
         and gold_gate_ft_rates
-        and gold_gate_quote
         and gold_gate_market
-        and gold_gate_extra
+        and gold_extra_ok
     ):
         tags.insert(0, "⚽⭐ GOLD")
 
     # =========================
-    # PROBE / PESCI
+    # PROBE
     # =========================
-    has_gold = any("GOLD" in t for t in tags)
-    has_boost = any("BOOST" in t for t in tags)
-    has_pt = any("PT" in t for t in tags)
-    has_over = any("OVER" in t for t in tags)
-
-    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
-    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
-
-    # 🐟O = idea OVER interessante ma non abbastanza pulita/forte da OVER vero
-    probe_o_clean = (
-        combined_ft_clean >= 1.55 and
-        s_h["avg_total_clean"] >= 1.35 and
-        s_a["avg_total_clean"] >= 1.35 and
-        s_h["ft_2plus_rate"] >= 0.50 and
-        s_a["ft_2plus_rate"] >= 0.50 and
-        s_h["ft_low_rate"] <= 0.38 and
-        s_a["ft_low_rate"] <= 0.38
-    )
-
-    probe_o_market = (
-        1.55 <= mk["o25"] <= 2.45
-    )
-
-    probe_o_soft_ht = (
-        combined_ht_clean >= 0.92 and
-        s_h["ht_zero_rate"] <= 0.50 and
-        s_a["ht_zero_rate"] <= 0.50
-    )
-
     if (
-        not has_over
-        and not has_gold
-        and probe_o_clean
-        and probe_o_market
-        and probe_o_soft_ht
+        "⚽ OVER" not in tags
+        and "⚽⭐ GOLD" not in tags
+        and combined_ft_clean >= 1.48
+        and s_h["ft_2plus_rate"] >= 0.50
+        and s_a["ft_2plus_rate"] >= 0.50
+        and 1.55 <= mk["o25"] <= 2.30
+        and combined_ht_clean >= 0.78
         and over_score >= 3.60
     ):
         tags.append("🐟O")
 
-    # 🐟G = partita viva / bilanciata ma non abbastanza forte da BOOST o GOLD
-    probe_g_balance = (
-        1.35 <= fav <= 2.60
-    )
-
-    probe_g_ht = (
-        combined_ht_clean >= 0.98 and
-        s_h["avg_ht_clean"] >= 0.85 and
-        s_a["avg_ht_clean"] >= 0.85 and
-        s_h["ht_1plus_rate"] >= 0.62 and
-        s_a["ht_1plus_rate"] >= 0.62 and
-        s_h["ht_zero_rate"] <= 0.38 and
-        s_a["ht_zero_rate"] <= 0.38
-    )
-
-    probe_g_ft = (
-        combined_ft_clean >= 1.58 and
-        s_h["avg_total_clean"] >= 1.35 and
-        s_a["avg_total_clean"] >= 1.35 and
-        s_h["ft_low_rate"] <= 0.38 and
-        s_a["ft_low_rate"] <= 0.38
-    )
-
-    probe_g_market = (
-        1.50 <= mk["o25"] <= 2.35 and
-        1.20 <= mk["o05ht"] <= 1.42
-    )
-
     if (
-        not has_boost
-        and not has_gold
-        and probe_g_balance
-        and probe_g_ht
-        and probe_g_ft
-        and probe_g_market
+        "🚀 BOOST" not in tags
+        and "⚽⭐ GOLD" not in tags
+        and 1.38 <= fav <= 2.05
+        and combined_ht_clean >= 0.88
+        and combined_ft_clean >= 1.52
+        and 1.52 <= mk["o25"] <= 2.35
         and pt_score >= 3.70
         and over_score >= 3.70
     ):
@@ -1159,7 +1104,7 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     if drop_diff >= 0.05:
         tags.append(f"📉-{drop_diff:.2f}")
 
-    primary_signal_count = sum(1 for t in tags if any(k in t for k in ["GOLD", "BOOST", "OVER", "PT"]))
+    primary_signal_count = int("🎯PT" in tags) + int("⚽ OVER" in tags) + int("🚀 BOOST" in tags) + int("⚽⭐ GOLD" in tags)
     max_score = max(pt_score, over_score, boost_score, gold_score)
 
     return {
