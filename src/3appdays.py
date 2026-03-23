@@ -1142,7 +1142,7 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff):
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
-    combined_ht_scored_clean = (s_h["avg_ht_scored_clean"] + s_a["avg_ht_scored_clean"]) / 2
+    
 
     # =========================
     # BASE: eredita da PT + OVER
@@ -1335,6 +1335,7 @@ def build_signal_package(fid, mk, s_h, s_a):
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+    combined_ht_scored_clean = (s_h["avg_ht_scored_clean"] + s_a["avg_ht_scored_clean"]) / 2
 
     ptgg_score = score_ptgg_signal(mk, s_h, s_a, fav, drop_diff)
     pto15_score = score_pto15_signal(mk, s_h, s_a, fav, drop_diff)
