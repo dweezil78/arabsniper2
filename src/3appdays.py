@@ -1145,9 +1145,10 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff):
 
     # =========================
     # BASE: eredita da PT + OVER
+    # BOOST = over forte con supporto PT
     # =========================
-    score += pt_score * 0.34
-    score += over_score * 0.42
+    score += pt_score * 0.30
+    score += over_score * 0.46
 
     # =========================
     # CONVERGENZA HT PULITA
@@ -1177,18 +1178,26 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff):
     elif s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
         score += 0.35
 
-    # =========================
-    # MERCATO CONVERGENTE
-    # =========================
-    if 1.60 <= mk["o25"] <= 2.12 and 1.22 <= mk["o05ht"] <= 1.36:
-        score += 0.65
-    elif 1.54 <= mk["o25"] <= 2.22 and 1.20 <= mk["o05ht"] <= 1.39:
+    if s_h["ft_3plus_rate"] >= 0.50 and s_a["ft_3plus_rate"] >= 0.50:
         score += 0.25
 
+    # =========================
+    # MERCATO BOOST
+    # fascia core = match perfetto
+    # fascia soft = match buono
+    # =========================
+    if 1.55 <= mk["o25"] <= 2.10 and 1.27 <= mk["o05ht"] <= 1.37:
+        score += 0.80
+    elif 1.50 <= mk["o25"] <= 2.20 and 1.25 <= mk["o05ht"] <= 1.40:
+        score += 0.35
+
+    # =========================
+    # SUPPORTO COMBINATO
+    # =========================
     if combined_ht_clean >= 1.05:
         score += 0.30
     if combined_ft_clean >= 1.75:
-        score += 0.30
+        score += 0.35
 
     # =========================
     # DROP
