@@ -1006,6 +1006,77 @@ def build_quote_movement_package(fid, mk):
         "FAV_OPEN": inversion_pack["FAV_OPEN"],
         "FAV_CURRENT": inversion_pack["FAV_CURRENT"],
     }
+    
+def build_movement_summary(row):
+    """
+    Restituisce un riassunto testuale dei movimenti quota già calcolati.
+    NON cambia la logica scan.
+    Serve solo a trasformare i campi tecnici in informazione leggibile.
+
+    Output esempio:
+    - "INV 1→2 | DROP 1 | O25 ↓0.12"
+    - "DROP 2 | O05HT ↓0.07"
+    - ""
+    """
+
+    parts = []
+
+    # -------------------------
+    # 1) Inversione 1X2
+    # -------------------------
+    inv = bool(row.get("INVERSION", False))
+    inv_from = str(row.get("INV_FROM", "")).strip()
+    inv_to = str(row.get("INV_TO", "")).strip()
+
+    if inv and inv_from and inv_to:
+        parts.append(f"INV {inv_from}→{inv_to}")
+
+    # -------------------------
+    # 2) Drop lato 1 o 2
+    # Consideriamo drop solo se il movimento è DOWN
+    # e almeno giallo/rosso come intensità.
+    # Le soglie derivano dalla tua classify:
+    # <=0.05 green, <=0.14 yellow, >=0.15 red
+    # quindi qui usiamo da 0.06 in su per evitare rumore.
+    # -------------------------
+    q1 = row.get("Q1_MOVE_DATA", {}) or {}
+    q2 = row.get("Q2_MOVE_DATA", {}) or {}
+
+    q1_dir = q1.get("dir", "")
+    q2_dir = q2.get("dir", "")
+    q1_abs = safe_float(q1.get("abs_diff", 0.0), 0.0)
+    q2_abs = safe_float(q2.get("abs_diff", 0.0), 0.0)
+
+    if q1_dir == "down" and q1_abs >= 0.06:
+        parts.append("DROP 1")
+
+    if q2_dir == "down" and q2_abs >= 0.06:
+        parts.append("DROP 2")
+
+    # -------------------------
+    # 3) Mercati secondari
+    # Mostriamo solo se c'è un movimento almeno "utile"
+    # per non sporcare la tabella.
+    # -------------------------
+    o25 = row.get("O25_MOVE_DATA", {}) or {}
+    o05 = row.get("O05HT_MOVE_DATA", {}) or {}
+
+    o25_label = str(o25.get("label", "")).strip()
+    o05_label = str(o05.get("label", "")).strip()
+
+    o25_abs = safe_float(o25.get("abs_diff", 0.0), 0.0)
+    o05_abs = safe_float(o05.get("abs_diff", 0.0), 0.0)
+
+    if o25_label and o25_abs >= 0.06:
+        parts.append(f"O25 {o25_label}")
+
+    if o05_label and o05_abs >= 0.06:
+        parts.append(f"O05HT {o05_label}")
+
+    # -------------------------
+    # 4) Se nessun segnale utile
+    # -------------------------
+    return " | ".join(parts)
 
 def compute_drop_diff(fid, mk):
     if fid not in st.session_state.odds_memory:
@@ -2364,6 +2435,9 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                         "FAV_OPEN": quote_pack["FAV_OPEN"],
                         "FAV_CURRENT": quote_pack["FAV_CURRENT"]
                     }
+                    
+                    row["MOVE_SUMMARY"] = build_movement_summary(row)
+                    
                     final_list.append(row)
 
                     details_map[fid] = {
@@ -2657,6 +2731,20 @@ if st.session_state.scan_results:
     if not full_view.empty:
         full_view = full_view.sort_values(by=["Ora", "Match"])
         view = full_view.copy()
+
+        if "MOVE_SUMMARY" not in view.columns:
+            view["MOVE_SUMMARY"] = ""
+
+        if "Info" in view.columns and "MOVE_SUMMARY" in view.columns:
+            view["Info"] = view.apply(
+                lambda r: (
+                    f"{r['Info']} | {r['MOVE_SUMMARY']}"
+                    if str(r.get("MOVE_SUMMARY", "")).strip()
+                    else str(r.get("Info", ""))
+                ),
+                axis=1
+            )
+            
         def build_1x2_visual(row):
             q1 = str(row.get("Q1_MOVE", "")).strip()
             qx = str(row.get("QX_MOVE", "")).strip()
