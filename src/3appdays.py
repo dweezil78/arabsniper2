@@ -854,104 +854,100 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_h
 
     return round3(max(score, 0.0))
 
-def score_gold_signal(mk, s_h, s_a, pt_score, over_score, boost_score, fav, drop_diff, is_gold_zone, combined_ht_avg):
+def score_gold_signal(mk, s_h, s_a, pt_score, over_score, fav, drop_diff, is_gold_zone, combined_ht_avg):
     score = 0.0
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
     # =========================
-    # BASE: eredita da PT + OVER + BOOST
+    # BASE: eredita da PT + OVER, NON da BOOST
     # =========================
-    score += pt_score * 0.18
-    score += over_score * 0.26
-    score += boost_score * 0.38
+    score += pt_score * 0.24
+    score += over_score * 0.32
 
     # =========================
     # QUOTE / ZONA GOLD
     # =========================
     if is_gold_zone:
-        score += 0.85
+        score += 0.95
 
     if 1.45 <= fav <= 1.80:
-        score += 0.35
+        score += 0.40
     elif 1.40 <= fav <= 1.86:
-        score += 0.15
+        score += 0.20
 
     # =========================
     # CONVERGENZA HT PULITA
     # =========================
     if s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00:
-        score += 0.70
+        score += 0.75
     elif (s_h["avg_ht_clean"] >= 1.18 and s_a["avg_ht_clean"] >= 0.92) or \
          (s_a["avg_ht_clean"] >= 1.18 and s_h["avg_ht_clean"] >= 0.92):
         score += 0.35
 
     if s_h["ht_1plus_rate"] >= 0.75 and s_a["ht_1plus_rate"] >= 0.75:
-        score += 0.50
+        score += 0.55
     elif s_h["ht_1plus_rate"] >= 0.62 and s_a["ht_1plus_rate"] >= 0.62:
-        score += 0.20
+        score += 0.25
 
     # =========================
     # CONVERGENZA FT PULITA
     # =========================
     if s_h["avg_total_clean"] >= 1.70 and s_a["avg_total_clean"] >= 1.65:
-        score += 0.80
+        score += 0.85
     elif (s_h["avg_total_clean"] >= 1.95 and s_a["avg_total_clean"] >= 1.45) or \
          (s_a["avg_total_clean"] >= 1.95 and s_h["avg_total_clean"] >= 1.45):
-        score += 0.35
+        score += 0.40
 
     if s_h["ft_2plus_rate"] >= 0.75 and s_a["ft_2plus_rate"] >= 0.75:
         score += 0.55
     elif s_h["ft_2plus_rate"] >= 0.62 and s_a["ft_2plus_rate"] >= 0.62:
-        score += 0.20
+        score += 0.25
 
     if s_h["ft_3plus_rate"] >= 0.50 and s_a["ft_3plus_rate"] >= 0.50:
         score += 0.35
 
     # =========================
-    # MERCATO TOP
+    # MERCATO CONVERGENTE
     # =========================
-    if 1.60 <= mk["o25"] <= 2.05 and 1.22 <= mk["o05ht"] <= 1.34:
-        score += 0.55
-    elif 1.54 <= mk["o25"] <= 2.15 and 1.20 <= mk["o05ht"] <= 1.37:
-        score += 0.20
+    if 1.60 <= mk["o25"] <= 2.12 and 1.22 <= mk["o05ht"] <= 1.36:
+        score += 0.70
+    elif 1.54 <= mk["o25"] <= 2.22 and 1.20 <= mk["o05ht"] <= 1.39:
+        score += 0.30
 
-    if combined_ht_clean >= 1.08:
-        score += 0.25
-    if combined_ft_clean >= 1.85:
-        score += 0.25
+    if combined_ht_clean >= 1.05:
+        score += 0.30
+    if combined_ft_clean >= 1.75:
+        score += 0.30
 
     # =========================
     # DROP
     # =========================
-    if drop_diff >= 0.10:
-        score += 0.55
-    elif drop_diff >= 0.05:
-        score += 0.25
+    score += score_drop(drop_diff) * 0.45
 
     # =========================
     # PENALITÀ RUMORE
     # =========================
     if s_h["ft_low_rate"] >= 0.38:
-        score -= 0.90
+        score -= 0.75
     if s_a["ft_low_rate"] >= 0.38:
-        score -= 0.90
+        score -= 0.75
 
     if s_h["ht_zero_rate"] >= 0.38:
-        score -= 0.80
+        score -= 0.70
     if s_a["ht_zero_rate"] >= 0.38:
-        score -= 0.80
+        score -= 0.70
 
     if s_h["avg_ht_clean"] < 0.85:
-        score -= 0.75
+        score -= 0.60
     if s_a["avg_ht_clean"] < 0.85:
-        score -= 0.75
+        score -= 0.60
 
-    if s_h["avg_total_clean"] < 1.40:
-        score -= 0.75
-    if s_a["avg_total_clean"] < 1.40:
-        score -= 0.75
+    if s_h["avg_total_clean"] < 1.35:
+        score -= 0.60
+    if s_a["avg_total_clean"] < 1.35:
+        score -= 0.60
 
     return round3(max(score, 0.0))
 
