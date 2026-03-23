@@ -961,19 +961,22 @@ def build_signal_package(fid, mk, s_h, s_a, combined_ht_avg):
     is_gold_zone = (1.40 <= fav <= 1.90)
     drop_diff = compute_drop_diff(fid, mk)
 
+    combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
+    combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+
     pt_score = score_pt_signal(mk, s_h, s_a, combined_ht_avg)
     over_score = score_over_signal(mk, s_h, s_a, combined_ht_avg, fav, drop_diff)
     boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff, combined_ht_avg)
     gold_score = score_gold_signal(mk, s_h, s_a, pt_score, over_score, boost_score, fav, drop_diff, is_gold_zone, combined_ht_avg)
 
     tags = []
-    
-    if pt_score >= 4.35:
+
+    if pt_score >= 4.00:
         tags.append("🎯PT")
 
-    if over_score >= 4.3 and combined_ht_clean >= 0.85:
+    if over_score >= 4.00 and combined_ht_clean >= 0.82:
         tags.append("⚽ OVER")
-
+        
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
@@ -1196,35 +1199,34 @@ def should_keep_match(signal_pack):
     has_probe_o = "🐟O" in tags
     has_probe_g = "🐟G" in tags
 
-    # GOLD: sempre dentro
-    if has_gold and gold_score >= 6.90:
+    # GOLD
+    if has_gold and gold_score >= 6.80:
         return True
 
-    # BOOST: deve essere reale
-    if has_boost and boost_score >= 5.95 and (pt_score >= 4.20 or over_score >= 4.25):
+    # BOOST
+    if has_boost and boost_score >= 5.75 and (pt_score >= 4.00 or over_score >= 4.00):
         return True
 
-    # PT + OVER: doppio segnale vero
-    if has_pt and has_over and pt_score >= 4.20 and over_score >= 4.25:
+    # Doppio segnale vero
+    if has_pt and has_over and pt_score >= 4.00 and over_score >= 4.00:
         return True
 
-    # PT singolo: più selettivo
-    if has_pt and not has_over and pt_score >= 4.55:
+    # PT singolo
+    if has_pt and not has_over and pt_score >= 4.25:
         return True
 
-    # OVER singolo: più selettivo
-    if has_over and not has_pt and over_score >= 4.55:
+    # OVER singolo
+    if has_over and not has_pt and over_score >= 4.25:
         return True
 
-    # Pesci: li teniamo vivi ma non facili
-    if has_probe_o and max_score >= 4.20:
+    # Probe
+    if has_probe_o and max_score >= 3.90:
         return True
 
-    if has_probe_g and max_score >= 4.30:
+    if has_probe_g and max_score >= 4.00:
         return True
 
     return False
-
 # ==========================================
 # DETAILS / DAY PAYLOAD HELPERS
 # ==========================================
@@ -1511,7 +1513,12 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
                     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
-                    if combined_ht_clean < 0.90 and combined_ft_clean < 1.45:
+                    if (
+                        combined_ht_clean < 0.82
+                        and combined_ft_clean < 1.35
+                        and s_h["ht_1plus_rate"] < 0.50
+                        and s_a["ht_1plus_rate"] < 0.50
+                    ):
                         continue
 
                     signal_pack = build_signal_package(fid, mk, s_h, s_a, combined_ht_avg)
