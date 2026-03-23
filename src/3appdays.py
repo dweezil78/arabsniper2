@@ -1076,32 +1076,35 @@ def build_signal_package(fid, mk, s_h, s_a):
     # =========================
     # PROBE
     # =========================
-   if (
-    "⚽ OVER" not in tags
-    and "🚀 BOOST" not in tags
-    and "⚽⭐ GOLD" not in tags
-    and combined_ft_clean >= 1.48
-    and s_h["ft_2plus_rate"] >= 0.50
-    and s_a["ft_2plus_rate"] >= 0.50
-    and 1.55 <= mk["o25"] <= 2.30
-    and mk["o05ht"] <= 1.42
-    and combined_ht_clean >= 0.78
-    and over_score >= 3.60
-):
-    tags.append("🐟O")
+     # =========================
+    # PROBE
+    # =========================
+    if (
+        "⚽ OVER" not in tags
+        and "🚀 BOOST" not in tags
+        and "⚽⭐ GOLD" not in tags
+        and combined_ft_clean >= 1.48
+        and s_h["ft_2plus_rate"] >= 0.50
+        and s_a["ft_2plus_rate"] >= 0.50
+        and 1.55 <= mk["o25"] <= 2.30
+        and mk["o05ht"] <= 1.42
+        and combined_ht_clean >= 0.78
+        and over_score >= 3.60
+    ):
+        tags.append("🐟O")
 
     if (
-    "🚀 BOOST" not in tags
-    and "⚽⭐ GOLD" not in tags
-    and not ("🎯PT" in tags and "⚽ OVER" in tags)
-    and 1.38 <= fav <= 2.05
-    and combined_ht_clean >= 0.88
-    and combined_ft_clean >= 1.52
-    and 1.52 <= mk["o25"] <= 2.35
-    and pt_score >= 3.70
-    and over_score >= 3.70
-):
-    tags.append("🐟G")
+        "🚀 BOOST" not in tags
+        and "⚽⭐ GOLD" not in tags
+        and not ("🎯PT" in tags and "⚽ OVER" in tags)
+        and 1.38 <= fav <= 2.05
+        and combined_ht_clean >= 0.88
+        and combined_ft_clean >= 1.52
+        and 1.52 <= mk["o25"] <= 2.35
+        and pt_score >= 3.70
+        and over_score >= 3.70
+    ):
+        tags.append("🐟G")
 
     if drop_diff >= 0.05:
         tags.append(f"📉-{drop_diff:.2f}")
@@ -1458,7 +1461,7 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                     ):
                         continue
 
-                    signal_pack = build_signal_package(fid, mk, s_h, s_a, combined_ht_avg)
+                    signal_pack = build_signal_package(fid, mk, s_h, s_a)
                     tags = signal_pack["tags"]
 
                     if not should_keep_match(signal_pack):
