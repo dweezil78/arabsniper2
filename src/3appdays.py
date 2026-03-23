@@ -1415,6 +1415,9 @@ def build_signal_package(fid, mk, s_h, s_a):
     # =========================
     # GOLD GATES - INDIPENDENTE
     # =========================
+    gold_has_pt = ("🎯PTGG" in tags or "🔥PT1.5" in tags)
+    gold_has_over = ("⚽ OVER" in tags)
+
     gold_gate_ht = (
         (s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00) or
         ((s_h["avg_ht_clean"] >= 1.18 and s_a["avg_ht_clean"] >= 0.92) or
@@ -1452,6 +1455,8 @@ def build_signal_package(fid, mk, s_h, s_a):
 
     if (
         gold_score >= 6.55
+        and gold_has_pt
+        and gold_has_over
         and pt_score >= 4.05
         and over_score >= 4.10
         and is_gold_zone
@@ -1467,9 +1472,6 @@ def build_signal_package(fid, mk, s_h, s_a):
         tags.insert(0, "⚽⭐ GOLD")
 
     # =========================
-    # PROBE
-    # =========================
-     # =========================
     # PROBE
     # =========================
     if (
