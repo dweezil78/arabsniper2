@@ -1009,13 +1009,11 @@ def build_quote_movement_package(fid, mk):
     
 def build_movement_summary(row):
     """
-    Restituisce un riassunto testuale dei movimenti quota già calcolati.
-    NON cambia la logica scan.
-    Serve solo a trasformare i campi tecnici in informazione leggibile.
+    Restituisce un riassunto testuale pulito dei movimenti quota già calcolati.
 
-    Output esempio:
-    - "INV 1→2 | DROP 1 | O25 ↓0.12"
-    - "DROP 2 | O05HT ↓0.07"
+    Esempi:
+    - "⚠️ 1→2 • ↓1 • O25 ↓0.12"
+    - "↓2 • O05HT ↓0.07"
     - ""
     """
 
@@ -1029,34 +1027,30 @@ def build_movement_summary(row):
     inv_to = str(row.get("INV_TO", "")).strip()
 
     if inv and inv_from and inv_to:
-        parts.append(f"INV {inv_from}→{inv_to}")
+        parts.append(f"⚠️ {inv_from}→{inv_to}")
 
     # -------------------------
     # 2) Drop lato 1 o 2
-    # Consideriamo drop solo se il movimento è DOWN
-    # e almeno giallo/rosso come intensità.
-    # Le soglie derivano dalla tua classify:
-    # <=0.05 green, <=0.14 yellow, >=0.15 red
-    # quindi qui usiamo da 0.06 in su per evitare rumore.
+    # Consideriamo utile da 0.06 in su
     # -------------------------
     q1 = row.get("Q1_MOVE_DATA", {}) or {}
     q2 = row.get("Q2_MOVE_DATA", {}) or {}
 
-    q1_dir = q1.get("dir", "")
-    q2_dir = q2.get("dir", "")
+    q1_dir = str(q1.get("dir", "")).strip()
+    q2_dir = str(q2.get("dir", "")).strip()
+
     q1_abs = safe_float(q1.get("abs_diff", 0.0), 0.0)
     q2_abs = safe_float(q2.get("abs_diff", 0.0), 0.0)
 
     if q1_dir == "down" and q1_abs >= 0.06:
-        parts.append("DROP 1")
+        parts.append("↓1")
 
     if q2_dir == "down" and q2_abs >= 0.06:
-        parts.append("DROP 2")
+        parts.append("↓2")
 
     # -------------------------
     # 3) Mercati secondari
-    # Mostriamo solo se c'è un movimento almeno "utile"
-    # per non sporcare la tabella.
+    # Mostriamo solo se movimento utile
     # -------------------------
     o25 = row.get("O25_MOVE_DATA", {}) or {}
     o05 = row.get("O05HT_MOVE_DATA", {}) or {}
@@ -1074,9 +1068,9 @@ def build_movement_summary(row):
         parts.append(f"O05HT {o05_label}")
 
     # -------------------------
-    # 4) Se nessun segnale utile
+    # 4) Output finale
     # -------------------------
-    return " | ".join(parts)
+    return " • ".join(parts)
 
 def compute_drop_diff(fid, mk):
     if fid not in st.session_state.odds_memory:
