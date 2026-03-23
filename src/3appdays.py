@@ -1357,7 +1357,7 @@ def build_signal_package(fid, mk, s_h, s_a):
     if pto15_score >= 4.00:
         tags.append("🔥PT1.5")
 
-    if over_score >= 4.00 and combined_ht_scored_clean >= 0.72:
+    if over_score >= 4.00 and combined_ht_scored_clean >= 0.66:
         tags.append("⚽ OVER")
 
     # =========================
@@ -1573,10 +1573,10 @@ def should_keep_match(signal_pack):
     if has_over and not (has_ptgg or has_pt15) and over_score >= 4.00:
         return True
 
-    if has_probe_o and max_score >= 3.90:
+    if has_probe_o and max_score >= 3.70:
         return True
 
-    if has_probe_g and max_score >= 4.00:
+    if has_probe_g and max_score >= 3.75:
         return True
 
     return False
@@ -1882,10 +1882,12 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
 
                     if (
-                        combined_ht_clean < 0.82
-                        and combined_ft_clean < 1.35
-                        and s_h["ht_1plus_rate"] < 0.50
-                        and s_a["ht_1plus_rate"] < 0.50
+                        combined_ht_clean < 0.72
+                        and combined_ft_clean < 1.20
+                        and s_h["ht_1plus_rate"] < 0.38
+                        and s_a["ht_1plus_rate"] < 0.38
+                        and s_h["ft_2plus_rate"] < 0.38
+                        and s_a["ft_2plus_rate"] < 0.38
                     ):
                         continue
 
