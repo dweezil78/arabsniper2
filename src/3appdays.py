@@ -1352,6 +1352,9 @@ def build_signal_package(fid, mk, s_h, s_a):
     # =========================
     # BOOST GATES
     # =========================
+    boost_has_pt = ("🎯PTGG" in tags or "🔥PT1.5" in tags)
+    boost_has_over = ("⚽ OVER" in tags)
+
     boost_gate_ht = (
         (s_h["avg_ht_clean"] >= 1.00 and s_a["avg_ht_clean"] >= 1.00) or
         ((s_h["avg_ht_clean"] >= 1.15 and s_a["avg_ht_clean"] >= 0.90) or
@@ -1377,10 +1380,15 @@ def build_signal_package(fid, mk, s_h, s_a):
         s_a["ft_low_rate"] <= 0.25
     )
 
-    boost_gate_market = (1.58 <= mk["o25"] <= 2.18 and 1.21 <= mk["o05ht"] <= 1.37)
+    boost_gate_market = (
+        1.50 <= mk["o25"] <= 2.20 and
+        1.25 <= mk["o05ht"] <= 1.40
+    )
 
     if (
         boost_score >= 5.95
+        and boost_has_pt
+        and boost_has_over
         and pt_score >= 4.00
         and over_score >= 4.00
         and combined_ht_clean >= 1.02
