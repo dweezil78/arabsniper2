@@ -346,14 +346,75 @@ def save_snapshot_file(payload):
         json.dump(payload, f, indent=4, ensure_ascii=False)
 
 
+def _normalize_snapshot_record(fid, rec):
+    """
+    Normalizza un record snapshot vecchio o nuovo.
+    Mantiene compatibilità col vecchio formato che salvava solo q1/q2.
+    """
+    if not isinstance(rec, dict):
+        return None
+
+    norm = dict(rec)
+    norm["fixture_id"] = str(fid)
+
+    # Legacy compatibility: vecchio snapshot aveva solo q1 / q2
+    legacy_q1 = safe_float(norm.get("q1"), 0.0)
+    legacy_q2 = safe_float(norm.get("q2"), 0.0)
+
+    # Nuovi campi open
+    norm["q1_open"] = safe_float(norm.get("q1_open", legacy_q1), 0.0)
+    norm["qx_open"] = safe_float(norm.get("qx_open", 0.0), 0.0)
+    norm["q2_open"] = safe_float(norm.get("q2_open", legacy_q2), 0.0)
+    norm["o25_open"] = safe_float(norm.get("o25_open", 0.0), 0.0)
+    norm["o05ht_open"] = safe_float(norm.get("o05ht_open", 0.0), 0.0)
+    norm["o15ht_open"] = safe_float(norm.get("o15ht_open", 0.0), 0.0)
+
+    # Campi legacy tenuti per compatibilità temporanea
+    # così compute_drop_diff continua a funzionare anche prima dello step 2
+    norm["q1"] = norm["q1_open"]
+    norm["q2"] = norm["q2_open"]
+
+    # Metadati minimi
+    norm.setdefault("first_seen_date", None)
+    norm.setdefault("first_seen_horizon", None)
+    norm.setdefault("first_seen_ts", None)
+    norm.setdefault("last_seen_date", norm.get("first_seen_date"))
+    norm.setdefault("last_seen_horizon", norm.get("first_seen_horizon"))
+    norm.setdefault("last_seen_ts", norm.get("first_seen_ts"))
+
+    return norm
+
+
+def save_snapshot_file(payload):
+    with open(SNAP_FILE, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=4, ensure_ascii=False)
+
+
 def load_existing_snapshot_payload():
+    """
+    Carica snapshot esistente e lo migra al nuovo formato se necessario.
+    Non perde i vecchi dati q1/q2.
+    """
     if os.path.exists(SNAP_FILE):
         try:
             with open(SNAP_FILE, "r", encoding="utf-8") as f:
                 payload = json.load(f)
-                if isinstance(payload, dict):
-                    payload.setdefault("odds", {})
-                    return payload
+
+            if isinstance(payload, dict):
+                raw_odds = payload.get("odds", {}) or {}
+                normalized_odds = {}
+
+                for fid, rec in raw_odds.items():
+                    norm = _normalize_snapshot_record(fid, rec)
+                    if norm:
+                        normalized_odds[str(fid)] = norm
+
+                payload["odds"] = normalized_odds
+                payload.setdefault("timestamp", None)
+                payload.setdefault("updated_at", None)
+                payload.setdefault("coverage", "rolling_day1_day5")
+                return payload
+
         except Exception:
             pass
 
@@ -364,19 +425,33 @@ def load_existing_snapshot_payload():
         "coverage": "rolling_day1_day5"
     }
 
-
 def build_rolling_multiday_snapshot(session):
     """
-    Salva la baseline quote di tutti i fixture Day1+Day2+Day3+Day4+Day5.
-    Se un fixture_id esiste già, NON lo sovrascrive:
-    così il drop resta ancorato alla prima quota vista.
+    Snapshot rolling Day1-Day5 basato su fixture_id.
+
+    Regola fondamentale:
+    - se il fixture NON esiste -> salva la baseline open completa
+    - se il fixture ESISTE -> NON sovrascrive mai le open
+    - aggiorna solo i campi last_seen_*
+
+    In questo modo:
+    - se ieri era day3 e oggi è day2/day1, le quote open restano quelle iniziali
+    - il drop resta ancorato alla prima quota vista
     """
     target_dates = get_target_dates()
     existing_payload = load_existing_snapshot_payload()
     existing_odds = existing_payload.get("odds", {}) or {}
 
-    new_odds = dict(existing_odds)
+    new_odds = {}
     active_fixture_ids = set()
+    current_ts = now_rome().strftime("%Y-%m-%d %H:%M:%S")
+    current_hhmm = now_rome().strftime("%H:%M")
+
+    # Riparti già da dati normalizzati
+    for fid, rec in existing_odds.items():
+        norm = _normalize_snapshot_record(fid, rec)
+        if norm:
+            new_odds[str(fid)] = norm
 
     for horizon in ROLLING_SNAPSHOT_HORIZONS:
         target_date = target_dates[horizon - 1]
@@ -399,22 +474,62 @@ def build_rolling_multiday_snapshot(session):
             if not mk or mk == "SKIP":
                 continue
 
-            if fid not in new_odds:
+            existing_rec = new_odds.get(fid)
+
+            # Fixture mai visto prima -> scrivi OPEN una sola volta
+            if not existing_rec:
                 new_odds[fid] = {
-                    "q1": mk["q1"],
-                    "q2": mk["q2"],
+                    "fixture_id": fid,
+
+                    # OPEN fisse
+                    "q1_open": safe_float(mk.get("q1"), 0.0),
+                    "qx_open": safe_float(mk.get("qx"), 0.0),
+                    "q2_open": safe_float(mk.get("q2"), 0.0),
+                    "o25_open": safe_float(mk.get("o25"), 0.0),
+                    "o05ht_open": safe_float(mk.get("o05ht"), 0.0),
+                    "o15ht_open": safe_float(mk.get("o15ht"), 0.0),
+
+                    # Legacy compatibility temporanea
+                    "q1": safe_float(mk.get("q1"), 0.0),
+                    "q2": safe_float(mk.get("q2"), 0.0),
+
+                    # First seen
                     "first_seen_date": target_date,
                     "first_seen_horizon": horizon,
-                    "first_seen_ts": now_rome().strftime("%Y-%m-%d %H:%M:%S")
+                    "first_seen_ts": current_ts,
+
+                    # Last seen
+                    "last_seen_date": target_date,
+                    "last_seen_horizon": horizon,
+                    "last_seen_ts": current_ts
                 }
+
             else:
-                if isinstance(new_odds[fid], dict):
-                    new_odds[fid]["last_seen_date"] = target_date
-                    new_odds[fid]["last_seen_horizon"] = horizon
-                    new_odds[fid]["last_seen_ts"] = now_rome().strftime("%Y-%m-%d %H:%M:%S")
+                # NON toccare mai le open già salvate
+                existing_rec["fixture_id"] = fid
+
+                # Garantisce presenza campi nuovi anche su record legacy
+                existing_rec["q1_open"] = safe_float(existing_rec.get("q1_open", existing_rec.get("q1", 0.0)), 0.0)
+                existing_rec["qx_open"] = safe_float(existing_rec.get("qx_open", 0.0), 0.0)
+                existing_rec["q2_open"] = safe_float(existing_rec.get("q2_open", existing_rec.get("q2", 0.0)), 0.0)
+                existing_rec["o25_open"] = safe_float(existing_rec.get("o25_open", 0.0), 0.0)
+                existing_rec["o05ht_open"] = safe_float(existing_rec.get("o05ht_open", 0.0), 0.0)
+                existing_rec["o15ht_open"] = safe_float(existing_rec.get("o15ht_open", 0.0), 0.0)
+
+                # Legacy fields ancora presenti per compatibilità
+                existing_rec["q1"] = existing_rec["q1_open"]
+                existing_rec["q2"] = existing_rec["q2_open"]
+
+                # Aggiorna solo last_seen
+                existing_rec["last_seen_date"] = target_date
+                existing_rec["last_seen_horizon"] = horizon
+                existing_rec["last_seen_ts"] = current_ts
+
+                new_odds[fid] = existing_rec
 
         time.sleep(0.15)
 
+    # Mantieni solo i fixture ancora vivi nel rolling snapshot
     cleaned_odds = {}
     for fid, data in new_odds.items():
         if fid in active_fixture_ids:
@@ -422,8 +537,8 @@ def build_rolling_multiday_snapshot(session):
 
     payload = {
         "odds": cleaned_odds,
-        "timestamp": now_rome().strftime("%H:%M"),
-        "updated_at": now_rome().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": current_hhmm,
+        "updated_at": current_ts,
         "coverage": "rolling_day1_day5"
     }
 
