@@ -1142,6 +1142,7 @@ def score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff):
 
     combined_ht_clean = (s_h["avg_ht_clean"] + s_a["avg_ht_clean"]) / 2
     combined_ft_clean = (s_h["avg_total_clean"] + s_a["avg_total_clean"]) / 2
+    combined_ht_scored_clean = (s_h["avg_ht_scored_clean"] + s_a["avg_ht_scored_clean"]) / 2
 
     # =========================
     # BASE: eredita da PT + OVER
@@ -1339,7 +1340,7 @@ def build_signal_package(fid, mk, s_h, s_a):
     pto15_score = score_pto15_signal(mk, s_h, s_a, fav, drop_diff)
 
     # pt_score legacy: per non rompere boost/gold subito
-    pt_score = max(ptgg_score, pto15_score)
+    pt_score = max(ptgg_score, pto15_score) + (min(ptgg_score, pto15_score) * 0.18)
 
     over_score = score_over_signal(mk, s_h, s_a, fav, drop_diff)
     boost_score = score_boost_signal(mk, s_h, s_a, pt_score, over_score, drop_diff)
@@ -1355,7 +1356,7 @@ def build_signal_package(fid, mk, s_h, s_a):
     if pto15_score >= 4.00:
         tags.append("🔥PT1.5")
 
-    if over_score >= 4.00 and combined_ht_clean >= 0.82:
+    if over_score >= 4.00 and combined_ht_clean >= 0.72:
         tags.append("⚽ OVER")
 
     # =========================
