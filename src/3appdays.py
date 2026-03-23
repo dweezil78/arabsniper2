@@ -2748,21 +2748,69 @@ if st.session_state.scan_results:
             qx_curr = safe_float(row.get("QX_CURR"), 0.0)
             q2_curr = safe_float(row.get("Q2_CURR"), 0.0)
 
-            q1_move = str(row.get("Q1_MOVE", "")).strip()
-            qx_move = str(row.get("QX_MOVE", "")).strip()
-            q2_move = str(row.get("Q2_MOVE", "")).strip()
+            q1_data = row.get("Q1_MOVE_DATA", {}) or {}
+            qx_data = row.get("QX_MOVE_DATA", {}) or {}
+            q2_data = row.get("Q2_MOVE_DATA", {}) or {}
 
-            def fmt_line(label, open_q, move_txt, curr_q):
-                open_s = f"{open_q:.2f}" if open_q > 0 else "-"
-                curr_s = f"{curr_q:.2f}" if curr_q > 0 else "-"
-                mid = move_txt if move_txt else "→0.00"
-                return f"<div><b>{label}</b> {open_s} {mid} {curr_s}</div>"
+            def current_style(move_data):
+                direction = str(move_data.get("dir", "")).strip()
+                abs_diff = safe_float(move_data.get("abs_diff", 0.0), 0.0)
+
+                # stile simile Gold:
+                # down evidente = rosso
+                # up evidente = verde tenue
+                # flat = neutro
+                if direction == "down" and abs_diff >= 0.01:
+                    return "#e53935", "↓"
+                if direction == "up" and abs_diff >= 0.01:
+                    return "#00c853", "↑"
+                return "#111111", ""
+
+            def outcome_block(label, open_q, curr_q, move_data):
+                open_txt = f"{open_q:.2f}" if open_q > 0 else "-"
+                curr_txt = f"{curr_q:.2f}" if curr_q > 0 else "-"
+                color, arrow = current_style(move_data)
+
+                curr_line = f"{arrow} {curr_txt}".strip()
+
+                return f"""
+                <div style="
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:center;
+                    min-width:44px;
+                    line-height:1.05;
+                ">
+                    <div style="
+                        font-size:12px;
+                        font-weight:700;
+                        color:#111111;
+                        margin-bottom:2px;
+                    ">
+                        {label} {open_txt}
+                    </div>
+                    <div style="
+                        font-size:12px;
+                        font-weight:800;
+                        color:{color};
+                    ">
+                        {curr_line}
+                    </div>
+                </div>
+                """
 
             return f"""
-            <div style="line-height:1.25; white-space:pre-line; text-align:left;">
-                {fmt_line("1", q1_open, q1_move, q1_curr)}
-                {fmt_line("X", qx_open, qx_move, qx_curr)}
-                {fmt_line("2", q2_open, q2_move, q2_curr)}
+            <div style="
+                display:flex;
+                align-items:flex-start;
+                justify-content:center;
+                gap:10px;
+                white-space:nowrap;
+            ">
+                {outcome_block("1", q1_open, q1_curr, q1_data)}
+                {outcome_block("X", qx_open, qx_curr, qx_data)}
+                {outcome_block("2", q2_open, q2_curr, q2_data)}
             </div>
             """
 
