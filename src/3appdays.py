@@ -1953,6 +1953,11 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                             "home_avg_ft_scored_clean": round(s_h["avg_ft_scored_clean"], 3),
                             "away_avg_ft_scored_clean": round(s_a["avg_ft_scored_clean"], 3),
 
+                            "home_avg_ft_conceded": round(s_h["avg_ft_conceded"], 3),
+                            "away_avg_ft_conceded": round(s_a["avg_ft_conceded"], 3),
+                            "home_avg_ft_conceded_clean": round(s_h["avg_ft_conceded_clean"], 3),
+                            "away_avg_ft_conceded_clean": round(s_a["avg_ft_conceded_clean"], 3),
+
                             "home_ht_scored_1plus_rate": round(s_h["ht_scored_1plus_rate"], 3),
                             "away_ht_scored_1plus_rate": round(s_a["ht_scored_1plus_rate"], 3),
                             "home_ht_scored_2plus_rate": round(s_h["ht_scored_2plus_rate"], 3),
@@ -1960,10 +1965,6 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                             "home_ht_conceded_1plus_rate": round(s_h["ht_conceded_1plus_rate"], 3),
                             "away_ht_conceded_1plus_rate": round(s_a["ht_conceded_1plus_rate"], 3),
 
-                            "home_avg_ft_conceded": round(s_h["avg_ft_conceded"], 3),
-                            "away_avg_ft_conceded": round(s_a["avg_ft_conceded"], 3),
-                            "home_avg_ft_conceded_clean": round(s_h["avg_ft_conceded_clean"], 3),
-                            "away_avg_ft_conceded_clean": round(s_a["avg_ft_conceded_clean"], 3),
                         },    
                         "flags": {
                             "fav_quote": round(fav, 3),
