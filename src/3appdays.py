@@ -1517,7 +1517,7 @@ def build_signal_package(fid, mk, s_h, s_a):
         "scores": {
             "ptgg": ptgg_score,
             "pto15": pto15_score,
-            "pt": pt_score,   # legacy temporaneo
+            "pt": pt_score,   # PT composito   
             "over": over_score,
             "boost": boost_score,
             "gold": gold_score,
