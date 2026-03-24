@@ -2816,12 +2816,14 @@ def run_nightly_multiday_build():
         print("📆 DAY 4: scan statico + update data_day4/details_day4")
         run_full_scan(horizon=4, snap=False, update_main_site=False, show_success=False)
 
-        print("📆 DAY 5: scan statico + update data_day5/details_day5")
+        print("📌 DAY 5: scan statico + update data_day5/details_day5")
         run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
 
-        build_daily_snapshots_from_rolling()
+        snapshot_payload = load_snapshot()
+        build_daily_snapshots_from_rolling(snapshot_payload)
 
         print("✅ Build multi-day completata.")
+        
     except Exception as e:
         print(f"❌ Errore build multi-day: {e}")
         raise
