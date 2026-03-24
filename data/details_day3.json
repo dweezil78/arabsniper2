@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-24 13:41:21",
+    "updated_at": "2026-03-24 15:37:05",
     "day": 3,
     "date": "2026-03-26",
     "details": {
@@ -13,12 +13,12 @@
             "home_team": "Lexington",
             "away_team": "Brooklyn",
             "markets": {
-                "q1": 1.55,
-                "qx": 3.65,
+                "q1": 1.53,
+                "qx": 3.75,
                 "q2": 5.6,
-                "o25": 1.93,
-                "o05ht": 1.38,
-                "o15ht": 2.75
+                "o25": 1.85,
+                "o05ht": 1.35,
+                "o15ht": 2.62
             },
             "averages": {
                 "home_avg_ft": 3.5,
@@ -66,24 +66,24 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 1.55,
+                "fav_quote": 1.53,
                 "is_gold_zone": true,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
-                "drop_diff": 0.12
+                "drop_diff": 0.14
             },
             "scores": {
                 "ptgg": 4.1,
                 "pto15": 1.4,
                 "pt": 4.351999999999999,
                 "over": 3.47,
-                "boost": 6.362,
-                "gold": 6.56,
-                "max": 6.56
+                "boost": 6.812,
+                "gold": 6.96,
+                "max": 6.96
             },
             "tags": [
                 "🎯PTGG",
-                "📉-0.12"
+                "📉-0.14"
             ],
             "home_last_8": [
                 {
@@ -3556,7 +3556,7 @@
                 "q2": 3.5,
                 "o25": 1.7,
                 "o05ht": 1.3,
-                "o15ht": 2.5
+                "o15ht": 2.38
             },
             "averages": {
                 "home_avg_ft": 3.25,
