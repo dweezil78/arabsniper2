@@ -18,10 +18,14 @@ from github import Github
 # + rolling snapshot 5 giorni
 # ==========================================
 BASE_DIR = Path(__file__).resolve().parent
-DB_FILE = str(BASE_DIR / "arab_sniper_database.json")
-SNAP_FILE = str(BASE_DIR / "arab_snapshot_database.json")
-CONFIG_FILE = str(BASE_DIR / "nazioni_config.json")
-DETAILS_FILE = str(BASE_DIR / "match_details.json")
+PROJECT_ROOT = BASE_DIR.parent
+
+DATA_DIR = PROJECT_ROOT / "data"
+
+DB_FILE = str(DATA_DIR / "arab_sniper_database.json")
+SNAP_FILE = str(DATA_DIR / "arab_snapshot_database.json")
+CONFIG_FILE = str(DATA_DIR / "nazioni_config.json")
+DETAILS_FILE = str(DATA_DIR / "match_details.json")
 
 DEFAULT_EXCLUDED = ["Thailand", "Indonesia", "India", "Kenya", "Morocco", "Rwanda", "Nigeria", "Oman", "Algeria", "UAE"]
 LEAGUE_BLACKLIST = ["u19", "u20", "youth", "women", "friendly", "carioca", "paulista", "mineiro"]
