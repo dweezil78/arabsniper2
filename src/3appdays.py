@@ -3038,3 +3038,13 @@ def build_curr_pack_from_row(row: dict) -> dict:
         "O05HT_CURR": safe_float(row.get("O0.5H", row.get("O05HT_CURR", 0))),
         "O15HT_CURR": safe_float(row.get("O1.5H", row.get("O15HT_CURR", 0))),
     }
+
+def build_open_pack_from_row(row: dict) -> dict:
+    return {
+        "Q1_OPEN": safe_float(row.get("Q1_OPEN", row.get("Q1", 0))),
+        "QX_OPEN": safe_float(row.get("QX_OPEN", row.get("QX", 0))),
+        "Q2_OPEN": safe_float(row.get("Q2_OPEN", row.get("Q2", 0))),
+        "O25_OPEN": safe_float(row.get("O25_OPEN", row.get("O2.5", 0))),
+        "O05HT_OPEN": safe_float(row.get("O05HT_OPEN", row.get("O0.5H", 0))),
+        "O15HT_OPEN": safe_float(row.get("O15HT_OPEN", row.get("O1.5H", 0))),
+    }
