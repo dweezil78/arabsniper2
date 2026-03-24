@@ -674,6 +674,41 @@ def upload_snapshot_day_to_github(day_num, payload):
         )
     except Exception as e:
         print(f"Snapshot day{day_num} upload error: {e}")
+
+
+def build_daily_snapshots_from_rolling():
+    """
+    Crea snapshot_day1...snapshot_day5 filtrando il rolling snapshot centrale.
+    NON riscrive le OPEN: usa i record già consolidati nel rolling snapshot.
+    """
+    payload = load_existing_snapshot_payload()
+    odds_map = payload.get("odds", {}) or {}
+    target_dates = get_target_dates()
+    current_ts = now_rome().strftime("%Y-%m-%d %H:%M:%S")
+
+    for day_num in range(1, 6):
+        day_date = target_dates[day_num - 1]
+        day_odds = {}
+
+        for fid, rec in odds_map.items():
+            if not isinstance(rec, dict):
+                continue
+            if str(rec.get("last_seen_date", "")).strip() == day_date:
+                day_odds[str(fid)] = rec
+
+        day_payload = {
+            "day": day_num,
+            "date": day_date,
+            "updated_at": current_ts,
+            "odds": day_odds,
+        }
+
+        out_file = DATA_DIR / f"snapshot_day{day_num}.json"
+        with open(out_file, "w", encoding="utf-8") as f:
+            json.dump(day_payload, f, indent=4, ensure_ascii=False)
+
+        upload_snapshot_day_to_github(day_num, day_payload)
+        print(f"📦 snapshot_day{day_num}.json aggiornato: {len(day_odds)} match")
         
 def get_team_last_matches(session, tid):
     cache_key = str(tid)
@@ -2757,7 +2792,7 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
 # ==========================================
 def run_nightly_multiday_build():
     print("🚀 Avvio scan notturno multi-day...")
-    
+
     print("🔄 Rotazione file day1-day5...")
     try:
         import subprocess
@@ -2766,27 +2801,30 @@ def run_nightly_multiday_build():
         print("✅ Rotazione file completata.")
     except Exception as e:
         print(f"❌ Errore rotazione file day: {e}")
-        return
+        raise
 
-    print("📌 DAY 1: SNAPSHOT rolling + refresh quote + update data.json/data_day1/details_day1")
-    run_full_scan(horizon=1, snap=True, update_main_site=True, show_success=False)
+    try:
+        print("📌 DAY 1: SNAPSHOT rolling + refresh quote + update data.json/data_day1/details_day1")
+        run_full_scan(horizon=1, snap=True, update_main_site=True, show_success=False)
 
-    print("📆 DAY 2: scan statico + update data_day2/details_day2")
-    run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
+        print("📆 DAY 2: scan statico + update data_day2/details_day2")
+        run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
 
-    print("📆 DAY 3: scan statico + update data_day3/details_day3")
-    run_full_scan(horizon=3, snap=False, update_main_site=False, show_success=False)
+        print("📆 DAY 3: scan statico + update data_day3/details_day3")
+        run_full_scan(horizon=3, snap=False, update_main_site=False, show_success=False)
 
-    print("📆 DAY 4: scan statico + update data_day4/details_day4")
-    run_full_scan(horizon=4, snap=False, update_main_site=False, show_success=False)
+        print("📆 DAY 4: scan statico + update data_day4/details_day4")
+        run_full_scan(horizon=4, snap=False, update_main_site=False, show_success=False)
 
-    print("📆 DAY 5: scan statico + update data_day5/details_day5")
-    run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
+        print("📆 DAY 5: scan statico + update data_day5/details_day5")
+        run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
 
-    snapshot_payload = load_snapshot()
-    build_daily_snapshots_from_rolling(snapshot_payload)
+        build_daily_snapshots_from_rolling()
 
-    print("✅ Build multi-day completata.")
+        print("✅ Build multi-day completata.")
+    except Exception as e:
+        print(f"❌ Errore build multi-day: {e}")
+        raise
 
 # ==========================================
 # UI SIDEBAR
