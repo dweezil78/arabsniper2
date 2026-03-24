@@ -2915,14 +2915,6 @@ if st.session_state.scan_results:
                 return f"<div><b>{label}</b> {open_s} {mid} {curr_s}</div>"
 
             return f"""
-            <div style="line-height:1.25; white-space:pre-line; text-align:left;">
-                {fmt_line("1", q1_open, q1_move, q1_curr)}
-                {fmt_line("X", qx_open, qx_move, qx_curr)}
-                {fmt_line("2", q2_open, q2_move, q2_curr)}
-            </div>
-            """
-
-            return f"""
             <div style="
                 display:flex;
                 align-items:flex-start;
