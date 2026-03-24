@@ -2783,7 +2783,8 @@ def run_nightly_multiday_build():
     print("📆 DAY 5: scan statico + update data_day5/details_day5")
     run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
 
-    build_daily_snapshots_from_rolling(load_existing_snapshot_payload())
+    snapshot_payload = load_snapshot()
+    build_daily_snapshots_from_rolling(snapshot_payload)
 
     print("✅ Build multi-day completata.")
 
