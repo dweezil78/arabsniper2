@@ -1,0 +1,32 @@
+name: Test API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+
+      - name: Debug API key presence
+        run: |
+          python - <<'PY'
+          import os
+          key = os.getenv("API_SPORTS_KEY")
+          print("API_SPORTS_KEY present:", bool(key))
+          print("API_SPORTS_KEY length:", len(key) if key else 0)
+          PY
+        env:
+          API_SPORTS_KEY: ${{ secrets.API_SPORTS_KEY }}
