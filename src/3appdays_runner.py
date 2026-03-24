@@ -1,46 +1,33 @@
 import os
+import sys
 import json
 import argparse
-import traceback
-import importlib.util
-from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
+try:
+    from github import Github
+except Exception:
+    Github = None
+
 
 # =========================================================
-# CONFIG
+# PATHS
 # =========================================================
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SRC_DIR.parent
+DATA_DIR = PROJECT_ROOT / "data"
+OUTPUT_DIR = PROJECT_ROOT / "output"
 
-DATA_DIR = os.path.join(BASE_DIR, "data")
-OUTPUT_DIR = os.path.join(BASE_DIR, "output")
+ENGINE_FILE = SRC_DIR / "3appdays.py"
 
-ENGINE_FILE = os.path.join(BASE_DIR, "3appDays.py")
+RUN_STATE_FILE = DATA_DIR / "run_state.json"
+LAST_FAST_UPDATE_FILE = DATA_DIR / "last_fast_update.json"
 
-DAY_FILES = {
-    "day1": {
-        "snapshot": os.path.join(DATA_DIR, "snapshot_day1.json"),
-        "output": os.path.join(OUTPUT_DIR, "data_day1.json"),
-    },
-    "day2": {
-        "snapshot": os.path.join(DATA_DIR, "snapshot_day2.json"),
-        "output": os.path.join(OUTPUT_DIR, "data_day2.json"),
-    },
-    "day3": {
-        "snapshot": os.path.join(DATA_DIR, "snapshot_day3.json"),
-        "output": os.path.join(OUTPUT_DIR, "data_day3.json"),
-    },
-    "day4": {
-        "snapshot": os.path.join(DATA_DIR, "snapshot_day4.json"),
-        "output": os.path.join(OUTPUT_DIR, "data_day4.json"),
-    },
-}
+REMOTE_LAST_FAST_UPDATE_FILE = "data/last_fast_update.json"
 
-LAST_FAST_UPDATE_FILE = os.path.join(OUTPUT_DIR, "last_fast_update.json")
-RUN_STATE_FILE = os.path.join(DATA_DIR, "run_state.json")
-
-# Se vuoi forzare il timezone logico, tienilo come nota.
-# Lato date operative uso datetime.now() locale del runtime.
-TIMEZONE_NAME = "Europe/Rome"
+REPO_NAME = "dweezil78/arabsniper2"
 
 
 # =========================================================
@@ -48,432 +35,240 @@ TIMEZONE_NAME = "Europe/Rome"
 # =========================================================
 def log(msg: str) -> None:
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[{ts}] {msg}")
+    print(f"[{ts}] {msg}", flush=True)
 
 
 # =========================================================
-# FILE / JSON UTILS
+# FILE UTILS
 # =========================================================
 def ensure_directories() -> None:
-    os.makedirs(DATA_DIR, exist_ok=True)
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def now_iso() -> str:
     return datetime.now().isoformat(timespec="seconds")
 
 
-def safe_read_json(path: str, default: Optional[Any] = None) -> Any:
-    if default is None:
-        default = {}
-
-    if not os.path.exists(path):
-        return default
-
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        log(f"WARNING lettura JSON fallita: {path} -> {e}")
-        return default
-
-
-def safe_write_json(path: str, payload: Any) -> None:
-    tmp_path = f"{path}.tmp"
+def safe_write_json(path: Path, payload) -> None:
+    tmp_path = path.with_suffix(path.suffix + ".tmp")
     with open(tmp_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
     os.replace(tmp_path, path)
 
 
-def get_snapshot_path(day_label: str) -> str:
-    return DAY_FILES[day_label]["snapshot"]
-
-
-def get_output_path(day_label: str) -> str:
-    return DAY_FILES[day_label]["output"]
-
-
-def load_snapshot(day_label: str) -> Optional[Dict[str, Any]]:
-    path = get_snapshot_path(day_label)
-    data = safe_read_json(path, default=None)
-    if not data:
-        return None
-    return data
-
-
-def save_snapshot(day_label: str, snapshot_payload: Dict[str, Any]) -> None:
-    path = get_snapshot_path(day_label)
-    safe_write_json(path, snapshot_payload)
-
-
-def save_output(day_label: str, output_payload: Dict[str, Any]) -> None:
-    path = get_output_path(day_label)
-    safe_write_json(path, output_payload)
-
-
-def update_last_fast_update(mode: str, day_label: str = "day1") -> None:
-    payload = {
-        "last_update": now_iso(),
-        "mode": mode,
-        "day": day_label,
-        "source": "3appDays_runner.py",
-    }
-    safe_write_json(LAST_FAST_UPDATE_FILE, payload)
-
-
-def save_run_state(payload: Dict[str, Any]) -> None:
+def save_run_state(payload: dict) -> None:
     safe_write_json(RUN_STATE_FILE, payload)
 
 
 # =========================================================
-# DATE UTILS
+# GITHUB HELPERS
 # =========================================================
-def get_base_date() -> datetime.date:
-    """
-    Data base operativa.
-    Per ora: oggi locale del runtime.
-    Se in futuro vuoi forzare logiche notturne particolari, si modifica qui.
-    """
-    return datetime.now().date()
+def get_github_token():
+    token = os.getenv("GITHUB_TOKEN")
+    if token:
+        return token
+
+    # fallback semplice facoltativo: GitHub Actions o env locale
+    return None
 
 
-def build_day_map(base_date) -> Dict[str, str]:
-    return {
-        "day1": base_date.strftime("%Y-%m-%d"),
-        "day2": (base_date + timedelta(days=1)).strftime("%Y-%m-%d"),
-        "day3": (base_date + timedelta(days=2)).strftime("%Y-%m-%d"),
-        "day4": (base_date + timedelta(days=3)).strftime("%Y-%m-%d"),
-    }
+def github_write_json(filename: str, payload, commit_message: str) -> str:
+    if Github is None:
+        return "PYGITHUB_NOT_AVAILABLE"
+
+    token = get_github_token()
+    if not token:
+        return "MISSING_TOKEN"
+
+    try:
+        g = Github(token)
+        repo = g.get_repo(REPO_NAME)
+        content_str = json.dumps(payload, indent=2, ensure_ascii=False)
+
+        try:
+            contents = repo.get_contents(filename)
+            repo.update_file(contents.path, commit_message, content_str, contents.sha)
+            return "SUCCESS"
+        except Exception:
+            try:
+                repo.create_file(filename, commit_message, content_str)
+                return "SUCCESS"
+            except Exception as e_create:
+                return f"CREATE_FAILED: {e_create}"
+
+    except Exception as e:
+        return f"GITHUB_ERROR: {e}"
 
 
-# =========================================================
-# ENGINE LOADER
-# =========================================================
-def load_engine_module():
-    """
-    Carica 3appDays.py anche se il nome file inizia con numero.
-    """
-    if not os.path.exists(ENGINE_FILE):
-        raise FileNotFoundError(f"File motore non trovato: {ENGINE_FILE}")
-
-    spec = importlib.util.spec_from_file_location("engine_3appDays", ENGINE_FILE)
-    if spec is None or spec.loader is None:
-        raise ImportError(f"Impossibile creare spec per: {ENGINE_FILE}")
-
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
-# =========================================================
-# ENGINE BRIDGE
-# =========================================================
-def engine_build_snapshot(engine_module, target_date: str, day_label: str) -> Dict[str, Any]:
-    """
-    Qui agganciamo il tuo 3appDays.py.
-
-    PRIORITÀ:
-    1) Se nel motore esiste build_snapshot_for_day(...) usa quella
-    2) altrimenti se esiste run_scan_for_day(..., create_snapshot=True) usa quella
-    3) se non esiste nulla, alza errore chiaro
-    """
-
-    if hasattr(engine_module, "build_snapshot_for_day"):
-        return engine_module.build_snapshot_for_day(
-            target_date=target_date,
-            day_label=day_label
-        )
-
-    if hasattr(engine_module, "run_scan_for_day"):
-        result = engine_module.run_scan_for_day(
-            target_date=target_date,
-            day_label=day_label,
-            mode="night",
-            snapshot_data=None,
-            create_snapshot=True,
-        )
-
-        snapshot = result.get("snapshot")
-        if not snapshot:
-            raise ValueError(
-                "Il motore ha eseguito run_scan_for_day(create_snapshot=True) "
-                "ma non ha restituito la chiave 'snapshot'."
-            )
-        return snapshot
-
-    raise AttributeError(
-        "Nel file 3appDays.py non trovo né build_snapshot_for_day(...) "
-        "né run_scan_for_day(...)."
-    )
-
-
-def engine_scan_with_snapshot(
-    engine_module,
-    target_date: str,
-    day_label: str,
-    mode: str,
-    snapshot_data: Dict[str, Any]
-) -> Dict[str, Any]:
-    """
-    Qui agganciamo lo scan vero del motore.
-
-    PRIORITÀ:
-    1) Se esiste scan_day_with_snapshot(...) usa quella
-    2) altrimenti se esiste run_scan_for_day(...) usa quella
-    """
-
-    if hasattr(engine_module, "scan_day_with_snapshot"):
-        return engine_module.scan_day_with_snapshot(
-            target_date=target_date,
-            day_label=day_label,
-            mode=mode,
-            snapshot_data=snapshot_data,
-        )
-
-    if hasattr(engine_module, "run_scan_for_day"):
-        return engine_module.run_scan_for_day(
-            target_date=target_date,
-            day_label=day_label,
-            mode=mode,
-            snapshot_data=snapshot_data,
-            create_snapshot=False,
-        )
-
-    raise AttributeError(
-        "Nel file 3appDays.py non trovo né scan_day_with_snapshot(...) "
-        "né run_scan_for_day(...)."
-    )
-
-
-# =========================================================
-# OUTPUT NORMALIZER
-# =========================================================
-def normalize_output_payload(
-    raw_output: Dict[str, Any],
-    day_label: str,
-    target_date: str,
-    mode: str
-) -> Dict[str, Any]:
-    """
-    Garantisce sempre un JSON coerente per il sito.
-    """
-    if raw_output is None:
-        raw_output = {}
-
-    results = raw_output.get("results", [])
-    meta = raw_output.get("meta", {})
-
+def update_last_fast_update(mode: str, command: str, returncode: int) -> dict:
     payload = {
-        "day_label": day_label,
-        "target_date": target_date,
+        "last_update": now_iso(),
         "mode": mode,
-        "generated_at": now_iso(),
-        "results": results,
-        "meta": {
-            "matches_found": len(results),
-            **meta
-        }
+        "command": command,
+        "returncode": returncode,
+        "source": "src/3appdays_runner.py",
     }
 
-    # Manteniamo anche eventuali altre chiavi utili dal motore
-    for k, v in raw_output.items():
-        if k not in payload:
-            payload[k] = v
+    # salva locale
+    safe_write_json(LAST_FAST_UPDATE_FILE, payload)
+
+    # prova upload GitHub
+    gh_status = github_write_json(
+        REMOTE_LAST_FAST_UPDATE_FILE,
+        payload,
+        f"Update last_fast_update ({mode})"
+    )
+    payload["github_status"] = gh_status
+
+    # risalva con github_status incluso
+    safe_write_json(LAST_FAST_UPDATE_FILE, payload)
 
     return payload
 
 
 # =========================================================
-# SINGLE DAY EXECUTION
+# ENGINE EXECUTION
 # =========================================================
-def execute_day(engine_module, day_label: str, target_date: str, mode: str) -> Dict[str, Any]:
-    """
-    Night:
-    - crea snapshot
-    - salva snapshot
-    - esegue scan con snapshot
-    - salva output
-
-    Fast:
-    - legge snapshot esistente
-    - esegue scan con snapshot
-    - salva output
-    - NON tocca snapshot
-    """
-    log(f"START {mode.upper()} {day_label} ({target_date})")
-
-    if mode not in ("night", "fast"):
-        raise ValueError(f"Mode non valido: {mode}")
-
-    snapshot_data = None
-    snapshot_created = False
-    snapshot_path = get_snapshot_path(day_label)
-    output_path = get_output_path(day_label)
+def build_engine_command(mode: str):
+    python_exe = sys.executable or "python"
 
     if mode == "night":
-        snapshot_data = engine_build_snapshot(engine_module, target_date, day_label)
-        if not isinstance(snapshot_data, dict):
-            raise TypeError(f"Snapshot non valido per {day_label}: atteso dict")
+        return [python_exe, str(ENGINE_FILE), "--auto"]
 
-        # arricchimento meta minimo
-        if "generated_at" not in snapshot_data:
-            snapshot_data["generated_at"] = now_iso()
-        if "day_label" not in snapshot_data:
-            snapshot_data["day_label"] = day_label
-        if "target_date" not in snapshot_data:
-            snapshot_data["target_date"] = target_date
+    if mode == "fast":
+        return [python_exe, str(ENGINE_FILE), "--fast"]
 
-        save_snapshot(day_label, snapshot_data)
-        snapshot_created = True
-        log(f"Snapshot salvato: {snapshot_path}")
+    if mode == "day2-refresh":
+        return [python_exe, str(ENGINE_FILE), "--day2-refresh"]
 
-    else:
-        snapshot_data = load_snapshot(day_label)
-        if not snapshot_data:
-            raise FileNotFoundError(
-                f"Snapshot mancante per {day_label}: {snapshot_path}. "
-                f"Non puoi fare fast scan senza snapshot."
-            )
-        log(f"Snapshot caricato: {snapshot_path}")
+    raise ValueError(f"Modalità non valida: {mode}")
 
-    raw_output = engine_scan_with_snapshot(
-        engine_module=engine_module,
-        target_date=target_date,
-        day_label=day_label,
-        mode=mode,
-        snapshot_data=snapshot_data,
+
+def run_engine(mode: str) -> dict:
+    if not ENGINE_FILE.exists():
+        raise FileNotFoundError(f"Motore non trovato: {ENGINE_FILE}")
+
+    cmd = build_engine_command(mode)
+    cmd_str = " ".join(cmd)
+
+    log(f"ENGINE START -> {cmd_str}")
+
+    result = subprocess.run(
+        cmd,
+        cwd=str(PROJECT_ROOT),
+        text=True,
+        capture_output=True
     )
 
-    output_payload = normalize_output_payload(
-        raw_output=raw_output,
-        day_label=day_label,
-        target_date=target_date,
-        mode=mode
-    )
+    log(f"ENGINE END -> rc={result.returncode}")
 
-    save_output(day_label, output_payload)
-    log(f"Output salvato: {output_path}")
+    if result.stdout:
+        print("\n========== STDOUT ==========")
+        print(result.stdout)
 
-    results_count = len(output_payload.get("results", []))
+    if result.stderr:
+        print("\n========== STDERR ==========")
+        print(result.stderr)
 
-    report = {
-        "day": day_label,
-        "date": target_date,
+    return {
         "mode": mode,
-        "status": "ok",
-        "snapshot_created": snapshot_created,
-        "snapshot_path": snapshot_path,
-        "output_path": output_path,
-        "results_count": results_count,
+        "command": cmd_str,
+        "returncode": result.returncode,
+        "stdout": result.stdout,
+        "stderr": result.stderr,
+        "status": "ok" if result.returncode == 0 else "error",
         "generated_at": now_iso(),
     }
 
-    log(f"END {mode.upper()} {day_label} -> {results_count} risultati")
-    return report
-
 
 # =========================================================
-# NIGHT WORKFLOW
+# WORKFLOWS
 # =========================================================
 def run_night_workflow() -> None:
     ensure_directories()
-    engine_module = load_engine_module()
 
     log("=====================================")
     log("NIGHT WORKFLOW START")
     log("=====================================")
 
-    base_date = get_base_date()
-    day_map = build_day_map(base_date)
-
-    reports = []
-
-    for day_label in ["day1", "day2", "day3", "day4"]:
-        target_date = day_map[day_label]
-
-        try:
-            report = execute_day(
-                engine_module=engine_module,
-                day_label=day_label,
-                target_date=target_date,
-                mode="night"
-            )
-            reports.append(report)
-
-        except Exception as e:
-            err = {
-                "day": day_label,
-                "date": target_date,
-                "mode": "night",
-                "status": "error",
-                "error": str(e),
-                "traceback": traceback.format_exc(),
-                "generated_at": now_iso(),
-            }
-            reports.append(err)
-            log(f"ERRORE {day_label}: {e}")
-
-            # Nota: qui NON fermo tutto il workflow.
-            # Così un errore su day3 non ti blocca day4.
-
-    update_last_fast_update(mode="night", day_label="day1")
+    report = run_engine("night")
+    last_update_payload = update_last_fast_update(
+        mode="night",
+        command=report["command"],
+        returncode=report["returncode"]
+    )
 
     save_run_state({
         "last_run_type": "night",
         "generated_at": now_iso(),
-        "base_date": base_date.strftime("%Y-%m-%d"),
-        "reports": reports,
+        "engine_report": report,
+        "last_fast_update": last_update_payload,
     })
 
-    ok_count = sum(1 for r in reports if r.get("status") == "ok")
-    log(f"NIGHT WORKFLOW END - successi: {ok_count}/{len(reports)}")
+    if report["returncode"] != 0:
+        log("NIGHT WORKFLOW END -> ERRORE")
+        raise SystemExit(1)
+
+    log("NIGHT WORKFLOW END -> OK")
     log("=====================================")
 
 
-# =========================================================
-# FAST WORKFLOW
-# =========================================================
 def run_fast_workflow() -> None:
     ensure_directories()
-    engine_module = load_engine_module()
 
     log("=====================================")
     log("FAST WORKFLOW START")
     log("=====================================")
 
-    base_date = get_base_date()
-    day_map = build_day_map(base_date)
-    target_date = day_map["day1"]
-
-    try:
-        report = execute_day(
-            engine_module=engine_module,
-            day_label="day1",
-            target_date=target_date,
-            mode="fast"
-        )
-    except Exception as e:
-        report = {
-            "day": "day1",
-            "date": target_date,
-            "mode": "fast",
-            "status": "error",
-            "error": str(e),
-            "traceback": traceback.format_exc(),
-            "generated_at": now_iso(),
-        }
-        log(f"ERRORE FAST day1: {e}")
-
-    update_last_fast_update(mode="fast", day_label="day1")
+    report = run_engine("fast")
+    last_update_payload = update_last_fast_update(
+        mode="fast",
+        command=report["command"],
+        returncode=report["returncode"]
+    )
 
     save_run_state({
         "last_run_type": "fast",
         "generated_at": now_iso(),
-        "base_date": base_date.strftime("%Y-%m-%d"),
-        "reports": [report],
+        "engine_report": report,
+        "last_fast_update": last_update_payload,
     })
 
-    log("FAST WORKFLOW END")
+    if report["returncode"] != 0:
+        log("FAST WORKFLOW END -> ERRORE")
+        raise SystemExit(1)
+
+    log("FAST WORKFLOW END -> OK")
+    log("=====================================")
+
+
+def run_day2_refresh_workflow() -> None:
+    ensure_directories()
+
+    log("=====================================")
+    log("DAY2 REFRESH WORKFLOW START")
+    log("=====================================")
+
+    report = run_engine("day2-refresh")
+    last_update_payload = update_last_fast_update(
+        mode="day2-refresh",
+        command=report["command"],
+        returncode=report["returncode"]
+    )
+
+    save_run_state({
+        "last_run_type": "day2-refresh",
+        "generated_at": now_iso(),
+        "engine_report": report,
+        "last_fast_update": last_update_payload,
+    })
+
+    if report["returncode"] != 0:
+        log("DAY2 REFRESH WORKFLOW END -> ERRORE")
+        raise SystemExit(1)
+
+    log("DAY2 REFRESH WORKFLOW END -> OK")
     log("=====================================")
 
 
@@ -481,18 +276,25 @@ def run_fast_workflow() -> None:
 # CLI
 # =========================================================
 def parse_args():
-    parser = argparse.ArgumentParser(description="Runner workflow ArabSniper")
-    parser.add_argument("--night", action="store_true", help="Esegue il night workflow")
-    parser.add_argument("--fast", action="store_true", help="Esegue il fast workflow")
+    parser = argparse.ArgumentParser(description="ArabSniper runner compatibile col motore attuale")
+    parser.add_argument("--night", action="store_true", help="Lancia 3appdays.py --auto")
+    parser.add_argument("--fast", action="store_true", help="Lancia 3appdays.py --fast")
+    parser.add_argument("--day2-refresh", action="store_true", help="Lancia 3appdays.py --day2-refresh")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
-    if args.night and args.fast:
-        log("Errore: usa solo una modalità per volta (--night oppure --fast).")
-        return
+    chosen = sum([
+        1 if args.night else 0,
+        1 if args.fast else 0,
+        1 if args.day2_refresh else 0
+    ])
+
+    if chosen != 1:
+        log("Usa una sola modalità: --night oppure --fast oppure --day2-refresh")
+        raise SystemExit(1)
 
     if args.night:
         run_night_workflow()
@@ -502,7 +304,9 @@ def main():
         run_fast_workflow()
         return
 
-    log("Nessuna modalità specificata. Usa --night oppure --fast.")
+    if args.day2_refresh:
+        run_day2_refresh_workflow()
+        return
 
 
 if __name__ == "__main__":
