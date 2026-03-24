@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-24 10:30:13",
+    "updated_at": "2026-03-24 13:41:21",
     "day": 3,
     "date": "2026-03-26",
     "details": {
@@ -596,332 +596,6 @@
                 }
             ]
         },
-        "1503677": {
-            "fixture_id": 1503677,
-            "date": "2026-03-26",
-            "time": "01:15",
-            "league": "Copa Argentina",
-            "country": "Argentina",
-            "match": "Banfield - Real Pilar",
-            "home_team": "Banfield",
-            "away_team": "Real Pilar",
-            "markets": {
-                "q1": 1.43,
-                "qx": 3.75,
-                "q2": 6.75,
-                "o25": 2.1,
-                "o05ht": 1.42,
-                "o15ht": 2.95
-            },
-            "averages": {
-                "home_avg_ft": 2.375,
-                "away_avg_ft": 2.25,
-                "home_avg_ht": 1.125,
-                "away_avg_ht": 0.875,
-                "combined_ht_avg": 1.0,
-                "home_avg_ft_clean": 2.333,
-                "away_avg_ft_clean": 2.333,
-                "home_avg_ht_clean": 1.167,
-                "away_avg_ht_clean": 0.833,
-                "home_ft_2plus_rate": 0.75,
-                "away_ft_2plus_rate": 0.75,
-                "home_ft_3plus_rate": 0.5,
-                "away_ft_3plus_rate": 0.5,
-                "home_ft_low_rate": 0.25,
-                "away_ft_low_rate": 0.25,
-                "home_ht_1plus_rate": 0.75,
-                "away_ht_1plus_rate": 0.75,
-                "home_ht_zero_rate": 0.25,
-                "away_ht_zero_rate": 0.25,
-                "home_ft_peak_count": 0,
-                "away_ft_peak_count": 0,
-                "home_avg_ht_scored": 0.5,
-                "away_avg_ht_scored": 0.5,
-                "home_avg_ht_scored_clean": 0.5,
-                "away_avg_ht_scored_clean": 0.5,
-                "home_avg_ht_conceded": 0.625,
-                "away_avg_ht_conceded": 0.375,
-                "home_avg_ht_conceded_clean": 0.5,
-                "away_avg_ht_conceded_clean": 0.333,
-                "home_avg_ft_scored": 1.125,
-                "away_avg_ft_scored": 1.375,
-                "home_avg_ft_scored_clean": 1.0,
-                "away_avg_ft_scored_clean": 1.5,
-                "home_avg_ft_conceded": 1.25,
-                "away_avg_ft_conceded": 0.875,
-                "home_avg_ft_conceded_clean": 1.167,
-                "away_avg_ft_conceded_clean": 0.667,
-                "home_ht_scored_1plus_rate": 0.5,
-                "away_ht_scored_1plus_rate": 0.5,
-                "home_ht_scored_2plus_rate": 0.0,
-                "away_ht_scored_2plus_rate": 0.0,
-                "home_ht_conceded_1plus_rate": 0.375,
-                "away_ht_conceded_1plus_rate": 0.375
-            },
-            "flags": {
-                "fav_quote": 1.43,
-                "is_gold_zone": true,
-                "home_last_2h_zero": true,
-                "away_last_2h_zero": false,
-                "drop_diff": 0.02
-            },
-            "scores": {
-                "ptgg": 0.7,
-                "pto15": 0.0,
-                "pt": 0.7,
-                "over": 4.89,
-                "boost": 4.759,
-                "gold": 4.883,
-                "max": 4.89
-            },
-            "tags": [
-                "🐟O"
-            ],
-            "home_last_8": [
-                {
-                    "date": "2026-03-21",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Banfield - Tigre",
-                    "ht": "1-0",
-                    "ft": "1-0",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 1.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-03-15",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Rosario Central - Banfield",
-                    "ht": "0-1",
-                    "ft": "2-1",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 3.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 2.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 2.0
-                },
-                {
-                    "date": "2026-03-11",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Banfield - Gimnasia L.P.",
-                    "ht": "0-2",
-                    "ft": "1-2",
-                    "total_ht_goals": 2.0,
-                    "total_ft_goals": 3.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 2.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 2.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-03-03",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Banfield - Aldosivi",
-                    "ht": "1-0",
-                    "ft": "2-0",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 2.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 2.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-02-26",
-                    "league": "Liga Profesional Argentina",
-                    "match": "River Plate - Banfield",
-                    "ht": "1-1",
-                    "ft": "3-1",
-                    "total_ht_goals": 2.0,
-                    "total_ft_goals": 4.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 1.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 3.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 2.0
-                },
-                {
-                    "date": "2026-02-21",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Banfield - Newells Old Boys",
-                    "ht": "0-0",
-                    "ft": "3-0",
-                    "total_ht_goals": 0.0,
-                    "total_ft_goals": 3.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 3.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 3.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-02-14",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Banfield - Racing Club",
-                    "ht": "0-2",
-                    "ft": "0-2",
-                    "total_ht_goals": 2.0,
-                    "total_ft_goals": 2.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 2.0,
-                    "team_ft_scored": 0.0,
-                    "team_ft_conceded": 2.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-02-08",
-                    "league": "Liga Profesional Argentina",
-                    "match": "Belgrano Cordoba - Banfield",
-                    "ht": "0-0",
-                    "ft": "1-0",
-                    "total_ht_goals": 0.0,
-                    "total_ft_goals": 1.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 0.0,
-                    "team_ft_conceded": 1.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 1.0
-                }
-            ],
-            "away_last_8": [
-                {
-                    "date": "2026-03-21",
-                    "league": "Primera B Metropolitana",
-                    "match": "Defensores Unidos - Real Pilar",
-                    "ht": "1-0",
-                    "ft": "1-2",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 3.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 1.0,
-                    "team_ft_scored": 2.0,
-                    "team_ft_conceded": 1.0,
-                    "team_2h_scored": 2.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-03-15",
-                    "league": "Primera B Metropolitana",
-                    "match": "Real Pilar - Comunicaciones",
-                    "ht": "1-0",
-                    "ft": "2-0",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 2.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 2.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-03-04",
-                    "league": "Primera B Metropolitana",
-                    "match": "Real Pilar - Deportivo Merlo",
-                    "ht": "1-1",
-                    "ft": "1-3",
-                    "total_ht_goals": 2.0,
-                    "total_ft_goals": 4.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 1.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 3.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 2.0
-                },
-                {
-                    "date": "2026-02-28",
-                    "league": "Primera B Metropolitana",
-                    "match": "Deportivo Camioneros - Real Pilar",
-                    "ht": "0-0",
-                    "ft": "0-1",
-                    "total_ht_goals": 0.0,
-                    "total_ft_goals": 1.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2026-02-21",
-                    "league": "Primera B Metropolitana",
-                    "match": "Real Pilar - Sportivo Italiano",
-                    "ht": "0-1",
-                    "ft": "1-2",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 3.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 1.0,
-                    "team_ft_scored": 1.0,
-                    "team_ft_conceded": 2.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 1.0
-                },
-                {
-                    "date": "2026-02-14",
-                    "league": "Primera B Metropolitana",
-                    "match": "San Martín Burzaco - Real Pilar",
-                    "ht": "0-1",
-                    "ft": "1-2",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 3.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 2.0,
-                    "team_ft_conceded": 1.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 1.0
-                },
-                {
-                    "date": "2025-12-06",
-                    "league": "Primera B Metropolitana",
-                    "match": "Acassuso - Real Pilar",
-                    "ht": "0-0",
-                    "ft": "0-0",
-                    "total_ht_goals": 0.0,
-                    "total_ft_goals": 0.0,
-                    "team_ht_scored": 0.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 0.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 0.0,
-                    "team_2h_conceded": 0.0
-                },
-                {
-                    "date": "2025-11-29",
-                    "league": "Primera B Metropolitana",
-                    "match": "Real Pilar - Flandria",
-                    "ht": "1-0",
-                    "ft": "2-0",
-                    "total_ht_goals": 1.0,
-                    "total_ft_goals": 2.0,
-                    "team_ht_scored": 1.0,
-                    "team_ht_conceded": 0.0,
-                    "team_ft_scored": 2.0,
-                    "team_ft_conceded": 0.0,
-                    "team_2h_scored": 1.0,
-                    "team_2h_conceded": 0.0
-                }
-            ]
-        },
         "1493378": {
             "fixture_id": 1493378,
             "date": "2026-03-26",
@@ -932,12 +606,12 @@
             "home_team": "Tigres UANL W",
             "away_team": "América W",
             "markets": {
-                "q1": 2.5,
-                "qx": 3.25,
-                "q2": 2.45,
-                "o25": 1.85,
-                "o05ht": 1.36,
-                "o15ht": 2.75
+                "q1": 2.75,
+                "qx": 3.65,
+                "q2": 2.32,
+                "o25": 1.62,
+                "o05ht": 1.3,
+                "o15ht": 2.3
             },
             "averages": {
                 "home_avg_ft": 3.25,
@@ -985,26 +659,27 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 2.45,
+                "fav_quote": 2.32,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": true,
-                "drop_diff": 0.0
+                "drop_diff": 0.13
             },
             "scores": {
-                "ptgg": 7.2,
-                "pto15": 6.6,
-                "pt": 8.388,
-                "over": 11.19,
-                "boost": 12.614,
-                "gold": 9.944,
-                "max": 12.614
+                "ptgg": 7.4,
+                "pto15": 6.8,
+                "pt": 8.624,
+                "over": 11.37,
+                "boost": 13.127,
+                "gold": 10.463,
+                "max": 13.127
             },
             "tags": [
                 "🎯PTGG",
                 "🔥PT1.5",
                 "⚽ OVER",
-                "🚀 BOOST"
+                "🚀 BOOST",
+                "📉-0.13"
             ],
             "home_last_8": [
                 {
@@ -1262,11 +937,11 @@
             "away_team": "Llaneros",
             "markets": {
                 "q1": 1.55,
-                "qx": 3.75,
-                "q2": 5.5,
+                "qx": 3.7,
+                "q2": 6.6,
                 "o25": 2.1,
                 "o05ht": 1.42,
-                "o15ht": 3.0
+                "o15ht": 2.88
             },
             "averages": {
                 "home_avg_ft": 2.25,
@@ -1587,11 +1262,11 @@
             "home_team": "Türkiye",
             "away_team": "Romania",
             "markets": {
-                "q1": 1.4,
-                "qx": 4.8,
-                "q2": 7.25,
+                "q1": 1.41,
+                "qx": 5.0,
+                "q2": 7.0,
                 "o25": 1.62,
-                "o05ht": 1.32,
+                "o05ht": 1.31,
                 "o15ht": 2.5
             },
             "averages": {
@@ -1640,11 +1315,11 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 1.4,
+                "fav_quote": 1.41,
                 "is_gold_zone": true,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
-                "drop_diff": 0.04
+                "drop_diff": 0.03
             },
             "scores": {
                 "ptgg": 8.25,
