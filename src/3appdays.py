@@ -3048,3 +3048,63 @@ def build_open_pack_from_row(row: dict) -> dict:
         "O05HT_OPEN": safe_float(row.get("O05HT_OPEN", row.get("O0.5H", 0))),
         "O15HT_OPEN": safe_float(row.get("O15HT_OPEN", row.get("O1.5H", 0))),
     }
+
+def build_merge_base_row(row: dict) -> dict:
+    curr_pack = build_curr_pack_from_row(row)
+    open_pack = build_open_pack_from_row(row)
+
+    merged = dict(row)
+
+    merged.update(open_pack)
+    merged.update(curr_pack)
+
+    if "status" not in merged:
+        merged["status"] = "active"
+
+    if "missing_count" not in merged:
+        merged["missing_count"] = 0
+
+    if "Fixture_ID" in merged and "fixture_id" not in merged:
+        merged["fixture_id"] = merged["Fixture_ID"]
+
+    return merged
+
+def merge_existing_and_new_row(old_row: dict, new_row: dict) -> dict:
+    old_row = dict(old_row or {})
+    new_row = build_merge_base_row(new_row or {})
+
+    merged = dict(old_row)
+    merged.update(new_row)
+
+    # Le OPEN non vanno sovrascritte se esistono già nel vecchio record
+    for key in ["Q1_OPEN", "QX_OPEN", "Q2_OPEN", "O25_OPEN", "O05HT_OPEN", "O15HT_OPEN"]:
+        old_val = safe_float(old_row.get(key), 0.0)
+        new_val = safe_float(new_row.get(key), 0.0)
+        merged[key] = old_val if old_val > 0 else new_val
+
+    # Le CURRENT invece si aggiornano sempre dal nuovo scan
+    for key in ["Q1_CURR", "QX_CURR", "Q2_CURR", "O25_CURR", "O05HT_CURR", "O15HT_CURR"]:
+        merged[key] = safe_float(new_row.get(key), 0.0)
+
+    # Tracking base
+    merged["status"] = "active"
+    merged["missing_count"] = 0
+
+    if "Fixture_ID" in new_row:
+        merged["Fixture_ID"] = new_row["Fixture_ID"]
+
+    if "fixture_id" not in merged and "Fixture_ID" in merged:
+        merged["fixture_id"] = merged["Fixture_ID"]
+
+    return merged
+
+def mark_row_as_stale(row: dict) -> dict:
+    stale = dict(row or {})
+
+    stale["status"] = "stale"
+    stale["missing_count"] = int(stale.get("missing_count", 0)) + 1
+
+    if "fixture_id" not in stale and "Fixture_ID" in stale:
+        stale["fixture_id"] = stale["Fixture_ID"]
+
+    return stale
