@@ -312,7 +312,12 @@ HEADERS = {"x-apisports-key": API_KEY} if API_KEY else {}
 
 def api_get(session, path, params):
     if not API_KEY:
+        print("❌ API_KEY assente dentro api_get")
         return None
+
+    safe_key = f"{API_KEY[:5]}***" if len(API_KEY) >= 5 else "***"
+    print(f"🔑 API key rilevata: {safe_key}")
+    print(f"🌐 API GET path={path} params={params}")
 
     for attempt in range(2):
         try:
@@ -322,13 +327,49 @@ def api_get(session, path, params):
                 params=params,
                 timeout=20
             )
+
+            print(f"📡 Tentativo {attempt+1} -> status_code={r.status_code}")
+
             if r.status_code == 200:
-                return r.json()
-            time.sleep(1)
-        except Exception:
+                try:
+                    data = r.json()
+                except Exception as json_err:
+                    print(f"❌ JSON decode error: {json_err}")
+                    print(f"🧾 Response text preview: {r.text[:300]}")
+                    time.sleep(1)
+                    continue
+
+                if not isinstance(data, dict):
+                    print(f"❌ Risposta non dict: {type(data)}")
+                    print(f"🧾 Response preview: {str(data)[:300]}")
+                    time.sleep(1)
+                    continue
+
+                if data.get("errors"):
+                    print(f"❌ API errors: {data.get('errors')}")
+
+                if "response" not in data:
+                    print(f"❌ Chiave 'response' assente nel payload")
+                    print(f"🧾 Payload preview: {str(data)[:500]}")
+                else:
+                    try:
+                        print(f"✅ Response entries: {len(data.get('response', []))}")
+                    except Exception:
+                        print("✅ Response presente")
+
+                return data
+
+            else:
+                print(f"❌ HTTP status non 200: {r.status_code}")
+                print(f"🧾 Response text preview: {r.text[:300]}")
+                time.sleep(1)
+
+        except Exception as e:
+            print(f"❌ Exception api_get attempt {attempt+1}: {e}")
             if attempt == 1:
                 return None
             time.sleep(1)
+
     return None
 
 
