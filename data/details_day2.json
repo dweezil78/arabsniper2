@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-24 10:29:37",
+    "updated_at": "2026-03-24 13:02:54",
     "day": 2,
     "date": "2026-03-25",
     "details": {
@@ -3286,7 +3286,7 @@
                 "q2": 2.25,
                 "o25": 1.67,
                 "o05ht": 1.3,
-                "o15ht": 2.35
+                "o15ht": 2.3
             },
             "averages": {
                 "home_avg_ft": 4.5,
@@ -3607,12 +3607,12 @@
             "home_team": "Scunthorpe",
             "away_team": "Rochdale",
             "markets": {
-                "q1": 3.2,
-                "qx": 3.4,
-                "q2": 1.93,
-                "o25": 1.73,
-                "o05ht": 1.32,
-                "o15ht": 2.55
+                "q1": 3.35,
+                "qx": 3.45,
+                "q2": 1.95,
+                "o25": 1.77,
+                "o05ht": 1.33,
+                "o15ht": 2.5
             },
             "averages": {
                 "home_avg_ft": 3.75,
@@ -3660,7 +3660,7 @@
                 "away_ht_conceded_1plus_rate": 0.375
             },
             "flags": {
-                "fav_quote": 1.93,
+                "fav_quote": 1.95,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
@@ -3933,12 +3933,12 @@
             "home_team": "Southend",
             "away_team": "Woking",
             "markets": {
-                "q1": 1.6,
-                "qx": 3.75,
-                "q2": 4.4,
-                "o25": 1.73,
-                "o05ht": 1.32,
-                "o15ht": 2.55
+                "q1": 1.62,
+                "qx": 3.65,
+                "q2": 4.75,
+                "o25": 1.77,
+                "o05ht": 1.33,
+                "o15ht": 2.5
             },
             "averages": {
                 "home_avg_ft": 2.625,
@@ -3986,11 +3986,11 @@
                 "away_ht_conceded_1plus_rate": 0.625
             },
             "flags": {
-                "fav_quote": 1.6,
+                "fav_quote": 1.62,
                 "is_gold_zone": true,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
-                "drop_diff": 0.02
+                "drop_diff": 0.0
             },
             "scores": {
                 "ptgg": 5.15,
@@ -4262,12 +4262,12 @@
             "home_team": "Tamworth",
             "away_team": "Forest Green",
             "markets": {
-                "q1": 3.2,
-                "qx": 3.5,
-                "q2": 1.9,
-                "o25": 1.58,
-                "o05ht": 1.26,
-                "o15ht": 2.3
+                "q1": 3.3,
+                "qx": 3.65,
+                "q2": 1.91,
+                "o25": 1.62,
+                "o05ht": 1.25,
+                "o15ht": 2.25
             },
             "averages": {
                 "home_avg_ft": 3.75,
@@ -4315,8 +4315,8 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 1.9,
-                "is_gold_zone": true,
+                "fav_quote": 1.91,
+                "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
                 "drop_diff": 0.0
@@ -4327,7 +4327,7 @@
                 "pt": 4.523,
                 "over": 12.39,
                 "boost": 11.556,
-                "gold": 9.95,
+                "gold": 9.4,
                 "max": 12.39
             },
             "tags": [
@@ -4590,11 +4590,11 @@
             "home_team": "Truro City",
             "away_team": "Solihull Moors",
             "markets": {
-                "q1": 2.8,
+                "q1": 2.95,
                 "qx": 3.3,
-                "q2": 2.15,
-                "o25": 1.75,
-                "o05ht": 1.31,
+                "q2": 2.2,
+                "o25": 1.83,
+                "o05ht": 1.35,
                 "o15ht": 2.55
             },
             "averages": {
@@ -4643,7 +4643,7 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 2.15,
+                "fav_quote": 2.2,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": true,
@@ -4920,9 +4920,9 @@
             "markets": {
                 "q1": 1.77,
                 "qx": 3.5,
-                "q2": 3.7,
-                "o25": 1.73,
-                "o05ht": 1.32,
+                "q2": 4.0,
+                "o25": 1.77,
+                "o05ht": 1.33,
                 "o15ht": 2.5
             },
             "averages": {
