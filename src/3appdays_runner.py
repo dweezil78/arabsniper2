@@ -103,15 +103,8 @@ def safe_read_json(path: Path, default):
 def now_rome_iso() -> str:
     return datetime.now(ROME_TZ).isoformat(timespec="seconds")
 
-
-def build_empty_day_payload(day_num: int) -> dict:
-    return {
-        "day": day_num,
-        "date": None,
-        "updated_at": now_rome_iso(),
-        "results": [],
-    }
-
+def build_empty_day_payload(day_num: int):
+    return []
 
 def build_empty_details_payload(day_num: int) -> dict:
     return {
