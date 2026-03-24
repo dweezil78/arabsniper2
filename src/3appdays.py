@@ -2995,28 +2995,6 @@ if st.session_state.scan_results:
 else:
     st.info("Esegui uno scan.")
 
-# ==========================================
-# LOGICA ESECUZIONE AUTOMATICA GITHUB ACTIONS
-# ==========================================
-if __name__ == "__main__":
-    if "--auto" in sys.argv:
-        print("🚀 Avvio Scan Automatico Notturno Multi-Day...")
-        HORIZON = 1
-        run_nightly_multiday_build()
-        print("✅ Scan completo terminato: data.json + data_day1/2/3/4/5 + details_day1/2/3/4/5 aggiornati.")
-
-    elif "--fast" in sys.argv:
-        HORIZON = 1
-        print("⚡ Avvio Scan Veloce Automatico (solo Day 1)...")
-        run_full_scan(horizon=1, snap=False, update_main_site=True, show_success=False)
-        print("✅ Scan veloce terminato: data.json + data_day1 + details_day1 aggiornati.")
-
-    elif "--day2-refresh" in sys.argv:
-        HORIZON = 2
-        print("🌙 Avvio Refresh Serale Day 2...")
-        run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
-        print("✅ Refresh Day 2 terminato: data_day2 + details_day2 aggiornati.")
-
 # =========================================================
 # MERGE HELPERS (STEP 3)
 # =========================================================
@@ -3198,3 +3176,25 @@ def save_merged_day_json(existing_file_path: str, new_rows: list, day_num: int =
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
     return payload
+
+# ==========================================
+# LOGICA ESECUZIONE AUTOMATICA GITHUB ACTIONS
+# ==========================================
+if __name__ == "__main__":
+    if "--auto" in sys.argv:
+        print("🚀 Avvio Scan Automatico Notturno Multi-Day...")
+        HORIZON = 1
+        run_nightly_multiday_build()
+        print("✅ Scan completo terminato: data.json + data_day1/2/3/4/5 + details_day1/2/3/4/5 aggiornati.")
+
+    elif "--fast" in sys.argv:
+        HORIZON = 1
+        print("⚡ Avvio Scan Veloce Automatico (solo Day 1)...")
+        run_full_scan(horizon=1, snap=False, update_main_site=True, show_success=False)
+        print("✅ Scan veloce terminato: data.json + data_day1 + details_day1 aggiornati.")
+
+    elif "--day2-refresh" in sys.argv:
+        HORIZON = 2
+        print("🌙 Avvio Refresh Serale Day 2...")
+        run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
+        print("✅ Refresh Day 2 terminato: data_day2 + details_day2 aggiornati.")
