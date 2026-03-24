@@ -2198,7 +2198,7 @@ def build_daily_snapshots_from_rolling(snapshot_payload):
             if not isinstance(rec, dict):
                 continue
 
-            rec_date = str(rec.get("match_date", "")).strip()
+            rec_date = str(rec.get("last_seen_date", "")).strip()
             if rec_date == day_date:
                 day_odds[str(fid)] = rec
 
@@ -2209,7 +2209,7 @@ def build_daily_snapshots_from_rolling(snapshot_payload):
             "odds": day_odds,
         }
 
-        out_file = BASE_DIR / "data" / f"snapshot_day{day_num}.json"
+        out_file = DATA_DIR / f"snapshot_day{day_num}.json"
         with open(out_file, "w", encoding="utf-8") as f:
             json.dump(day_payload, f, indent=4, ensure_ascii=False)
 
@@ -2819,9 +2819,9 @@ def run_nightly_multiday_build():
         print("📌 DAY 5: scan statico + update data_day5/details_day5")
         run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
 
-        snapshot_payload = load_snapshot()
+        snapshot_payload = load_existing_snapshot_payload()
         build_daily_snapshots_from_rolling(snapshot_payload)
-
+        
         print("✅ Build multi-day completata.")
         
     except Exception as e:
