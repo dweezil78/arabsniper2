@@ -133,17 +133,22 @@ def build_empty_snapshot_payload(day_num: int) -> dict:
 
 def rotate_day_files(project_root: Path) -> None:
     """
-    Rotazione fisica dei file:
+    Rotazione fisica SOLO dei file day risultati + details:
     day2 -> day1
     day3 -> day2
     day4 -> day3
     day5 -> day4
     nuovo day5 vuoto
+
+    Gli snapshot NON si ruotano qui.
+    Devono essere aggiornati dal motore con merge per fixture_id,
+    non copiati/azzerati brutalmente.
     """
     log("🔄 ROTAZIONE FILE DAY START")
 
+    # Ruota solo data + details
     for src_day, dst_day in [(5, 4), (4, 3), (3, 2), (2, 1)]:
-        for key in ("data", "details", "snapshot"):
+        for key in ("data", "details"):
             src = project_root / DAY_FILES[src_day][key]
             dst = project_root / DAY_FILES[dst_day][key]
 
@@ -154,17 +159,17 @@ def rotate_day_files(project_root: Path) -> None:
             else:
                 if key == "data":
                     safe_write_json(dst, build_empty_day_payload(dst_day))
-                elif key == "details":
-                    safe_write_json(dst, build_empty_details_payload(dst_day))
                 else:
-                    safe_write_json(dst, build_empty_snapshot_payload(dst_day))
+                    safe_write_json(dst, build_empty_details_payload(dst_day))
                 log(f"⚠️ Sorgente assente, creato vuoto: {dst}")
 
-    # nuovo day5 vuoto
+    # nuovo day5 vuoto SOLO per data + details
     safe_write_json(project_root / DAY_FILES[5]["data"], build_empty_day_payload(5))
     safe_write_json(project_root / DAY_FILES[5]["details"], build_empty_details_payload(5))
-    safe_write_json(project_root / DAY_FILES[5]["snapshot"], build_empty_snapshot_payload(5))
-    log("✅ Nuovo day5 creato da zero")
+    log("✅ Nuovo day5 data/details creato da zero")
+
+    # Gli snapshot day1-day5 restano intatti.
+    # Sarà il motore a rigenerarli/aggiornarli con merge corretto.
 
     # riallinea data.json con day1
     day1_payload = safe_read_json(
