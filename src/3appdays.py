@@ -3150,3 +3150,20 @@ def merge_day_rows(old_rows: list, new_rows: list) -> list:
     )
 
     return merged_rows
+
+def load_results_from_json_file(path: str) -> list:
+    try:
+        if not os.path.exists(path):
+            return []
+
+        with open(path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+
+        if isinstance(payload, dict):
+            results = payload.get("results", [])
+            if isinstance(results, list):
+                return results
+
+        return []
+    except Exception:
+        return []
