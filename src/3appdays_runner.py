@@ -389,6 +389,52 @@ def run_day2_refresh_workflow() -> None:
     log("DAY2 REFRESH WORKFLOW END -> OK")
     log("=====================================")
 
+def run_fast_pair_workflow() -> None:
+    ensure_directories()
+
+    log("=====================================")
+    log("FAST PAIR WORKFLOW START")
+    log("=====================================")
+
+    report_fast = run_engine("fast")
+    if report_fast["returncode"] != 0:
+        save_run_state({
+            "last_run_type": "fast-pair",
+            "generated_at": now_iso(),
+            "fast_report": report_fast,
+            "day2_report": None,
+        })
+        log("FAST PAIR WORKFLOW END -> ERRORE SU FAST")
+        raise SystemExit(1)
+
+    report_day2 = run_engine("day2-refresh")
+    if report_day2["returncode"] != 0:
+        save_run_state({
+            "last_run_type": "fast-pair",
+            "generated_at": now_iso(),
+            "fast_report": report_fast,
+            "day2_report": report_day2,
+        })
+        log("FAST PAIR WORKFLOW END -> ERRORE SU DAY2 REFRESH")
+        raise SystemExit(1)
+
+    last_update_payload = update_last_fast_update(
+        mode="fast-pair",
+        command="fast + day2-refresh",
+        returncode=0
+    )
+
+    save_run_state({
+        "last_run_type": "fast-pair",
+        "generated_at": now_iso(),
+        "fast_report": report_fast,
+        "day2_report": report_day2,
+        "last_fast_update": last_update_payload,
+    })
+
+    log("FAST PAIR WORKFLOW END -> OK")
+    log("=====================================")
+
 
 # =========================================================
 # CLI
@@ -441,10 +487,7 @@ def main():
         return
 
     if args.fast_pair:
-    log("⚡ FAST PAIR: day1 fast + day2 refresh")
-    run_fast_workflow()
-    run_day2_refresh_workflow()
-    log("✅ FAST PAIR COMPLETATO")
+    run_fast_pair_workflow()
     return
 
     if args.day2_refresh:
