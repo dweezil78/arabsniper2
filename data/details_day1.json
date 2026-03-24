@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-24 10:21:42",
+    "updated_at": "2026-03-24 10:28:41",
     "day": 1,
     "date": "2026-03-24",
     "details": {
@@ -1645,11 +1645,11 @@
             "home_team": "Eskişehirspor",
             "away_team": "Tire 2021 FK",
             "markets": {
-                "q1": 1.22,
-                "qx": 4.8,
-                "q2": 11.0,
+                "q1": 1.17,
+                "qx": 5.1,
+                "q2": 14.0,
                 "o25": 1.5,
-                "o05ht": 1.22,
+                "o05ht": 1.25,
                 "o15ht": 2.1
             },
             "averages": {
@@ -1698,23 +1698,24 @@
                 "away_ht_conceded_1plus_rate": 0.375
             },
             "flags": {
-                "fav_quote": 1.22,
+                "fav_quote": 1.17,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": true,
-                "drop_diff": 0.0
+                "drop_diff": 0.05
             },
             "scores": {
                 "ptgg": 2.8,
                 "pto15": 1.05,
                 "pt": 2.989,
-                "over": 4.64,
-                "boost": 5.331,
-                "gold": 4.202,
-                "max": 5.331
+                "over": 4.72,
+                "boost": 5.918,
+                "gold": 4.453,
+                "max": 5.918
             },
             "tags": [
-                "⚽ OVER"
+                "⚽ OVER",
+                "📉-0.05"
             ],
             "home_last_8": [
                 {
@@ -5896,7 +5897,7 @@
                 "q1": 1.44,
                 "qx": 3.8,
                 "q2": 5.5,
-                "o25": 1.6,
+                "o25": 1.7,
                 "o05ht": 1.29,
                 "o15ht": 2.38
             },
@@ -8505,12 +8506,12 @@
             "home_team": "Alfreton Town",
             "away_team": "Macclesfield",
             "markets": {
-                "q1": 4.1,
-                "qx": 3.75,
-                "q2": 1.63,
-                "o25": 1.65,
-                "o05ht": 1.3,
-                "o15ht": 2.45
+                "q1": 4.2,
+                "qx": 3.9,
+                "q2": 1.65,
+                "o25": 1.62,
+                "o05ht": 1.28,
+                "o15ht": 2.38
             },
             "averages": {
                 "home_avg_ft": 2.625,
@@ -8558,11 +8559,11 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 1.63,
+                "fav_quote": 1.65,
                 "is_gold_zone": true,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
-                "drop_diff": 0.02
+                "drop_diff": 0.0
             },
             "scores": {
                 "ptgg": 4.35,
@@ -8835,11 +8836,11 @@
             "away_team": "Spennymoor Town",
             "markets": {
                 "q1": 1.95,
-                "qx": 3.4,
-                "q2": 3.2,
-                "o25": 1.65,
+                "qx": 3.55,
+                "q2": 3.3,
+                "o25": 1.67,
                 "o05ht": 1.3,
-                "o15ht": 2.4
+                "o15ht": 2.45
             },
             "averages": {
                 "home_avg_ft": 4.125,
