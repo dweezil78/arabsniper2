@@ -398,6 +398,7 @@ def parse_args():
     parser.add_argument("--night", action="store_true", help="Lancia 3appdays.py --auto")
     parser.add_argument("--fast", action="store_true", help="Lancia 3appdays.py --fast")
     parser.add_argument("--day2-refresh", action="store_true", help="Lancia 3appdays.py --day2-refresh")
+    parser.add_argument("--fast-pair", action="store_true", help="Lancia fast day1 + refresh day2 in sequenza")
     parser.add_argument("--rotate-test", action="store_true", help="Esegue solo la rotazione dei file day senza scan API")
     parser.add_argument("--rotate-live", action="store_true", help="Esegue la rotazione reale dei file day")
     return parser.parse_args()
@@ -407,15 +408,16 @@ def main():
     args = parse_args()
 
     chosen = sum([
-        1 if args.night else 0,
-        1 if args.fast else 0,
-        1 if args.day2_refresh else 0,
-        1 if args.rotate_test else 0,
-        1 if args.rotate_live else 0,
-    ])
+    1 if args.night else 0,
+    1 if args.fast else 0,
+    1 if args.day2_refresh else 0,
+    1 if args.fast_pair else 0,
+    1 if args.rotate_test else 0,
+    1 if args.rotate_live else 0,
+])
 
     if chosen != 1:
-        log("Usa una sola modalità: --night oppure --fast oppure --day2-refresh oppure --rotate-test oppure --rotate-live")
+        log("Usa una sola modalità: --night oppure --fast oppure --day2-refresh oppure --fast-pair oppure --rotate-test oppure --rotate-live")
         raise SystemExit(1)
     
     if args.rotate_test:
@@ -437,6 +439,13 @@ def main():
     if args.fast:
         run_fast_workflow()
         return
+
+    if args.fast_pair:
+    log("⚡ FAST PAIR: day1 fast + day2 refresh")
+    run_fast_workflow()
+    run_day2_refresh_workflow()
+    log("✅ FAST PAIR COMPLETATO")
+    return
 
     if args.day2_refresh:
         run_day2_refresh_workflow()
