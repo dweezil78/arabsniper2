@@ -2324,6 +2324,175 @@ def show_match_modal(fixture_id: str):
 # ==========================================
 # SCAN CORE
 # ==========================================
+def merge_day_rows(old_rows: list, new_rows: list) -> list:
+    old_rows = old_rows or []
+    new_rows = new_rows or []
+
+    old_map = {}
+    for row in old_rows:
+        fid = row.get("Fixture_ID", row.get("fixture_id"))
+        if fid is not None:
+            old_map[str(fid)] = dict(row)
+
+    new_map = {}
+    for row in new_rows:
+        fid = row.get("Fixture_ID", row.get("fixture_id"))
+        if fid is not None:
+            new_map[str(fid)] = build_merge_base_row(row)
+
+    merged_map = {}
+
+    # 1) aggiorna o crea le fixture presenti nel nuovo scan
+    for fid, new_row in new_map.items():
+        if fid in old_map:
+            merged_map[fid] = merge_existing_and_new_row(old_map[fid], new_row)
+        else:
+            merged_map[fid] = build_merge_base_row(new_row)
+
+    # 2) le fixture vecchie assenti nel nuovo scan non si cancellano
+    for fid, old_row in old_map.items():
+        if fid not in merged_map:
+            merged_map[fid] = mark_row_as_stale(old_row)
+
+    merged_rows = list(merged_map.values())
+
+    merged_rows.sort(
+        key=lambda r: (
+            str(r.get("Data", "")),
+            str(r.get("Ora", "99:99")),
+            str(r.get("Match", "")),
+        )
+    )
+
+    return merged_rows
+
+def load_results_from_json_file(path: str) -> list:
+    try:
+        if not os.path.exists(path):
+            return []
+
+        with open(path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+
+        if isinstance(payload, dict):
+            results = payload.get("results", [])
+            if isinstance(results, list):
+                return results
+
+        return []
+    except Exception:
+        return []
+
+def build_merged_day_payload(existing_file_path: str, new_rows: list, day_num: int = None, target_date: str = None) -> dict:
+    old_rows = load_results_from_json_file(existing_file_path)
+    merged_rows = merge_day_rows(old_rows, new_rows)
+
+    payload = {
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "results": merged_rows,
+    }
+
+    if day_num is not None:
+        payload["day"] = day_num
+
+    if target_date is not None:
+        payload["date"] = target_date
+
+    return payload
+
+def save_merged_day_json(existing_file_path: str, new_rows: list, day_num: int = None, target_date: str = None) -> dict:
+    payload = build_merged_day_payload(
+        existing_file_path=existing_file_path,
+        new_rows=new_rows,
+        day_num=day_num,
+        target_date=target_date,
+    )
+
+    with open(existing_file_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    return payload   
+
+def build_curr_pack_from_row(row: dict) -> dict:
+    return {
+        "Q1_CURR": safe_float(row.get("Q1", row.get("Q1_CURR", 0))),
+        "QX_CURR": safe_float(row.get("QX", row.get("QX_CURR", 0))),
+        "Q2_CURR": safe_float(row.get("Q2", row.get("Q2_CURR", 0))),
+        "O25_CURR": safe_float(row.get("O2.5", row.get("O25_CURR", 0))),
+        "O05HT_CURR": safe_float(row.get("O0.5H", row.get("O05HT_CURR", 0))),
+        "O15HT_CURR": safe_float(row.get("O1.5H", row.get("O15HT_CURR", 0))),
+    }
+
+def build_open_pack_from_row(row: dict) -> dict:
+    return {
+        "Q1_OPEN": safe_float(row.get("Q1_OPEN", row.get("Q1", 0))),
+        "QX_OPEN": safe_float(row.get("QX_OPEN", row.get("QX", 0))),
+        "Q2_OPEN": safe_float(row.get("Q2_OPEN", row.get("Q2", 0))),
+        "O25_OPEN": safe_float(row.get("O25_OPEN", row.get("O2.5", 0))),
+        "O05HT_OPEN": safe_float(row.get("O05HT_OPEN", row.get("O0.5H", 0))),
+        "O15HT_OPEN": safe_float(row.get("O15HT_OPEN", row.get("O1.5H", 0))),
+    }
+
+def build_merge_base_row(row: dict) -> dict:
+    curr_pack = build_curr_pack_from_row(row)
+    open_pack = build_open_pack_from_row(row)
+
+    merged = dict(row)
+
+    merged.update(open_pack)
+    merged.update(curr_pack)
+
+    if "status" not in merged:
+        merged["status"] = "active"
+
+    if "missing_count" not in merged:
+        merged["missing_count"] = 0
+
+    if "Fixture_ID" in merged and "fixture_id" not in merged:
+        merged["fixture_id"] = merged["Fixture_ID"]
+
+    return merged
+
+def merge_existing_and_new_row(old_row: dict, new_row: dict) -> dict:
+    old_row = dict(old_row or {})
+    new_row = build_merge_base_row(new_row or {})
+
+    merged = dict(old_row)
+    merged.update(new_row)
+
+    # Le OPEN non vanno sovrascritte se esistono già nel vecchio record
+    for key in ["Q1_OPEN", "QX_OPEN", "Q2_OPEN", "O25_OPEN", "O05HT_OPEN", "O15HT_OPEN"]:
+        old_val = safe_float(old_row.get(key), 0.0)
+        new_val = safe_float(new_row.get(key), 0.0)
+        merged[key] = old_val if old_val > 0 else new_val
+
+    # Le CURRENT invece si aggiornano sempre dal nuovo scan
+    for key in ["Q1_CURR", "QX_CURR", "Q2_CURR", "O25_CURR", "O05HT_CURR", "O15HT_CURR"]:
+        merged[key] = safe_float(new_row.get(key), 0.0)
+
+    # Tracking base
+    merged["status"] = "active"
+    merged["missing_count"] = 0
+
+    if "Fixture_ID" in new_row:
+        merged["Fixture_ID"] = new_row["Fixture_ID"]
+
+    if "fixture_id" not in merged and "Fixture_ID" in merged:
+        merged["fixture_id"] = merged["Fixture_ID"]
+
+    return merged
+
+def mark_row_as_stale(row: dict) -> dict:
+    stale = dict(row or {})
+
+    stale["status"] = "stale"
+    stale["missing_count"] = int(stale.get("missing_count", 0)) + 1
+
+    if "fixture_id" not in stale and "Fixture_ID" in stale:
+        stale["fixture_id"] = stale["Fixture_ID"]
+
+    return stale
+        
 def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success=True):
     use_horizon = horizon if horizon is not None else HORIZON
     target_dates = get_target_dates()
@@ -3020,179 +3189,6 @@ if st.session_state.scan_results:
         )
 else:
     st.info("Esegui uno scan.")
-
-# =========================================================
-# MERGE HELPERS (STEP 3)
-# =========================================================
-
-def build_curr_pack_from_row(row: dict) -> dict:
-    return {
-        "Q1_CURR": safe_float(row.get("Q1", row.get("Q1_CURR", 0))),
-        "QX_CURR": safe_float(row.get("QX", row.get("QX_CURR", 0))),
-        "Q2_CURR": safe_float(row.get("Q2", row.get("Q2_CURR", 0))),
-        "O25_CURR": safe_float(row.get("O2.5", row.get("O25_CURR", 0))),
-        "O05HT_CURR": safe_float(row.get("O0.5H", row.get("O05HT_CURR", 0))),
-        "O15HT_CURR": safe_float(row.get("O1.5H", row.get("O15HT_CURR", 0))),
-    }
-
-def build_open_pack_from_row(row: dict) -> dict:
-    return {
-        "Q1_OPEN": safe_float(row.get("Q1_OPEN", row.get("Q1", 0))),
-        "QX_OPEN": safe_float(row.get("QX_OPEN", row.get("QX", 0))),
-        "Q2_OPEN": safe_float(row.get("Q2_OPEN", row.get("Q2", 0))),
-        "O25_OPEN": safe_float(row.get("O25_OPEN", row.get("O2.5", 0))),
-        "O05HT_OPEN": safe_float(row.get("O05HT_OPEN", row.get("O0.5H", 0))),
-        "O15HT_OPEN": safe_float(row.get("O15HT_OPEN", row.get("O1.5H", 0))),
-    }
-
-def build_merge_base_row(row: dict) -> dict:
-    curr_pack = build_curr_pack_from_row(row)
-    open_pack = build_open_pack_from_row(row)
-
-    merged = dict(row)
-
-    merged.update(open_pack)
-    merged.update(curr_pack)
-
-    if "status" not in merged:
-        merged["status"] = "active"
-
-    if "missing_count" not in merged:
-        merged["missing_count"] = 0
-
-    if "Fixture_ID" in merged and "fixture_id" not in merged:
-        merged["fixture_id"] = merged["Fixture_ID"]
-
-    return merged
-
-def merge_existing_and_new_row(old_row: dict, new_row: dict) -> dict:
-    old_row = dict(old_row or {})
-    new_row = build_merge_base_row(new_row or {})
-
-    merged = dict(old_row)
-    merged.update(new_row)
-
-    # Le OPEN non vanno sovrascritte se esistono già nel vecchio record
-    for key in ["Q1_OPEN", "QX_OPEN", "Q2_OPEN", "O25_OPEN", "O05HT_OPEN", "O15HT_OPEN"]:
-        old_val = safe_float(old_row.get(key), 0.0)
-        new_val = safe_float(new_row.get(key), 0.0)
-        merged[key] = old_val if old_val > 0 else new_val
-
-    # Le CURRENT invece si aggiornano sempre dal nuovo scan
-    for key in ["Q1_CURR", "QX_CURR", "Q2_CURR", "O25_CURR", "O05HT_CURR", "O15HT_CURR"]:
-        merged[key] = safe_float(new_row.get(key), 0.0)
-
-    # Tracking base
-    merged["status"] = "active"
-    merged["missing_count"] = 0
-
-    if "Fixture_ID" in new_row:
-        merged["Fixture_ID"] = new_row["Fixture_ID"]
-
-    if "fixture_id" not in merged and "Fixture_ID" in merged:
-        merged["fixture_id"] = merged["Fixture_ID"]
-
-    return merged
-
-def mark_row_as_stale(row: dict) -> dict:
-    stale = dict(row or {})
-
-    stale["status"] = "stale"
-    stale["missing_count"] = int(stale.get("missing_count", 0)) + 1
-
-    if "fixture_id" not in stale and "Fixture_ID" in stale:
-        stale["fixture_id"] = stale["Fixture_ID"]
-
-    return stale
-
-def merge_day_rows(old_rows: list, new_rows: list) -> list:
-    old_rows = old_rows or []
-    new_rows = new_rows or []
-
-    old_map = {}
-    for row in old_rows:
-        fid = row.get("Fixture_ID", row.get("fixture_id"))
-        if fid is not None:
-            old_map[str(fid)] = dict(row)
-
-    new_map = {}
-    for row in new_rows:
-        fid = row.get("Fixture_ID", row.get("fixture_id"))
-        if fid is not None:
-            new_map[str(fid)] = build_merge_base_row(row)
-
-    merged_map = {}
-
-    # 1) aggiorna o crea le fixture presenti nel nuovo scan
-    for fid, new_row in new_map.items():
-        if fid in old_map:
-            merged_map[fid] = merge_existing_and_new_row(old_map[fid], new_row)
-        else:
-            merged_map[fid] = build_merge_base_row(new_row)
-
-    # 2) le fixture vecchie assenti nel nuovo scan non si cancellano
-    for fid, old_row in old_map.items():
-        if fid not in merged_map:
-            merged_map[fid] = mark_row_as_stale(old_row)
-
-    merged_rows = list(merged_map.values())
-
-    merged_rows.sort(
-        key=lambda r: (
-            str(r.get("Data", "")),
-            str(r.get("Ora", "99:99")),
-            str(r.get("Match", "")),
-        )
-    )
-
-    return merged_rows
-
-def load_results_from_json_file(path: str) -> list:
-    try:
-        if not os.path.exists(path):
-            return []
-
-        with open(path, "r", encoding="utf-8") as f:
-            payload = json.load(f)
-
-        if isinstance(payload, dict):
-            results = payload.get("results", [])
-            if isinstance(results, list):
-                return results
-
-        return []
-    except Exception:
-        return []
-
-def build_merged_day_payload(existing_file_path: str, new_rows: list, day_num: int = None, target_date: str = None) -> dict:
-    old_rows = load_results_from_json_file(existing_file_path)
-    merged_rows = merge_day_rows(old_rows, new_rows)
-
-    payload = {
-        "updated_at": datetime.now().isoformat(timespec="seconds"),
-        "results": merged_rows,
-    }
-
-    if day_num is not None:
-        payload["day"] = day_num
-
-    if target_date is not None:
-        payload["date"] = target_date
-
-    return payload
-
-def save_merged_day_json(existing_file_path: str, new_rows: list, day_num: int = None, target_date: str = None) -> dict:
-    payload = build_merged_day_payload(
-        existing_file_path=existing_file_path,
-        new_rows=new_rows,
-        day_num=day_num,
-        target_date=target_date,
-    )
-
-    with open(existing_file_path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
-
-    return payload
 
 # ==========================================
 # LOGICA ESECUZIONE AUTOMATICA GITHUB ACTIONS
