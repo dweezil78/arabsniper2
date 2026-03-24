@@ -24,8 +24,8 @@ jobs:
           pip install -r requirements.txt || true
           pip install PyGithub || true
 
-      - name: Run ROTATE TEST
-        run: python src/3appdays_runner.py --rotate-test
+      - name: Run FAST test
+        run: python src/3appdays_runner.py --fast
 
       #- name: Run NIGHT test
        # run: |
