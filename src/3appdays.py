@@ -50,6 +50,14 @@ REMOTE_DETAILS_FILES = {
     5: "data/details_day5.json",
 }
 
+REMOTE_SNAPSHOT_DAY_FILES = {
+    1: "data/snapshot_day1.json",
+    2: "data/snapshot_day2.json",
+    3: "data/snapshot_day3.json",
+    4: "data/snapshot_day4.json",
+    5: "data/snapshot_day5.json",
+}
+
 try:
     from zoneinfo import ZoneInfo
     ROME_TZ = ZoneInfo("Europe/Rome")
@@ -657,6 +665,16 @@ def build_rolling_multiday_snapshot(session):
 
     return payload
 
+def upload_snapshot_day_to_github(day_num, payload):
+    try:
+        github_write_json(
+            REMOTE_SNAPSHOT_DAY_FILES[day_num],
+            payload,
+            f"Update snapshot_day{day_num}.json"
+        )
+    except Exception as e:
+        print(f"Snapshot day{day_num} upload error: {e}")
+        
 def get_team_last_matches(session, tid):
     cache_key = str(tid)
     if cache_key in st.session_state.team_last_matches_cache:
@@ -2159,6 +2177,8 @@ def build_daily_snapshots_from_rolling(snapshot_payload):
         out_file = BASE_DIR / "data" / f"snapshot_day{day_num}.json"
         with open(out_file, "w", encoding="utf-8") as f:
             json.dump(day_payload, f, indent=4, ensure_ascii=False)
+
+        upload_snapshot_day_to_github(day_num, day_payload)
 
         print(f"📦 snapshot_day{day_num}.json aggiornato: {len(day_odds)} match")
 
