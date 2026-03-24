@@ -2700,9 +2700,19 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
 # ==========================================
 def run_nightly_multiday_build():
     print("🚀 Avvio scan notturno multi-day...")
+    
+    print("🔄 Rotazione file day1-day5...")
+    try:
+        import subprocess
+        import sys
+        subprocess.run([sys.executable, str(SRC_DIR / "3appdays_runner.py"), "--rotate-test"], check=True)
+        print("✅ Rotazione file completata.")
+    except Exception as e:
+        print(f"❌ Errore rotazione file day: {e}")
+        return
 
-    print("📌 DAY 1: SNAP + SCAN + update data.json/data_day1/details_day1")
-    run_full_scan(horizon=1, snap=True, update_main_site=True, show_success=False)
+    print("📌 DAY 1: refresh quote + update data.json/data_day1/details_day1")
+    run_full_scan(horizon=1, snap=False, update_main_site=True, show_success=False)
 
     print("📆 DAY 2: scan statico + update data_day2/details_day2")
     run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
