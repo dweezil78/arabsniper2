@@ -24,8 +24,8 @@ jobs:
           pip install -r requirements.txt || true
           pip install PyGithub || true
 
-      - name: Run DAY2 REFRESH test
-        run: python src/3appdays_runner.py --day2-refresh
+      - name: Run NIGHT test
+        run: python src/3appdays_runner.py --night
 
       #- name: Run NIGHT test
        # run: |
