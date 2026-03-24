@@ -2920,27 +2920,7 @@ if c2.button("🚀 SCAN VELOCE"):
 if st.session_state.selected_fixture_for_modal:
     show_match_modal(st.session_state.selected_fixture_for_modal)
 
-if st.session_state.scan_results:
-    df = pd.DataFrame(st.session_state.scan_results)
-    full_view = df[df["Data"] == target_dates[HORIZON - 1]]
 
-    if not full_view.empty:
-        full_view = full_view.sort_values(by=["Ora", "Match"])
-        view = full_view.copy()
-
-        if "MOVE_SUMMARY" not in view.columns:
-            view["MOVE_SUMMARY"] = ""
-
-        if "Info" in view.columns and "MOVE_SUMMARY" in view.columns:
-            view["Info"] = view.apply(
-                lambda r: (
-                    f"{r['Info']} | {r['MOVE_SUMMARY']}"
-                    if str(r.get("MOVE_SUMMARY", "")).strip()
-                    else str(r.get("Info", ""))
-                ),
-                axis=1
-            )
-            
 def outcome_block(label, q_open, q_curr, data=None):
     try:
         q_open = safe_float(q_open, 0)
@@ -2989,17 +2969,40 @@ def build_1x2_visual(row):
     </div>
     """
 
-        def build_o25_visual(row):
-            move = str(row.get("O25_MOVE", "")).strip()
-            current = str(row.get("O2.5", "")).strip()
 
-            if move:
-                return f"""
-                <div style="line-height:1.15; white-space:pre-line;">
-                    {move}
-                </div>
-                """
-            return current
+def build_o25_visual(row):
+    move = str(row.get("O25_MOVE", "")).strip()
+    current = str(row.get("O2.5", "")).strip()
+
+    if move:
+        return f"""
+        <div style="line-height:1.15; white-space:pre-line;">
+            {move}
+        </div>
+        """
+    return current
+
+
+if st.session_state.scan_results:
+    df = pd.DataFrame(st.session_state.scan_results)
+    full_view = df[df["Data"] == target_dates[HORIZON - 1]]
+
+    if not full_view.empty:
+        full_view = full_view.sort_values(by=["Ora", "Match"])
+        view = full_view.copy()
+
+        if "MOVE_SUMMARY" not in view.columns:
+            view["MOVE_SUMMARY"] = ""
+
+        if "Info" in view.columns and "MOVE_SUMMARY" in view.columns:
+            view["Info"] = view.apply(
+                lambda r: (
+                    f"{r['Info']} | {r['MOVE_SUMMARY']}"
+                    if str(r.get("MOVE_SUMMARY", "")).strip()
+                    else str(r.get("Info", ""))
+                ),
+                axis=1
+            )
 
         view["1X2_VIS"] = view.apply(build_1x2_visual, axis=1)
         view["O25_VIS"] = view.apply(build_o25_visual, axis=1)
@@ -3157,7 +3160,6 @@ def build_1x2_visual(row):
         )
 else:
     st.info("Esegui uno scan.")
-
 # ==========================================
 # LOGICA ESECUZIONE AUTOMATICA GITHUB ACTIONS
 # ==========================================
