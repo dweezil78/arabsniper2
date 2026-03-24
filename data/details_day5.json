@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-24 10:35:47",
+    "updated_at": "2026-03-24 13:46:54",
     "day": 5,
     "date": "2026-03-28",
     "details": {
@@ -6549,12 +6549,12 @@
             "home_team": "Annan Athletic",
             "away_team": "Stranraer",
             "markets": {
-                "q1": 1.98,
+                "q1": 1.95,
                 "qx": 3.3,
-                "q2": 3.2,
-                "o25": 1.75,
+                "q2": 3.3,
+                "o25": 1.8,
                 "o05ht": 1.33,
-                "o15ht": 2.6
+                "o15ht": 2.62
             },
             "averages": {
                 "home_avg_ft": 3.75,
@@ -6602,11 +6602,11 @@
                 "away_ht_conceded_1plus_rate": 0.625
             },
             "flags": {
-                "fav_quote": 1.98,
+                "fav_quote": 1.95,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
-                "drop_diff": 0.0
+                "drop_diff": 0.03
             },
             "scores": {
                 "ptgg": 4.15,
@@ -6877,11 +6877,11 @@
             "home_team": "Elgin City",
             "away_team": "Clyde",
             "markets": {
-                "q1": 2.75,
+                "q1": 2.8,
                 "qx": 3.4,
                 "q2": 2.15,
-                "o25": 1.68,
-                "o05ht": 1.3,
+                "o25": 1.73,
+                "o05ht": 1.33,
                 "o15ht": 2.5
             },
             "averages": {
@@ -7206,10 +7206,10 @@
             "markets": {
                 "q1": 2.15,
                 "qx": 3.4,
-                "q2": 2.75,
-                "o25": 1.63,
-                "o05ht": 1.29,
-                "o15ht": 2.4
+                "q2": 2.8,
+                "o25": 1.67,
+                "o05ht": 1.3,
+                "o15ht": 2.5
             },
             "averages": {
                 "home_avg_ft": 3.0,
@@ -7531,11 +7531,11 @@
             "away_team": "East Kilbride",
             "markets": {
                 "q1": 2.2,
-                "qx": 3.4,
+                "qx": 3.5,
                 "q2": 2.7,
-                "o25": 1.6,
-                "o05ht": 1.29,
-                "o15ht": 2.37
+                "o25": 1.65,
+                "o05ht": 1.3,
+                "o15ht": 2.38
             },
             "averages": {
                 "home_avg_ft": 2.625,
@@ -7846,6 +7846,332 @@
                 }
             ]
         },
+        "1386464": {
+            "fixture_id": 1386464,
+            "date": "2026-03-28",
+            "time": "16:00",
+            "league": "League Two",
+            "country": "England",
+            "match": "Barnet - Cambridge United",
+            "home_team": "Barnet",
+            "away_team": "Cambridge United",
+            "markets": {
+                "q1": 2.66,
+                "qx": 3.2,
+                "q2": 2.64,
+                "o25": 2.25,
+                "o05ht": 1.42,
+                "o15ht": 2.95
+            },
+            "averages": {
+                "home_avg_ft": 2.625,
+                "away_avg_ft": 2.25,
+                "home_avg_ht": 1.0,
+                "away_avg_ht": 0.875,
+                "combined_ht_avg": 0.938,
+                "home_avg_ft_clean": 2.5,
+                "away_avg_ft_clean": 2.167,
+                "home_avg_ht_clean": 1.0,
+                "away_avg_ht_clean": 0.833,
+                "home_ft_2plus_rate": 0.75,
+                "away_ft_2plus_rate": 0.75,
+                "home_ft_3plus_rate": 0.5,
+                "away_ft_3plus_rate": 0.25,
+                "home_ft_low_rate": 0.25,
+                "away_ft_low_rate": 0.25,
+                "home_ht_1plus_rate": 0.625,
+                "away_ht_1plus_rate": 0.5,
+                "home_ht_zero_rate": 0.375,
+                "away_ht_zero_rate": 0.5,
+                "home_ft_peak_count": 1,
+                "away_ft_peak_count": 1,
+                "home_avg_ht_scored": 0.5,
+                "away_avg_ht_scored": 0.5,
+                "home_avg_ht_scored_clean": 0.5,
+                "away_avg_ht_scored_clean": 0.333,
+                "home_avg_ht_conceded": 0.5,
+                "away_avg_ht_conceded": 0.375,
+                "home_avg_ht_conceded_clean": 0.333,
+                "away_avg_ht_conceded_clean": 0.333,
+                "home_avg_ft_scored": 1.125,
+                "away_avg_ft_scored": 1.75,
+                "home_avg_ft_scored_clean": 1.0,
+                "away_avg_ft_scored_clean": 1.5,
+                "home_avg_ft_conceded": 1.5,
+                "away_avg_ft_conceded": 0.5,
+                "home_avg_ft_conceded_clean": 1.333,
+                "away_avg_ft_conceded_clean": 0.5,
+                "home_ht_scored_1plus_rate": 0.5,
+                "away_ht_scored_1plus_rate": 0.375,
+                "home_ht_scored_2plus_rate": 0.0,
+                "away_ht_scored_2plus_rate": 0.125,
+                "home_ht_conceded_1plus_rate": 0.375,
+                "away_ht_conceded_1plus_rate": 0.375
+            },
+            "flags": {
+                "fav_quote": 2.64,
+                "is_gold_zone": false,
+                "home_last_2h_zero": false,
+                "away_last_2h_zero": false,
+                "drop_diff": 0.0
+            },
+            "scores": {
+                "ptgg": 0.0,
+                "pto15": 0.0,
+                "pt": 0.0,
+                "over": 3.67,
+                "boost": 2.338,
+                "gold": 1.574,
+                "max": 3.67
+            },
+            "tags": [
+                "🐟O"
+            ],
+            "home_last_8": [
+                {
+                    "date": "2026-03-21",
+                    "league": "League Two",
+                    "match": "Milton Keynes Dons - Barnet",
+                    "ht": "1-1",
+                    "ft": "1-3",
+                    "total_ht_goals": 2.0,
+                    "total_ft_goals": 4.0,
+                    "team_ht_scored": 1.0,
+                    "team_ht_conceded": 1.0,
+                    "team_ft_scored": 3.0,
+                    "team_ft_conceded": 1.0,
+                    "team_2h_scored": 2.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-03-17",
+                    "league": "League Two",
+                    "match": "Crawley Town - Barnet",
+                    "ht": "0-0",
+                    "ft": "1-1",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 2.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 1.0,
+                    "team_2h_scored": 1.0,
+                    "team_2h_conceded": 1.0
+                },
+                {
+                    "date": "2026-03-14",
+                    "league": "League Two",
+                    "match": "Barnet - Newport County",
+                    "ht": "1-0",
+                    "ft": "1-2",
+                    "total_ht_goals": 1.0,
+                    "total_ft_goals": 3.0,
+                    "team_ht_scored": 1.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 2.0,
+                    "team_2h_scored": 0.0,
+                    "team_2h_conceded": 2.0
+                },
+                {
+                    "date": "2026-03-07",
+                    "league": "League Two",
+                    "match": "Salford City - Barnet",
+                    "ht": "2-0",
+                    "ft": "2-0",
+                    "total_ht_goals": 2.0,
+                    "total_ft_goals": 2.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 2.0,
+                    "team_ft_scored": 0.0,
+                    "team_ft_conceded": 2.0,
+                    "team_2h_scored": 0.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-02-28",
+                    "league": "League Two",
+                    "match": "Barnet - Chesterfield",
+                    "ht": "0-0",
+                    "ft": "1-0",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 1.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 0.0,
+                    "team_2h_scored": 1.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-02-24",
+                    "league": "League Two",
+                    "match": "Accrington ST - Barnet",
+                    "ht": "0-0",
+                    "ft": "0-1",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 1.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 0.0,
+                    "team_2h_scored": 1.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-02-21",
+                    "league": "League Two",
+                    "match": "Colchester - Barnet",
+                    "ht": "1-1",
+                    "ft": "4-1",
+                    "total_ht_goals": 2.0,
+                    "total_ft_goals": 5.0,
+                    "team_ht_scored": 1.0,
+                    "team_ht_conceded": 1.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 4.0,
+                    "team_2h_scored": 0.0,
+                    "team_2h_conceded": 3.0
+                },
+                {
+                    "date": "2026-02-17",
+                    "league": "League Two",
+                    "match": "Barnet - Swindon Town",
+                    "ht": "1-0",
+                    "ft": "1-2",
+                    "total_ht_goals": 1.0,
+                    "total_ft_goals": 3.0,
+                    "team_ht_scored": 1.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 2.0,
+                    "team_2h_scored": 0.0,
+                    "team_2h_conceded": 2.0
+                }
+            ],
+            "away_last_8": [
+                {
+                    "date": "2026-03-21",
+                    "league": "League Two",
+                    "match": "Cambridge United - Salford City",
+                    "ht": "0-0",
+                    "ft": "1-0",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 1.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 0.0,
+                    "team_2h_scored": 1.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-03-17",
+                    "league": "League Two",
+                    "match": "Walsall - Cambridge United",
+                    "ht": "0-0",
+                    "ft": "0-0",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 0.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 0.0,
+                    "team_ft_conceded": 0.0,
+                    "team_2h_scored": 0.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-03-14",
+                    "league": "League Two",
+                    "match": "Cambridge United - Gillingham",
+                    "ht": "2-0",
+                    "ft": "5-0",
+                    "total_ht_goals": 2.0,
+                    "total_ft_goals": 5.0,
+                    "team_ht_scored": 2.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 5.0,
+                    "team_ft_conceded": 0.0,
+                    "team_2h_scored": 3.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-03-07",
+                    "league": "League Two",
+                    "match": "Accrington ST - Cambridge United",
+                    "ht": "1-0",
+                    "ft": "1-1",
+                    "total_ht_goals": 1.0,
+                    "total_ft_goals": 2.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 1.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 1.0,
+                    "team_2h_scored": 1.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-02-28",
+                    "league": "League Two",
+                    "match": "Cambridge United - Milton Keynes Dons",
+                    "ht": "0-0",
+                    "ft": "1-1",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 2.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 1.0,
+                    "team_2h_scored": 1.0,
+                    "team_2h_conceded": 1.0
+                },
+                {
+                    "date": "2026-02-21",
+                    "league": "League Two",
+                    "match": "Newport County - Cambridge United",
+                    "ht": "0-0",
+                    "ft": "0-2",
+                    "total_ht_goals": 0.0,
+                    "total_ft_goals": 2.0,
+                    "team_ht_scored": 0.0,
+                    "team_ht_conceded": 0.0,
+                    "team_ft_scored": 2.0,
+                    "team_ft_conceded": 0.0,
+                    "team_2h_scored": 2.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-02-17",
+                    "league": "League Two",
+                    "match": "Cambridge United - Colchester",
+                    "ht": "1-1",
+                    "ft": "1-1",
+                    "total_ht_goals": 2.0,
+                    "total_ft_goals": 2.0,
+                    "team_ht_scored": 1.0,
+                    "team_ht_conceded": 1.0,
+                    "team_ft_scored": 1.0,
+                    "team_ft_conceded": 1.0,
+                    "team_2h_scored": 0.0,
+                    "team_2h_conceded": 0.0
+                },
+                {
+                    "date": "2026-02-14",
+                    "league": "League Two",
+                    "match": "Cambridge United - Bristol Rovers",
+                    "ht": "1-1",
+                    "ft": "3-1",
+                    "total_ht_goals": 2.0,
+                    "total_ft_goals": 4.0,
+                    "team_ht_scored": 1.0,
+                    "team_ht_conceded": 1.0,
+                    "team_ft_scored": 3.0,
+                    "team_ft_conceded": 1.0,
+                    "team_2h_scored": 2.0,
+                    "team_2h_conceded": 0.0
+                }
+            ]
+        },
         "1386471": {
             "fixture_id": 1386471,
             "date": "2026-03-28",
@@ -7856,12 +8182,12 @@
             "home_team": "Crewe",
             "away_team": "Oldham",
             "markets": {
-                "q1": 2.38,
-                "qx": 3.25,
-                "q2": 2.75,
+                "q1": 2.46,
+                "qx": 3.35,
+                "q2": 2.74,
                 "o25": 1.95,
-                "o05ht": 1.4,
-                "o15ht": 2.75
+                "o05ht": 1.36,
+                "o15ht": 2.65
             },
             "averages": {
                 "home_avg_ft": 2.5,
@@ -7909,7 +8235,7 @@
                 "away_ht_conceded_1plus_rate": 0.0
             },
             "flags": {
-                "fav_quote": 2.38,
+                "fav_quote": 2.46,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
@@ -7920,9 +8246,9 @@
                 "pto15": 0.45,
                 "pt": 2.581,
                 "over": 4.72,
-                "boost": 4.745,
-                "gold": 3.18,
-                "max": 4.745
+                "boost": 5.195,
+                "gold": 3.88,
+                "max": 5.195
             },
             "tags": [
                 "⚽ OVER"
@@ -8182,12 +8508,12 @@
             "home_team": "Blackpool",
             "away_team": "Burton Albion",
             "markets": {
-                "q1": 2.45,
-                "qx": 3.1,
-                "q2": 2.75,
+                "q1": 2.54,
+                "qx": 3.25,
+                "q2": 2.72,
                 "o25": 2.0,
                 "o05ht": 1.4,
-                "o15ht": 3.0
+                "o15ht": 2.8
             },
             "averages": {
                 "home_avg_ft": 3.0,
@@ -8235,7 +8561,7 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 2.45,
+                "fav_quote": 2.54,
                 "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
@@ -8509,11 +8835,11 @@
             "away_team": "Leyton Orient",
             "markets": {
                 "q1": 2.25,
-                "qx": 3.5,
-                "q2": 2.85,
-                "o25": 1.78,
-                "o05ht": 1.33,
-                "o15ht": 2.65
+                "qx": 3.3,
+                "q2": 2.88,
+                "o25": 1.85,
+                "o05ht": 1.36,
+                "o15ht": 2.62
             },
             "averages": {
                 "home_avg_ft": 3.625,
@@ -8834,12 +9160,12 @@
             "home_team": "Reading",
             "away_team": "Wigan",
             "markets": {
-                "q1": 2.1,
-                "qx": 3.2,
-                "q2": 3.3,
+                "q1": 2.14,
+                "qx": 3.25,
+                "q2": 3.4,
                 "o25": 2.1,
-                "o05ht": 1.44,
-                "o15ht": 3.25
+                "o05ht": 1.42,
+                "o15ht": 2.9
             },
             "averages": {
                 "home_avg_ft": 2.625,
@@ -8887,7 +9213,7 @@
                 "away_ht_conceded_1plus_rate": 0.375
             },
             "flags": {
-                "fav_quote": 2.1,
+                "fav_quote": 2.14,
                 "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
@@ -9161,11 +9487,11 @@
             "away_team": "AFC Wimbledon",
             "markets": {
                 "q1": 1.62,
-                "qx": 3.6,
+                "qx": 3.8,
                 "q2": 5.25,
                 "o25": 1.85,
                 "o05ht": 1.36,
-                "o15ht": 2.62
+                "o15ht": 2.65
             },
             "averages": {
                 "home_avg_ft": 2.875,
@@ -10467,9 +10793,9 @@
             "home_team": "FC Halifax Town",
             "away_team": "Scunthorpe",
             "markets": {
-                "q1": 2.7,
+                "q1": 2.62,
                 "qx": 3.3,
-                "q2": 2.4,
+                "q2": 2.45,
                 "o25": 1.62,
                 "o05ht": 1.25,
                 "o15ht": 2.3
@@ -10520,7 +10846,7 @@
                 "away_ht_conceded_1plus_rate": 0.75
             },
             "flags": {
-                "fav_quote": 2.4,
+                "fav_quote": 2.45,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
