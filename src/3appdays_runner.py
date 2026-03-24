@@ -487,8 +487,8 @@ def main():
         return
 
     if args.fast_pair:
-    run_fast_pair_workflow()
-    return
+        run_fast_pair_workflow()
+        return
 
     if args.day2_refresh:
         run_day2_refresh_workflow()
