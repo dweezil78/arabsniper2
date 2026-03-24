@@ -2711,8 +2711,8 @@ def run_nightly_multiday_build():
         print(f"❌ Errore rotazione file day: {e}")
         return
 
-    print("📌 DAY 1: refresh quote + update data.json/data_day1/details_day1")
-    run_full_scan(horizon=1, snap=False, update_main_site=True, show_success=False)
+    print("📌 DAY 1: SNAPSHOT rolling + refresh quote + update data.json/data_day1/details_day1")
+    run_full_scan(horizon=1, snap=True, update_main_site=True, show_success=False)
 
     print("📆 DAY 2: scan statico + update data_day2/details_day2")
     run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
