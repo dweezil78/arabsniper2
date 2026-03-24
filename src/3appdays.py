@@ -3108,3 +3108,45 @@ def mark_row_as_stale(row: dict) -> dict:
         stale["fixture_id"] = stale["Fixture_ID"]
 
     return stale
+
+def merge_day_rows(old_rows: list, new_rows: list) -> list:
+    old_rows = old_rows or []
+    new_rows = new_rows or []
+
+    old_map = {}
+    for row in old_rows:
+        fid = row.get("Fixture_ID", row.get("fixture_id"))
+        if fid is not None:
+            old_map[str(fid)] = dict(row)
+
+    new_map = {}
+    for row in new_rows:
+        fid = row.get("Fixture_ID", row.get("fixture_id"))
+        if fid is not None:
+            new_map[str(fid)] = build_merge_base_row(row)
+
+    merged_map = {}
+
+    # 1) aggiorna o crea le fixture presenti nel nuovo scan
+    for fid, new_row in new_map.items():
+        if fid in old_map:
+            merged_map[fid] = merge_existing_and_new_row(old_map[fid], new_row)
+        else:
+            merged_map[fid] = build_merge_base_row(new_row)
+
+    # 2) le fixture vecchie assenti nel nuovo scan non si cancellano
+    for fid, old_row in old_map.items():
+        if fid not in merged_map:
+            merged_map[fid] = mark_row_as_stale(old_row)
+
+    merged_rows = list(merged_map.values())
+
+    merged_rows.sort(
+        key=lambda r: (
+            str(r.get("Data", "")),
+            str(r.get("Ora", "99:99")),
+            str(r.get("Match", "")),
+        )
+    )
+
+    return merged_rows
