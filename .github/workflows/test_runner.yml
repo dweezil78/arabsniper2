@@ -6,6 +6,9 @@ on:
 jobs:
   run-test:
     runs-on: ubuntu-latest
+    env:
+      API_SPORTS_KEY: ${{ secrets.API_SPORTS_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout repo
