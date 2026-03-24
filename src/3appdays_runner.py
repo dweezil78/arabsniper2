@@ -400,6 +400,7 @@ def parse_args():
     parser.add_argument("--night", action="store_true", help="Lancia 3appdays.py --auto")
     parser.add_argument("--fast", action="store_true", help="Lancia 3appdays.py --fast")
     parser.add_argument("--day2-refresh", action="store_true", help="Lancia 3appdays.py --day2-refresh")
+    parser.add_argument("--rotate-test", action="store_true", help="Esegue solo la rotazione dei file day senza scan API")
     return parser.parse_args()
 
 
@@ -409,12 +410,19 @@ def main():
     chosen = sum([
         1 if args.night else 0,
         1 if args.fast else 0,
-        1 if args.day2_refresh else 0
+        1 if args.day2_refresh else 0,
+        1 if args.rotate_test else 0,
     ])
 
     if chosen != 1:
-        log("Usa una sola modalità: --night oppure --fast oppure --day2-refresh")
+        log("Usa una sola modalità: --night oppure --fast oppure --day2-refresh oppure --rotate-test")
         raise SystemExit(1)
+    
+    if args.rotate_test:
+        log("🧪 TEST ROTAZIONE DAY FILES")
+        rotate_day_files(PROJECT_ROOT)
+        log("✅ TEST ROTAZIONE COMPLETATO")
+        return
 
     if args.night:
         run_night_workflow()
