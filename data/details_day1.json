@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-24 12:02:47",
+    "updated_at": "2026-03-24 12:50:28",
     "day": 1,
     "date": "2026-03-24",
     "details": {
@@ -1649,7 +1649,7 @@
                 "qx": 3.3,
                 "q2": 2.2,
                 "o25": 1.75,
-                "o05ht": 1.32,
+                "o05ht": 1.3,
                 "o15ht": 2.55
             },
             "averages": {
@@ -3607,12 +3607,12 @@
             "home_team": "Stranraer",
             "away_team": "Clyde",
             "markets": {
-                "q1": 2.5,
+                "q1": 2.62,
                 "qx": 3.1,
-                "q2": 2.5,
-                "o25": 1.98,
-                "o05ht": 1.38,
-                "o15ht": 2.9
+                "q2": 2.45,
+                "o25": 2.1,
+                "o05ht": 1.4,
+                "o15ht": 3.0
             },
             "averages": {
                 "home_avg_ft": 2.625,
@@ -3660,7 +3660,7 @@
                 "away_ht_conceded_1plus_rate": 0.0
             },
             "flags": {
-                "fav_quote": 2.5,
+                "fav_quote": 2.45,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": false,
@@ -3672,7 +3672,7 @@
                 "pt": 2.616,
                 "over": 4.69,
                 "boost": 4.192,
-                "gold": 3.179,
+                "gold": 2.879,
                 "max": 4.69
             },
             "tags": [
@@ -5568,12 +5568,12 @@
             "home_team": "Eastleigh",
             "away_team": "Sutton Utd",
             "markets": {
-                "q1": 2.75,
-                "qx": 3.4,
-                "q2": 2.1,
-                "o25": 1.63,
+                "q1": 2.88,
+                "qx": 3.35,
+                "q2": 2.2,
+                "o25": 1.65,
                 "o05ht": 1.3,
-                "o15ht": 2.45
+                "o15ht": 2.3
             },
             "averages": {
                 "home_avg_ft": 3.25,
@@ -5621,7 +5621,7 @@
                 "away_ht_conceded_1plus_rate": 0.625
             },
             "flags": {
-                "fav_quote": 2.1,
+                "fav_quote": 2.2,
                 "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": true,
@@ -9821,11 +9821,11 @@
             "away_team": "Stockton Town",
             "markets": {
                 "q1": 2.05,
-                "qx": 3.25,
-                "q2": 3.0,
-                "o25": 1.85,
+                "qx": 3.3,
+                "q2": 3.1,
+                "o25": 1.8,
                 "o05ht": 1.35,
-                "o15ht": 2.75
+                "o15ht": 2.55
             },
             "averages": {
                 "home_avg_ft": 3.25,
@@ -10148,10 +10148,10 @@
             "markets": {
                 "q1": 2.2,
                 "qx": 3.2,
-                "q2": 2.8,
-                "o25": 1.88,
+                "q2": 2.85,
+                "o25": 1.8,
                 "o05ht": 1.35,
-                "o15ht": 2.75
+                "o15ht": 2.55
             },
             "averages": {
                 "home_avg_ft": 3.0,
