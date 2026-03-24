@@ -2705,7 +2705,7 @@ def run_nightly_multiday_build():
     try:
         import subprocess
         import sys
-        subprocess.run([sys.executable, str(SRC_DIR / "3appdays_runner.py"), "--rotate-test"], check=True)
+        subprocess.run([sys.executable, str(BASE_DIR / "3appdays_runner.py"), "--rotate-test"], check=True)
         print("✅ Rotazione file completata.")
     except Exception as e:
         print(f"❌ Errore rotazione file day: {e}")
