@@ -1,7 +1,7 @@
 {
-  "last_update": "2026-03-24T11:50:33",
-  "mode": "fast",
-  "command": "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python /home/runner/work/arabsniper2/arabsniper2/src/3appdays.py --fast",
+  "last_update": "2026-03-24T12:02:58",
+  "mode": "day2-refresh",
+  "command": "/opt/hostedtoolcache/Python/3.11.15/x64/bin/python /home/runner/work/arabsniper2/arabsniper2/src/3appdays.py --day2-refresh",
   "returncode": 0,
   "source": "src/3appdays_runner.py"
 }
