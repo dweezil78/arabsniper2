@@ -3015,3 +3015,26 @@ if __name__ == "__main__":
         print("🌙 Avvio Refresh Serale Day 2...")
         run_full_scan(horizon=2, snap=False, update_main_site=False, show_success=False)
         print("✅ Refresh Day 2 terminato: data_day2 + details_day2 aggiornati.")
+
+# =========================================================
+# MERGE HELPERS (STEP 3)
+# =========================================================
+
+def safe_float(x, default=0.0):
+    try:
+        if x is None:
+            return default
+        return float(str(x).replace(",", "."))
+    except Exception:
+        return default
+
+
+def build_curr_pack_from_row(row: dict) -> dict:
+    return {
+        "Q1_CURR": safe_float(row.get("Q1", row.get("Q1_CURR", 0))),
+        "QX_CURR": safe_float(row.get("QX", row.get("QX_CURR", 0))),
+        "Q2_CURR": safe_float(row.get("Q2", row.get("Q2_CURR", 0))),
+        "O25_CURR": safe_float(row.get("O2.5", row.get("O25_CURR", 0))),
+        "O05HT_CURR": safe_float(row.get("O0.5H", row.get("O05HT_CURR", 0))),
+        "O15HT_CURR": safe_float(row.get("O1.5H", row.get("O15HT_CURR", 0))),
+    }
