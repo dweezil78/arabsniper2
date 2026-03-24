@@ -2622,18 +2622,19 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
             # ==========================================
             # 5) SALVATAGGIO LOCALE SICURO
             # ==========================================
-            current_db = {str(r["Fixture_ID"]): r for r in st.session_state.scan_results}
-            target_date_ids = {str(r["Fixture_ID"]) for r in final_list}
+            old_day_results = [
+                r for r in st.session_state.scan_results
+                if r.get("Data") == target_date
+            ]
 
-            for existing in list(current_db.keys()):
-                existing_row = current_db[existing]
-                if existing_row.get("Data") == target_date and existing not in target_date_ids:
-                    del current_db[existing]
+            merged_day_results = merge_day_rows(old_day_results, final_list)
 
-            for r in final_list:
-                current_db[str(r["Fixture_ID"])] = r
+            other_days_results = [
+                r for r in st.session_state.scan_results
+                if r.get("Data") != target_date
+            ]
 
-            new_scan_results = list(current_db.values())
+            new_scan_results = other_days_results + merged_day_results
             new_scan_results.sort(key=lambda x: (x.get("Data", ""), x.get("Ora", "99:99")))
 
             try:
