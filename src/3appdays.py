@@ -2941,38 +2941,53 @@ if st.session_state.scan_results:
                 axis=1
             )
             
-        def build_1x2_visual(row):
-            q1_open = safe_float(row.get("Q1_OPEN"), 0.0)
-            qx_open = safe_float(row.get("QX_OPEN"), 0.0)
-            q2_open = safe_float(row.get("Q2_OPEN"), 0.0)
+def outcome_block(label, q_open, q_curr, data=None):
+    try:
+        q_open = safe_float(q_open, 0)
+        q_curr = safe_float(q_curr, 0)
 
-            q1_curr = safe_float(row.get("Q1_CURR"), 0.0)
-            qx_curr = safe_float(row.get("QX_CURR"), 0.0)
-            q2_curr = safe_float(row.get("Q2_CURR"), 0.0)
+        if q_open > 0 and q_curr > 0:
+            diff = q_curr - q_open
 
-            q1_move = str(row.get("Q1_MOVE", "")).strip()
-            qx_move = str(row.get("QX_MOVE", "")).strip()
-            q2_move = str(row.get("Q2_MOVE", "")).strip()
+            if diff <= -0.15:
+                color = "#ff4d4d"
+            elif diff < 0:
+                color = "#ffa500"
+            elif diff > 0:
+                color = "#00cc66"
+            else:
+                color = "#999999"
+        else:
+            color = "#999999"
 
-            def fmt_line(label, open_q, move_txt, curr_q):
-                open_s = f"{open_q:.2f}" if open_q > 0 else "-"
-                curr_s = f"{curr_q:.2f}" if curr_q > 0 else "-"
-                mid = move_txt if move_txt else "→0.00"
-                return f"<div><b>{label}</b> {open_s} {mid} {curr_s}</div>"
+        return f"<span style='color:{color}'><b>{label}</b> {q_curr:.2f}</span>"
 
-            return f"""
-            <div style="
-                display:flex;
-                align-items:flex-start;
-                justify-content:center;
-                gap:10px;
-                white-space:nowrap;
-            ">
-                {outcome_block("1", q1_open, q1_curr, q1_data)}
-                {outcome_block("X", qx_open, qx_curr, qx_data)}
-                {outcome_block("2", q2_open, q2_curr, q2_data)}
-            </div>
-            """
+    except Exception:
+        return f"{label} {q_curr}"
+
+
+def build_1x2_visual(row):
+    q1_open = safe_float(row.get("Q1_OPEN"), 0.0)
+    qx_open = safe_float(row.get("QX_OPEN"), 0.0)
+    q2_open = safe_float(row.get("Q2_OPEN"), 0.0)
+
+    q1_curr = safe_float(row.get("Q1_CURR"), 0.0)
+    qx_curr = safe_float(row.get("QX_CURR"), 0.0)
+    q2_curr = safe_float(row.get("Q2_CURR"), 0.0)
+
+    return f"""
+    <div style="
+        display:flex;
+        align-items:flex-start;
+        justify-content:center;
+        gap:10px;
+        white-space:nowrap;
+    ">
+        {outcome_block("1", q1_open, q1_curr)}
+        {outcome_block("X", qx_open, qx_curr)}
+        {outcome_block("2", q2_open, q2_curr)}
+    </div>
+    """
 
         def build_o25_visual(row):
             move = str(row.get("O25_MOVE", "")).strip()
