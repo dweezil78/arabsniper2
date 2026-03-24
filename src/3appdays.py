@@ -3167,3 +3167,33 @@ def load_results_from_json_file(path: str) -> list:
         return []
     except Exception:
         return []
+
+def build_merged_day_payload(existing_file_path: str, new_rows: list, day_num: int = None, target_date: str = None) -> dict:
+    old_rows = load_results_from_json_file(existing_file_path)
+    merged_rows = merge_day_rows(old_rows, new_rows)
+
+    payload = {
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "results": merged_rows,
+    }
+
+    if day_num is not None:
+        payload["day"] = day_num
+
+    if target_date is not None:
+        payload["date"] = target_date
+
+    return payload
+
+def save_merged_day_json(existing_file_path: str, new_rows: list, day_num: int = None, target_date: str = None) -> dict:
+    payload = build_merged_day_payload(
+        existing_file_path=existing_file_path,
+        new_rows=new_rows,
+        day_num=day_num,
+        target_date=target_date,
+    )
+
+    with open(existing_file_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    return payload
