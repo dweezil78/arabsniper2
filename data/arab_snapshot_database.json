@@ -1,107 +1,5 @@
 {
     "odds": {
-        "1441969": {
-            "fixture_id": "1441969",
-            "q1_open": 1.5,
-            "qx_open": 3.9,
-            "q2_open": 5.0,
-            "o25_open": 1.65,
-            "o05ht_open": 1.3,
-            "o15ht_open": 2.4,
-            "q1": 1.5,
-            "q2": 5.0,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1441966": {
-            "fixture_id": "1441966",
-            "q1_open": 2.6,
-            "qx_open": 2.8,
-            "q2_open": 2.62,
-            "o25_open": 2.05,
-            "o05ht_open": 1.4,
-            "o15ht_open": 2.9,
-            "q1": 2.6,
-            "q2": 2.62,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1441975": {
-            "fixture_id": "1441975",
-            "q1_open": 2.3,
-            "qx_open": 3.0,
-            "q2_open": 2.62,
-            "o25_open": 1.92,
-            "o05ht_open": 1.35,
-            "o15ht_open": 2.7,
-            "q1": 2.3,
-            "q2": 2.62,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1434135": {
-            "fixture_id": "1434135",
-            "q1_open": 2.2,
-            "qx_open": 3.8,
-            "q2_open": 2.5,
-            "o25_open": 1.33,
-            "o05ht_open": 1.17,
-            "o15ht_open": 1.85,
-            "q1": 2.2,
-            "q2": 2.5,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-23 18:33:34"
-        },
-        "1434137": {
-            "fixture_id": "1434137",
-            "q1_open": 2.25,
-            "qx_open": 3.75,
-            "q2_open": 2.5,
-            "o25_open": 1.4,
-            "o05ht_open": 1.2,
-            "o15ht_open": 1.95,
-            "q1": 2.25,
-            "q2": 2.5,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1441977": {
-            "fixture_id": "1441977",
-            "q1_open": 1.36,
-            "qx_open": 4.55,
-            "q2_open": 6.35,
-            "o25_open": 1.52,
-            "o05ht_open": 1.25,
-            "o15ht_open": 2.26,
-            "q1": 1.36,
-            "q2": 6.35,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
         "1449121": {
             "fixture_id": "1449121",
             "q1_open": 2.75,
@@ -117,7 +15,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498035": {
             "fixture_id": "1498035",
@@ -134,7 +32,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1441971": {
             "fixture_id": "1441971",
@@ -151,7 +49,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531926": {
             "fixture_id": "1531926",
@@ -168,7 +66,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1382125": {
             "fixture_id": "1382125",
@@ -185,7 +83,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1395663": {
             "fixture_id": "1395663",
@@ -202,7 +100,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1395683": {
             "fixture_id": "1395683",
@@ -219,7 +117,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383003": {
             "fixture_id": "1383003",
@@ -236,7 +134,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383327": {
             "fixture_id": "1383327",
@@ -253,7 +151,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383346": {
             "fixture_id": "1383346",
@@ -270,7 +168,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386304": {
             "fixture_id": "1386304",
@@ -287,7 +185,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1387479": {
             "fixture_id": "1387479",
@@ -304,7 +202,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1395708": {
             "fixture_id": "1395708",
@@ -321,7 +219,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399866": {
             "fixture_id": "1399866",
@@ -338,7 +236,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399867": {
             "fixture_id": "1399867",
@@ -355,7 +253,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399868": {
             "fixture_id": "1399868",
@@ -372,7 +270,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399869": {
             "fixture_id": "1399869",
@@ -389,7 +287,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399870": {
             "fixture_id": "1399870",
@@ -406,7 +304,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399871": {
             "fixture_id": "1399871",
@@ -423,7 +321,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1401670": {
             "fixture_id": "1401670",
@@ -440,7 +338,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1401829": {
             "fixture_id": "1401829",
@@ -457,7 +355,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1401851": {
             "fixture_id": "1401851",
@@ -474,7 +372,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1401861": {
             "fixture_id": "1401861",
@@ -491,7 +389,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1401879": {
             "fixture_id": "1401879",
@@ -508,7 +406,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1402295": {
             "fixture_id": "1402295",
@@ -525,7 +423,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1402370": {
             "fixture_id": "1402370",
@@ -542,7 +440,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1402382": {
             "fixture_id": "1402382",
@@ -559,24 +457,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1402391": {
-            "fixture_id": "1402391",
-            "q1_open": 1.28,
-            "qx_open": 5.0,
-            "q2_open": 9.2,
-            "o25_open": 1.45,
-            "o05ht_open": 1.25,
-            "o15ht_open": 2.15,
-            "q1": 1.28,
-            "q2": 9.2,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 2,
-            "first_seen_ts": "2026-03-23 18:33:34",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1402431": {
             "fixture_id": "1402431",
@@ -593,7 +474,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1427860": {
             "fixture_id": "1427860",
@@ -610,7 +491,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428019": {
             "fixture_id": "1428019",
@@ -627,7 +508,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428020": {
             "fixture_id": "1428020",
@@ -644,7 +525,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428037": {
             "fixture_id": "1428037",
@@ -661,7 +542,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428317": {
             "fixture_id": "1428317",
@@ -678,7 +559,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428325": {
             "fixture_id": "1428325",
@@ -695,7 +576,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428461": {
             "fixture_id": "1428461",
@@ -712,7 +593,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428519": {
             "fixture_id": "1428519",
@@ -729,7 +610,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428759": {
             "fixture_id": "1428759",
@@ -746,7 +627,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428942": {
             "fixture_id": "1428942",
@@ -763,7 +644,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428943": {
             "fixture_id": "1428943",
@@ -780,7 +661,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531927": {
             "fixture_id": "1531927",
@@ -797,7 +678,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1506049": {
             "fixture_id": "1506049",
@@ -814,7 +695,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535569": {
             "fixture_id": "1535569",
@@ -831,7 +712,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1506054": {
             "fixture_id": "1506054",
@@ -848,7 +729,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535570": {
             "fixture_id": "1535570",
@@ -865,7 +746,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1506055": {
             "fixture_id": "1506055",
@@ -882,7 +763,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1526663": {
             "fixture_id": "1526663",
@@ -899,7 +780,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1522296": {
             "fixture_id": "1522296",
@@ -916,7 +797,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1441964": {
             "fixture_id": "1441964",
@@ -933,7 +814,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1441970": {
             "fixture_id": "1441970",
@@ -950,7 +831,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1451840": {
             "fixture_id": "1451840",
@@ -967,7 +848,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1454842": {
             "fixture_id": "1454842",
@@ -984,7 +865,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1413568": {
             "fixture_id": "1413568",
@@ -1001,7 +882,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1441962": {
             "fixture_id": "1441962",
@@ -1018,7 +899,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1507292": {
             "fixture_id": "1507292",
@@ -1035,7 +916,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531929": {
             "fixture_id": "1531929",
@@ -1052,7 +933,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1533231": {
             "fixture_id": "1533231",
@@ -1069,7 +950,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399872": {
             "fixture_id": "1399872",
@@ -1086,7 +967,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399873": {
             "fixture_id": "1399873",
@@ -1103,7 +984,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399874": {
             "fixture_id": "1399874",
@@ -1120,7 +1001,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399875": {
             "fixture_id": "1399875",
@@ -1137,7 +1018,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399876": {
             "fixture_id": "1399876",
@@ -1154,7 +1035,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1399877": {
             "fixture_id": "1399877",
@@ -1171,7 +1052,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1401798": {
             "fixture_id": "1401798",
@@ -1188,7 +1069,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1511920": {
             "fixture_id": "1511920",
@@ -1205,7 +1086,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531930": {
             "fixture_id": "1531930",
@@ -1222,7 +1103,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535571": {
             "fixture_id": "1535571",
@@ -1239,7 +1120,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535572": {
             "fixture_id": "1535572",
@@ -1256,7 +1137,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1491989": {
             "fixture_id": "1491989",
@@ -1273,7 +1154,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1503676": {
             "fixture_id": "1503676",
@@ -1290,7 +1171,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1504996": {
             "fixture_id": "1504996",
@@ -1307,7 +1188,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493431": {
             "fixture_id": "1493431",
@@ -1324,7 +1205,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1511921": {
             "fixture_id": "1511921",
@@ -1341,7 +1222,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1515135": {
             "fixture_id": "1515135",
@@ -1358,7 +1239,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493432": {
             "fixture_id": "1493432",
@@ -1375,7 +1256,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531931": {
             "fixture_id": "1531931",
@@ -1392,7 +1273,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535573": {
             "fixture_id": "1535573",
@@ -1409,7 +1290,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1503677": {
             "fixture_id": "1503677",
@@ -1426,7 +1307,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1506056": {
             "fixture_id": "1506056",
@@ -1443,7 +1324,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1504909": {
             "fixture_id": "1504909",
@@ -1460,7 +1341,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531932": {
             "fixture_id": "1531932",
@@ -1477,7 +1358,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487922": {
             "fixture_id": "1487922",
@@ -1494,7 +1375,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531933": {
             "fixture_id": "1531933",
@@ -1511,7 +1392,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487923": {
             "fixture_id": "1487923",
@@ -1528,7 +1409,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487924": {
             "fixture_id": "1487924",
@@ -1545,7 +1426,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487925": {
             "fixture_id": "1487925",
@@ -1562,7 +1443,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487926": {
             "fixture_id": "1487926",
@@ -1579,7 +1460,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487927": {
             "fixture_id": "1487927",
@@ -1596,7 +1477,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487928": {
             "fixture_id": "1487928",
@@ -1613,7 +1494,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1487929": {
             "fixture_id": "1487929",
@@ -1630,7 +1511,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1501815": {
             "fixture_id": "1501815",
@@ -1647,7 +1528,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535574": {
             "fixture_id": "1535574",
@@ -1664,7 +1545,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1530486": {
             "fixture_id": "1530486",
@@ -1681,7 +1562,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1512757": {
             "fixture_id": "1512757",
@@ -1698,7 +1579,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535576": {
             "fixture_id": "1535576",
@@ -1715,7 +1596,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1491893": {
             "fixture_id": "1491893",
@@ -1732,7 +1613,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1504698": {
             "fixture_id": "1504698",
@@ -1749,7 +1630,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1525450": {
             "fixture_id": "1525450",
@@ -1766,7 +1647,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1392111": {
             "fixture_id": "1392111",
@@ -1783,7 +1664,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423036": {
             "fixture_id": "1423036",
@@ -1800,7 +1681,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423037": {
             "fixture_id": "1423037",
@@ -1817,7 +1698,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423038": {
             "fixture_id": "1423038",
@@ -1834,7 +1715,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423039": {
             "fixture_id": "1423039",
@@ -1851,7 +1732,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423041": {
             "fixture_id": "1423041",
@@ -1868,7 +1749,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423042": {
             "fixture_id": "1423042",
@@ -1885,7 +1766,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423043": {
             "fixture_id": "1423043",
@@ -1902,7 +1783,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1423040": {
             "fixture_id": "1423040",
@@ -1919,7 +1800,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383016": {
             "fixture_id": "1383016",
@@ -1936,7 +1817,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383017": {
             "fixture_id": "1383017",
@@ -1953,7 +1834,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383197": {
             "fixture_id": "1383197",
@@ -1970,7 +1851,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1492850": {
             "fixture_id": "1492850",
@@ -1987,7 +1868,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1492851": {
             "fixture_id": "1492851",
@@ -2004,7 +1885,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1492852": {
             "fixture_id": "1492852",
@@ -2021,7 +1902,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1492853": {
             "fixture_id": "1492853",
@@ -2038,7 +1919,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1502470": {
             "fixture_id": "1502470",
@@ -2055,7 +1936,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1502471": {
             "fixture_id": "1502471",
@@ -2072,7 +1953,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1503005": {
             "fixture_id": "1503005",
@@ -2089,7 +1970,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1503679": {
             "fixture_id": "1503679",
@@ -2106,126 +1987,7 @@
             "first_seen_ts": "2026-03-23 18:33:34",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1441974": {
-            "fixture_id": "1441974",
-            "q1_open": 2.05,
-            "qx_open": 3.3,
-            "q2_open": 3.0,
-            "o25_open": 1.82,
-            "o05ht_open": 1.35,
-            "o15ht_open": 2.7,
-            "q1": 2.05,
-            "q2": 3.0,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1448659": {
-            "fixture_id": "1448659",
-            "q1_open": 2.85,
-            "qx_open": 3.1,
-            "q2_open": 2.25,
-            "o25_open": 2.15,
-            "o05ht_open": 1.38,
-            "o15ht_open": 0.0,
-            "q1": 2.85,
-            "q2": 2.25,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1448421": {
-            "fixture_id": "1448421",
-            "q1_open": 2.55,
-            "qx_open": 3.2,
-            "q2_open": 2.4,
-            "o25_open": 1.85,
-            "o05ht_open": 1.35,
-            "o15ht_open": 0.0,
-            "q1": 2.55,
-            "q2": 2.4,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1448422": {
-            "fixture_id": "1448422",
-            "q1_open": 1.8,
-            "qx_open": 3.2,
-            "q2_open": 4.0,
-            "o25_open": 2.15,
-            "o05ht_open": 1.38,
-            "o15ht_open": 0.0,
-            "q1": 1.8,
-            "q2": 4.0,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1448424": {
-            "fixture_id": "1448424",
-            "q1_open": 2.25,
-            "qx_open": 3.1,
-            "q2_open": 2.85,
-            "o25_open": 2.0,
-            "o05ht_open": 1.38,
-            "o15ht_open": 0.0,
-            "q1": 2.25,
-            "q2": 2.85,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1449120": {
-            "fixture_id": "1449120",
-            "q1_open": 1.22,
-            "qx_open": 4.8,
-            "q2_open": 11.0,
-            "o25_open": 1.5,
-            "o05ht_open": 1.22,
-            "o15ht_open": 2.1,
-            "q1": 1.22,
-            "q2": 11.0,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
-        },
-        "1409861": {
-            "fixture_id": "1409861",
-            "q1_open": 2.83,
-            "qx_open": 3.4,
-            "q2_open": 2.15,
-            "o25_open": 1.59,
-            "o05ht_open": 1.27,
-            "o15ht_open": 2.34,
-            "q1": 2.83,
-            "q2": 2.15,
-            "first_seen_date": "2026-03-24",
-            "first_seen_horizon": 1,
-            "first_seen_ts": "2026-03-24 10:21:51",
-            "last_seen_date": "2026-03-24",
-            "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1514891": {
             "fixture_id": "1514891",
@@ -2242,7 +2004,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531299": {
             "fixture_id": "1531299",
@@ -2259,7 +2021,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531301": {
             "fixture_id": "1531301",
@@ -2276,7 +2038,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531302": {
             "fixture_id": "1531302",
@@ -2293,7 +2055,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1514892": {
             "fixture_id": "1514892",
@@ -2310,7 +2072,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1398852": {
             "fixture_id": "1398852",
@@ -2327,7 +2089,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1428335": {
             "fixture_id": "1428335",
@@ -2344,7 +2106,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-24",
             "last_seen_horizon": 1,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493774": {
             "fixture_id": "1493774",
@@ -2361,7 +2123,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1534904": {
             "fixture_id": "1534904",
@@ -2378,7 +2140,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1536901": {
             "fixture_id": "1536901",
@@ -2395,7 +2157,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1536902": {
             "fixture_id": "1536902",
@@ -2412,7 +2174,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1451838": {
             "fixture_id": "1451838",
@@ -2429,7 +2191,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1466600": {
             "fixture_id": "1466600",
@@ -2446,7 +2208,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1508079": {
             "fixture_id": "1508079",
@@ -2463,7 +2225,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1420861": {
             "fixture_id": "1420861",
@@ -2480,7 +2242,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1398850": {
             "fixture_id": "1398850",
@@ -2497,7 +2259,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1512255": {
             "fixture_id": "1512255",
@@ -2514,7 +2276,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1512256": {
             "fixture_id": "1512256",
@@ -2531,7 +2293,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1512264": {
             "fixture_id": "1512264",
@@ -2548,7 +2310,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1508081": {
             "fixture_id": "1508081",
@@ -2565,7 +2327,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1476918": {
             "fixture_id": "1476918",
@@ -2582,7 +2344,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-25",
             "last_seen_horizon": 2,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493378": {
             "fixture_id": "1493378",
@@ -2599,7 +2361,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1350108": {
             "fixture_id": "1350108",
@@ -2616,7 +2378,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1316569": {
             "fixture_id": "1316569",
@@ -2633,7 +2395,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1316571": {
             "fixture_id": "1316571",
@@ -2650,7 +2412,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1350107": {
             "fixture_id": "1350107",
@@ -2667,7 +2429,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1350110": {
             "fixture_id": "1350110",
@@ -2684,7 +2446,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1350109": {
             "fixture_id": "1350109",
@@ -2701,7 +2463,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-26",
             "last_seen_horizon": 3,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1393182": {
             "fixture_id": "1393182",
@@ -2718,7 +2480,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1393183": {
             "fixture_id": "1393183",
@@ -2735,7 +2497,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1393184": {
             "fixture_id": "1393184",
@@ -2752,7 +2514,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1393185": {
             "fixture_id": "1393185",
@@ -2769,7 +2531,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1527858": {
             "fixture_id": "1527858",
@@ -2786,7 +2548,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1508979": {
             "fixture_id": "1508979",
@@ -2803,7 +2565,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1506057": {
             "fixture_id": "1506057",
@@ -2820,7 +2582,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-27",
             "last_seen_horizon": 4,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493379": {
             "fixture_id": "1493379",
@@ -2837,7 +2599,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498401": {
             "fixture_id": "1498401",
@@ -2854,7 +2616,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493380": {
             "fixture_id": "1493380",
@@ -2871,7 +2633,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1494475": {
             "fixture_id": "1494475",
@@ -2888,7 +2650,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1494476": {
             "fixture_id": "1494476",
@@ -2905,7 +2667,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493381": {
             "fixture_id": "1493381",
@@ -2922,7 +2684,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498413": {
             "fixture_id": "1498413",
@@ -2939,7 +2701,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1503678": {
             "fixture_id": "1503678",
@@ -2956,7 +2718,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1494477": {
             "fixture_id": "1494477",
@@ -2973,7 +2735,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1504691": {
             "fixture_id": "1504691",
@@ -2990,7 +2752,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1510275": {
             "fixture_id": "1510275",
@@ -3007,7 +2769,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1506902": {
             "fixture_id": "1506902",
@@ -3024,7 +2786,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1510277": {
             "fixture_id": "1510277",
@@ -3041,7 +2803,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1510278": {
             "fixture_id": "1510278",
@@ -3058,7 +2820,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1510279": {
             "fixture_id": "1510279",
@@ -3075,7 +2837,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531876": {
             "fixture_id": "1531876",
@@ -3092,7 +2854,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1417308": {
             "fixture_id": "1417308",
@@ -3109,7 +2871,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1529141": {
             "fixture_id": "1529141",
@@ -3228,7 +2990,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1451883": {
             "fixture_id": "1451883",
@@ -3245,7 +3007,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1451885": {
             "fixture_id": "1451885",
@@ -3262,7 +3024,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1451887": {
             "fixture_id": "1451887",
@@ -3279,7 +3041,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383195": {
             "fixture_id": "1383195",
@@ -3296,7 +3058,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383375": {
             "fixture_id": "1383375",
@@ -3313,7 +3075,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1508980": {
             "fixture_id": "1508980",
@@ -3330,7 +3092,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1509010": {
             "fixture_id": "1509010",
@@ -3347,7 +3109,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1531873": {
             "fixture_id": "1531873",
@@ -3364,7 +3126,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383194": {
             "fixture_id": "1383194",
@@ -3381,7 +3143,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383196": {
             "fixture_id": "1383196",
@@ -3398,7 +3160,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383198": {
             "fixture_id": "1383198",
@@ -3415,7 +3177,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383374": {
             "fixture_id": "1383374",
@@ -3432,7 +3194,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383376": {
             "fixture_id": "1383376",
@@ -3449,7 +3211,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383377": {
             "fixture_id": "1383377",
@@ -3466,7 +3228,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1383378": {
             "fixture_id": "1383378",
@@ -3483,7 +3245,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386464": {
             "fixture_id": "1386464",
@@ -3500,7 +3262,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386465": {
             "fixture_id": "1386465",
@@ -3517,7 +3279,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386466": {
             "fixture_id": "1386466",
@@ -3534,7 +3296,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386469": {
             "fixture_id": "1386469",
@@ -3551,7 +3313,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386470": {
             "fixture_id": "1386470",
@@ -3568,7 +3330,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386471": {
             "fixture_id": "1386471",
@@ -3585,7 +3347,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386473": {
             "fixture_id": "1386473",
@@ -3602,7 +3364,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1386474": {
             "fixture_id": "1386474",
@@ -3874,7 +3636,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535917": {
             "fixture_id": "1535917",
@@ -3891,7 +3653,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535931": {
             "fixture_id": "1535931",
@@ -3908,7 +3670,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535932": {
             "fixture_id": "1535932",
@@ -3925,7 +3687,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1535933": {
             "fixture_id": "1535933",
@@ -3942,7 +3704,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1392106": {
             "fixture_id": "1392106",
@@ -3959,7 +3721,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1392116": {
             "fixture_id": "1392116",
@@ -3976,7 +3738,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1534231": {
             "fixture_id": "1534231",
@@ -3993,7 +3755,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1511777": {
             "fixture_id": "1511777",
@@ -4010,7 +3772,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1392108": {
             "fixture_id": "1392108",
@@ -4027,7 +3789,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1417306": {
             "fixture_id": "1417306",
@@ -4044,7 +3806,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1382243": {
             "fixture_id": "1382243",
@@ -4061,7 +3823,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498399": {
             "fixture_id": "1498399",
@@ -4078,7 +3840,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498397": {
             "fixture_id": "1498397",
@@ -4095,7 +3857,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1491570": {
             "fixture_id": "1491570",
@@ -4112,7 +3874,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498398": {
             "fixture_id": "1498398",
@@ -4129,7 +3891,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1498402": {
             "fixture_id": "1498402",
@@ -4146,7 +3908,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1492854": {
             "fixture_id": "1492854",
@@ -4163,7 +3925,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1503003": {
             "fixture_id": "1503003",
@@ -4180,7 +3942,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1382242": {
             "fixture_id": "1382242",
@@ -4197,7 +3959,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1392109": {
             "fixture_id": "1392109",
@@ -4214,7 +3976,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1392115": {
             "fixture_id": "1392115",
@@ -4231,7 +3993,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1493434": {
             "fixture_id": "1493434",
@@ -4248,7 +4010,7 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
         },
         "1491568": {
             "fixture_id": "1491568",
@@ -4265,10 +4027,248 @@
             "first_seen_ts": "2026-03-24 10:21:51",
             "last_seen_date": "2026-03-28",
             "last_seen_horizon": 5,
-            "last_seen_ts": "2026-03-24 10:21:51"
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1389961": {
+            "fixture_id": "1389961",
+            "q1_open": 2.85,
+            "qx_open": 3.1,
+            "q2_open": 2.33,
+            "o25_open": 2.15,
+            "o05ht_open": 1.44,
+            "o15ht_open": 3.0,
+            "q1": 2.85,
+            "q2": 2.33,
+            "first_seen_date": "2026-03-24",
+            "first_seen_horizon": 1,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-24",
+            "last_seen_horizon": 1,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1389962": {
+            "fixture_id": "1389962",
+            "q1_open": 2.45,
+            "qx_open": 3.25,
+            "q2_open": 2.6,
+            "o25_open": 1.85,
+            "o05ht_open": 1.35,
+            "o15ht_open": 2.62,
+            "q1": 2.45,
+            "q2": 2.6,
+            "first_seen_date": "2026-03-24",
+            "first_seen_horizon": 1,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-24",
+            "last_seen_horizon": 1,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1389968": {
+            "fixture_id": "1389968",
+            "q1_open": 3.0,
+            "qx_open": 3.2,
+            "q2_open": 2.2,
+            "o25_open": 2.05,
+            "o05ht_open": 1.44,
+            "o15ht_open": 3.0,
+            "q1": 3.0,
+            "q2": 2.2,
+            "first_seen_date": "2026-03-24",
+            "first_seen_horizon": 1,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-24",
+            "last_seen_horizon": 1,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1407647": {
+            "fixture_id": "1407647",
+            "q1_open": 1.8,
+            "qx_open": 3.55,
+            "q2_open": 3.75,
+            "o25_open": 1.65,
+            "o05ht_open": 1.3,
+            "o15ht_open": 2.4,
+            "q1": 1.8,
+            "q2": 3.75,
+            "first_seen_date": "2026-03-24",
+            "first_seen_horizon": 1,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-24",
+            "last_seen_horizon": 1,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1408525": {
+            "fixture_id": "1408525",
+            "q1_open": 3.75,
+            "qx_open": 3.45,
+            "q2_open": 1.83,
+            "o25_open": 1.65,
+            "o05ht_open": 1.3,
+            "o15ht_open": 2.3,
+            "q1": 3.75,
+            "q2": 1.83,
+            "first_seen_date": "2026-03-24",
+            "first_seen_horizon": 1,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-24",
+            "last_seen_horizon": 1,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1438025": {
+            "fixture_id": "1438025",
+            "q1_open": 2.0,
+            "qx_open": 3.2,
+            "q2_open": 3.2,
+            "o25_open": 1.75,
+            "o05ht_open": 1.25,
+            "o15ht_open": 2.25,
+            "q1": 2.0,
+            "q2": 3.2,
+            "first_seen_date": "2026-03-24",
+            "first_seen_horizon": 1,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-24",
+            "last_seen_horizon": 1,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1531928": {
+            "fixture_id": "1531928",
+            "q1_open": 1.45,
+            "qx_open": 4.0,
+            "q2_open": 6.75,
+            "o25_open": 1.93,
+            "o05ht_open": 1.36,
+            "o15ht_open": 2.65,
+            "q1": 1.45,
+            "q2": 6.75,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1527466": {
+            "fixture_id": "1527466",
+            "q1_open": 2.05,
+            "qx_open": 3.1,
+            "q2_open": 3.25,
+            "o25_open": 1.78,
+            "o05ht_open": 1.3,
+            "o15ht_open": 2.5,
+            "q1": 2.05,
+            "q2": 3.25,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1514561": {
+            "fixture_id": "1514561",
+            "q1_open": 2.7,
+            "qx_open": 3.1,
+            "q2_open": 2.38,
+            "o25_open": 2.38,
+            "o05ht_open": 1.47,
+            "o15ht_open": 3.28,
+            "q1": 2.7,
+            "q2": 2.38,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1534664": {
+            "fixture_id": "1534664",
+            "q1_open": 1.17,
+            "qx_open": 6.25,
+            "q2_open": 13.0,
+            "o25_open": 1.6,
+            "o05ht_open": 1.29,
+            "o15ht_open": 2.34,
+            "q1": 1.17,
+            "q2": 13.0,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1534666": {
+            "fixture_id": "1534666",
+            "q1_open": 1.95,
+            "qx_open": 3.1,
+            "q2_open": 3.6,
+            "o25_open": 2.5,
+            "o05ht_open": 1.5,
+            "o15ht_open": 3.42,
+            "q1": 1.95,
+            "q2": 3.6,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1534667": {
+            "fixture_id": "1534667",
+            "q1_open": 2.5,
+            "qx_open": 3.0,
+            "q2_open": 2.6,
+            "o25_open": 2.5,
+            "o05ht_open": 1.48,
+            "o15ht_open": 3.58,
+            "q1": 2.5,
+            "q2": 2.6,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1534668": {
+            "fixture_id": "1534668",
+            "q1_open": 1.48,
+            "qx_open": 3.75,
+            "q2_open": 5.75,
+            "o25_open": 2.0,
+            "o05ht_open": 1.35,
+            "o15ht_open": 0.0,
+            "q1": 1.48,
+            "q2": 5.75,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
+        },
+        "1510181": {
+            "fixture_id": "1510181",
+            "q1_open": 4.2,
+            "qx_open": 3.1,
+            "q2_open": 1.75,
+            "o25_open": 2.0,
+            "o05ht_open": 1.4,
+            "o15ht_open": 3.0,
+            "q1": 4.2,
+            "q2": 1.75,
+            "first_seen_date": "2026-03-25",
+            "first_seen_horizon": 2,
+            "first_seen_ts": "2026-03-24 15:24:17",
+            "last_seen_date": "2026-03-25",
+            "last_seen_horizon": 2,
+            "last_seen_ts": "2026-03-24 15:24:17"
         }
     },
-    "timestamp": "10:21",
-    "updated_at": "2026-03-24 10:21:51",
+    "timestamp": "15:24",
+    "updated_at": "2026-03-24 15:24:17",
     "coverage": "rolling_day1_day5"
 }
