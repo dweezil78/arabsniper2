@@ -3,8 +3,10 @@ import sys
 import json
 import argparse
 import subprocess
+import shutil
 from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 try:
     from github import Github
@@ -28,6 +30,38 @@ LAST_FAST_UPDATE_FILE = DATA_DIR / "last_fast_update.json"
 REMOTE_LAST_FAST_UPDATE_FILE = "data/last_fast_update.json"
 
 REPO_NAME = "dweezil78/arabsniper2"
+
+ROME_TZ = ZoneInfo("Europe/Rome")
+
+DAY_FILES = {
+    1: {
+        "data": "data/data_day1.json",
+        "details": "data/details_day1.json",
+        "snapshot": "data/snapshot_day1.json",
+    },
+    2: {
+        "data": "data/data_day2.json",
+        "details": "data/details_day2.json",
+        "snapshot": "data/snapshot_day2.json",
+    },
+    3: {
+        "data": "data/data_day3.json",
+        "details": "data/details_day3.json",
+        "snapshot": "data/snapshot_day3.json",
+    },
+    4: {
+        "data": "data/data_day4.json",
+        "details": "data/details_day4.json",
+        "snapshot": "data/snapshot_day4.json",
+    },
+    5: {
+        "data": "data/data_day5.json",
+        "details": "data/details_day5.json",
+        "snapshot": "data/snapshot_day5.json",
+    },
+}
+
+REMOTE_MAIN_FILE = "data/data.json"
 
 
 # =========================================================
@@ -55,6 +89,92 @@ def safe_write_json(path: Path, payload) -> None:
     with open(tmp_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
     os.replace(tmp_path, path)
+
+def safe_read_json(path: Path, default):
+    if not path.exists():
+        return default
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
+
+
+def now_rome_iso() -> str:
+    return datetime.now(ROME_TZ).isoformat(timespec="seconds")
+
+
+def build_empty_day_payload(day_num: int) -> dict:
+    return {
+        "day": day_num,
+        "date": None,
+        "updated_at": now_rome_iso(),
+        "results": [],
+    }
+
+
+def build_empty_details_payload(day_num: int) -> dict:
+    return {
+        "day": day_num,
+        "date": None,
+        "updated_at": now_rome_iso(),
+        "details": {},
+    }
+
+
+def build_empty_snapshot_payload(day_num: int) -> dict:
+    return {
+        "day": day_num,
+        "date": None,
+        "created_at": None,
+        "updated_at": now_rome_iso(),
+        "fixtures": {}
+    }
+
+def rotate_day_files(project_root: Path) -> None:
+    """
+    Rotazione fisica dei file:
+    day2 -> day1
+    day3 -> day2
+    day4 -> day3
+    day5 -> day4
+    nuovo day5 vuoto
+    """
+    log("🔄 ROTAZIONE FILE DAY START")
+
+    for src_day, dst_day in [(5, 4), (4, 3), (3, 2), (2, 1)]:
+        for key in ("data", "details", "snapshot"):
+            src = project_root / DAY_FILES[src_day][key]
+            dst = project_root / DAY_FILES[dst_day][key]
+
+            if src.exists():
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+                log(f"✅ {src} -> {dst}")
+            else:
+                if key == "data":
+                    safe_write_json(dst, build_empty_day_payload(dst_day))
+                elif key == "details":
+                    safe_write_json(dst, build_empty_details_payload(dst_day))
+                else:
+                    safe_write_json(dst, build_empty_snapshot_payload(dst_day))
+                log(f"⚠️ Sorgente assente, creato vuoto: {dst}")
+
+    # nuovo day5 vuoto
+    safe_write_json(project_root / DAY_FILES[5]["data"], build_empty_day_payload(5))
+    safe_write_json(project_root / DAY_FILES[5]["details"], build_empty_details_payload(5))
+    safe_write_json(project_root / DAY_FILES[5]["snapshot"], build_empty_snapshot_payload(5))
+    log("✅ Nuovo day5 creato da zero")
+
+    # riallinea data.json con day1
+    day1_payload = safe_read_json(
+        project_root / DAY_FILES[1]["data"],
+        build_empty_day_payload(1)
+    )
+    safe_write_json(project_root / "data/data.json", day1_payload)
+    log("✅ data.json riallineato a day1")
+
+    log("🔄 ROTAZIONE FILE DAY END")
 
 
 def save_run_state(payload: dict) -> None:
