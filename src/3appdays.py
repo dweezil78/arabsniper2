@@ -2125,6 +2125,43 @@ def upload_snapshot_to_github(payload):
     except Exception as e:
         print(f"Snapshot upload error: {e}")
 
+def build_daily_snapshots_from_rolling(snapshot_payload):
+    """
+    Crea snapshot_day1 ... snapshot_day5 a partire dal rolling snapshot centrale.
+    Non tocca le open: usa i record già presenti nel rolling.
+    """
+    try:
+        odds_map = snapshot_payload.get("odds", {}) or {}
+    except Exception:
+        odds_map = {}
+
+    target_dates = get_target_dates()
+
+    for day_num in range(1, 6):
+        day_date = target_dates[day_num - 1]
+        day_odds = {}
+
+        for fid, rec in odds_map.items():
+            if not isinstance(rec, dict):
+                continue
+
+            rec_date = str(rec.get("match_date", "")).strip()
+            if rec_date == day_date:
+                day_odds[str(fid)] = rec
+
+        day_payload = {
+            "day": day_num,
+            "date": day_date,
+            "updated_at": now_rome().strftime("%Y-%m-%d %H:%M:%S"),
+            "odds": day_odds,
+        }
+
+        out_file = BASE_DIR / "data" / f"snapshot_day{day_num}.json"
+        with open(out_file, "w", encoding="utf-8") as f:
+            json.dump(day_payload, f, indent=4, ensure_ascii=False)
+
+        print(f"📦 snapshot_day{day_num}.json aggiornato: {len(day_odds)} match")
+
 def load_snapshot_from_github():
     """
     Fallback: carica lo snapshot da GitHub se il file locale
@@ -2725,6 +2762,8 @@ def run_nightly_multiday_build():
 
     print("📆 DAY 5: scan statico + update data_day5/details_day5")
     run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
+
+    build_daily_snapshots_from_rolling(load_existing_snapshot_payload())
 
     print("✅ Build multi-day completata.")
 
