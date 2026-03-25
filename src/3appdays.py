@@ -2866,7 +2866,7 @@ def run_nightly_multiday_build():
         run_full_scan(horizon=5, snap=False, update_main_site=False, show_success=False)
 
         snapshot_payload = load_existing_snapshot_payload()
-        build_daily_snapshots_from_rolling(snapshot_payload)
+        build_daily_snapshots_from_rolling()
         
         print("✅ Build multi-day completata.")
         
