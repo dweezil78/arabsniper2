@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-03-25 05:34:51",
+    "updated_at": "2026-03-25 07:42:10",
     "day": 2,
     "date": "2026-03-26",
     "details": {
@@ -997,8 +997,8 @@
             "away_team": "Llaneros",
             "markets": {
                 "q1": 1.55,
-                "qx": 3.7,
-                "q2": 6.5,
+                "qx": 3.6,
+                "q2": 6.75,
                 "o25": 2.1,
                 "o05ht": 1.42,
                 "o15ht": 2.88
@@ -1322,11 +1322,11 @@
             "home_team": "Afghanistan",
             "away_team": "Myanmar",
             "markets": {
-                "q1": 4.9,
-                "qx": 3.75,
-                "q2": 1.61,
-                "o25": 1.95,
-                "o05ht": 1.38,
+                "q1": 6.2,
+                "qx": 3.85,
+                "q2": 1.5,
+                "o25": 1.93,
+                "o05ht": 1.4,
                 "o15ht": 2.8
             },
             "averages": {
@@ -1375,11 +1375,11 @@
                 "away_ht_conceded_1plus_rate": 0.25
             },
             "flags": {
-                "fav_quote": 1.61,
+                "fav_quote": 1.5,
                 "is_gold_zone": true,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": true,
-                "drop_diff": 0.64
+                "drop_diff": 0.75
             },
             "scores": {
                 "ptgg": 0.85,
@@ -1387,12 +1387,12 @@
                 "pt": 0.877,
                 "over": 10.12,
                 "boost": 7.198,
-                "gold": 6.239,
+                "gold": 5.939,
                 "max": 10.12
             },
             "tags": [
                 "🐟O",
-                "📉-0.64"
+                "📉-0.75"
             ],
             "home_last_8": [
                 {
@@ -1980,9 +1980,9 @@
             "away_team": "Belarus",
             "markets": {
                 "q1": 2.25,
-                "qx": 3.1,
+                "qx": 3.0,
                 "q2": 3.1,
-                "o25": 2.12,
+                "o25": 2.15,
                 "o05ht": 1.4,
                 "o15ht": 3.0
             },
@@ -4588,9 +4588,9 @@
             "home_team": "Brazil",
             "away_team": "France",
             "markets": {
-                "q1": 2.75,
-                "qx": 3.55,
-                "q2": 2.35,
+                "q1": 2.76,
+                "qx": 3.5,
+                "q2": 2.36,
                 "o25": 1.67,
                 "o05ht": 1.3,
                 "o15ht": 2.4
@@ -4641,7 +4641,7 @@
                 "away_ht_conceded_1plus_rate": 0.5
             },
             "flags": {
-                "fav_quote": 2.35,
+                "fav_quote": 2.36,
                 "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": true,
@@ -4916,12 +4916,12 @@
             "home_team": "Union Magdalena",
             "away_team": "Real Santander",
             "markets": {
-                "q1": 1.33,
-                "qx": 4.2,
-                "q2": 8.75,
-                "o25": 1.85,
-                "o05ht": 1.36,
-                "o15ht": 2.65
+                "q1": 1.35,
+                "qx": 4.1,
+                "q2": 8.6,
+                "o25": 1.93,
+                "o05ht": 1.38,
+                "o15ht": 2.75
             },
             "averages": {
                 "home_avg_ft": 3.125,
@@ -4969,7 +4969,7 @@
                 "away_ht_conceded_1plus_rate": 0.375
             },
             "flags": {
-                "fav_quote": 1.33,
+                "fav_quote": 1.35,
                 "is_gold_zone": false,
                 "home_last_2h_zero": true,
                 "away_last_2h_zero": false,
@@ -4979,10 +4979,10 @@
                 "ptgg": 2.55,
                 "pto15": 0.65,
                 "pt": 2.667,
-                "over": 6.62,
-                "boost": 5.295,
-                "gold": 3.858,
-                "max": 6.62
+                "over": 6.82,
+                "boost": 4.937,
+                "gold": 3.522,
+                "max": 6.82
             },
             "tags": [
                 "🐟O"
@@ -5242,8 +5242,8 @@
             "home_team": "Deportes Limache",
             "away_team": "Palestino",
             "markets": {
-                "q1": 2.2,
-                "qx": 3.25,
+                "q1": 2.15,
+                "qx": 3.3,
                 "q2": 3.0,
                 "o25": 1.8,
                 "o05ht": 1.33,
@@ -5295,7 +5295,7 @@
                 "away_ht_conceded_1plus_rate": 0.375
             },
             "flags": {
-                "fav_quote": 2.2,
+                "fav_quote": 2.15,
                 "is_gold_zone": false,
                 "home_last_2h_zero": false,
                 "away_last_2h_zero": true,
