@@ -166,11 +166,17 @@ def rotate_day_files(project_root: Path) -> None:
 
     # riallinea data.json con day1
     day1_payload = safe_read_json(
-        project_root / DAY_FILES[1]["data"],
-        build_empty_day_payload(1)
-    )
-    safe_write_json(project_root / "data/data.json", day1_payload)
-    log("✅ data.json riallineato a day1")
+    project_root / DAY_FILES[1]["data"],
+    build_empty_day_payload(1)
+)
+safe_write_json(project_root / "data/data.json", day1_payload)
+
+try:
+    log(f"📦 day1 dopo rotazione: {len(day1_payload) if isinstance(day1_payload, list) else 0} match")
+except Exception:
+    pass
+
+log("✅ data.json riallineato a day1")
 
     log("🔄 ROTAZIONE FILE DAY END")
 
