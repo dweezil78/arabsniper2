@@ -2465,6 +2465,8 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                 return
 
             api_response = res.get("response", [])
+            print(f"📊 FIXTURE API TROVATE per {target_date}: {len(api_response) if isinstance(api_response, list) else 0}", flush=True)
+
             if not api_response or not isinstance(api_response, list):
                 print(f"❌ API vuota per day {use_horizon} ({target_date}) -> skip totale", flush=True)
                 if show_success:
@@ -2476,6 +2478,8 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                 if f.get("fixture", {}).get("status", {}).get("short") == "NS"
                 and not is_blacklisted_league(f.get("league", {}).get("name", ""))
             ]
+
+            print(f"📊 FIXTURE NS FILTRATE per {target_date}: {len(day_fx)}", flush=True)
 
             if not day_fx:
                 print(f"❌ Nessun fixture NS valido per day {use_horizon} ({target_date}) -> skip totale", flush=True)
@@ -2718,6 +2722,16 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                 if r.get("Data") == target_date
             ]
 
+            if not existing_day_results:
+                try:
+                    with open(DB_FILE, "r", encoding="utf-8") as f:
+                        db_payload = json.load(f)
+                        db_rows = db_payload.get("results", []) if isinstance(db_payload, dict) else []
+                        existing_day_results = [r for r in db_rows if r.get("Data") == target_date]
+                        print(f"📦 Fallback DB file per {target_date}: {len(existing_day_results)} match esistenti", flush=True)
+                except Exception as e:
+                    print(f"⚠️ Fallback DB file fallito per {target_date}: {e}", flush=True)
+
             # Se non trova nulla, non distruggere file esistenti
             if not final_list:
                 print(
@@ -2730,7 +2744,7 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                 return
 
             # Se ci sono già dati per quel giorno e il nuovo scan è troppo povero, non salvare
-            if existing_day_results and len(final_list) < 3:
+            if existing_day_results and len(final_list) < 5:
                 print(
                     f"⚠️ Troppi pochi match trovati ({len(final_list)}) per day {use_horizon} ({target_date}) "
                     f"con dati già esistenti -> skip salvataggio prudenziale.",
@@ -2743,8 +2757,7 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
                     )
                 return
 
-            # Se esistono dati per quel giorno e il nuovo scan è molto più piccolo del vecchio, skip
-            if existing_day_results and len(final_list) < max(3, int(len(existing_day_results) * 0.35)):
+            if existing_day_results and len(final_list) < max(5, int(len(existing_day_results) * 0.50)):
                 print(
                     f"⚠️ Nuovo scan troppo ridotto: {len(final_list)} vs vecchio {len(existing_day_results)} "
                     f"per day {use_horizon} ({target_date}) -> skip salvataggio prudenziale.",
@@ -2839,15 +2852,24 @@ def run_full_scan(horizon=None, snap=False, update_main_site=False, show_success
 def run_nightly_multiday_build():
     print("🚀 Avvio scan notturno multi-day...")
 
-    print("🔄 Rotazione file day1-day5...")
+print("🔄 Rotazione file day1-day5...")
+try:
+    import subprocess
+    import sys
+    subprocess.run([sys.executable, str(BASE_DIR / "3appdays_runner.py"), "--rotate-live"], check=True)
+    print("✅ Rotazione file completata.")
+
+    print("🔄 Reload DB dopo rotazione...")
     try:
-        import subprocess
-        import sys
-        subprocess.run([sys.executable, str(BASE_DIR / "3appdays_runner.py"), "--rotate-live"], check=True)
-        print("✅ Rotazione file completata.")
+        load_db()
+        print("✅ DB ricaricato dopo rotazione")
     except Exception as e:
-        print(f"❌ Errore rotazione file day: {e}")
+        print(f"❌ Errore reload DB dopo rotazione: {e}")
         raise
+
+except Exception as e:
+    print(f"❌ Errore rotazione file day: {e}")
+    raise
 
     try:
         print("📌 DAY 1: SNAPSHOT rolling + refresh quote + update data.json/data_day1/details_day1")
